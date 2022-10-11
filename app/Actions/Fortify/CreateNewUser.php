@@ -21,14 +21,29 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input)
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'father_name' => ['required', 'string', 'max:255'],
+            'phone_number' => ['required', 'string', 'max:16'],
+            'id_card_number' => ['required', 'string', 'max:255'],
+            'salary' => ['required', 'numeric'],
+            'bio' => ['required', 'max:255'],
+            'role_id' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
         return User::create([
-            'name' => $input['name'],
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
+            'father_name' => $input['father_name'],
+            'phone_number' => $input['phone_number'],
+            'id_card_number' => $input['id_card_number'],
+            'salary' => $input['salary'],
+            'bio' => $input['bio'],
+            'role_id' => $input['role_id'],
+
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
