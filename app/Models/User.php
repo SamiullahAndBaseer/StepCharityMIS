@@ -18,15 +18,34 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    protected $table = 'users';
+
+    protected $dir = 'assets/img/staff/';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'father_name',
+        'phone_number',
+        'id_card_number',
+        'salary',
+        'bio',
+        'role_id',
         'email',
         'password',
+        'profile_photo_path',
+        'branch_id',
+        'currency_id',
+        'marital_status',
+        'date_of_birth',
+        'status',
+        'join_date',
+        'gender',
     ];
 
     /**
@@ -58,4 +77,29 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function remittance_sender()
+    {
+        return $this->hasMany(Remittance::class, 'sender_id');
+    }
+
+    public function remittance_receiver()
+    {
+        return $this->hasMany(Remittance::class, 'receiver_id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
 }

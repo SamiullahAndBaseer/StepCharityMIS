@@ -25,3 +25,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 });
 
 Route::resource('/user', UserController::class);
+Route::get('/get-districts/{id}', [UserController::class, 'getDistricts']);
+Route::get('/get-villages/{id}', [UserController::class, 'getVillages']);
+Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('searchUser');

@@ -55,6 +55,8 @@
     <link href="{{ asset('assets/src/assets/css/dark/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
+    @yield('custom_css_content')
+
 </head>
 <body class="layout-boxed alt-menu">
     <!-- BEGIN LOADER -->
@@ -96,5 +98,8 @@
     <script src="{{ asset('assets/src/assets/js/dashboard/dash_1.js') }}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
+    <!--  BEGIN CUSTOM SCRIPTS FILE  -->
+    @yield('custom_js_content')
+    <!--  END CUSTOM SCRIPTS FILE  -->
 </body>
 </html>

@@ -15,6 +15,7 @@ use App\Http\Requests\UserRequest;
 
 use Illuminate\Http\Request;
 
+
 class UserController extends Controller
 {
     public function __construct()
@@ -45,7 +46,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
+    {   
         $users = User::select('id','first_name','last_name', 'phone_number', 'email', 'role_id', 'join_date', 'profile_photo_path')->get();
         return view('admin.users.employee_list', compact(['users']));
     }
@@ -87,7 +88,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
-    {   
+    {
         $data = $request->all();
 
         if ($request->hasFile('profile_photo_path')){
@@ -171,38 +172,38 @@ class UserController extends Controller
             'branch_id' => 'nullable|numeric',
             'role_id' => 'nullable|numeric',
         ]);
-        }else{
-            $request->validate([
-                'first_name' => 'required|string|min:3|max:50',
-                'last_name' => 'required|string|min:3|max:50',
-                'father_name' => 'required|string|min:3|max:50',
-                'email' => 'required|email|unique:users,email','.$id',
-                'phone_number' => 'required|string|min:9|max:13|unique:users,phone_number', '.$id',
-                'id_card_number' => 'required|string|max:13|unique:users,id_card_number','.$id',
-                'salary' => 'required|string|min:0', "max:200000",
-                'bio' => 'required|string|min:3|max:500',
-                'password' => 'required|string|min:6',
-                'gender' => 'required|numeric|min:0|max:1',
-                'join_date' => 'nullable|date',
-                'status' => 'required|min:0|max:1',
-                'date_of_birth' => 'nullable|date',
-                'marital_status' => 'nullable|numeric|min:0|max:1',
-                'currency_id' => 'nullable|numeric',
-                'branch_id' => 'nullable|numeric',
-                'role_id' => 'nullable|numeric',
-            ]);
-        }
-
-        $data = $this->getRequest($request);
-
-        if(Auth::user()->id == $id){
-            $data['password'] = bcrypt($request->password);
-        }
-        $user = User::findOrFail($id);
-        $user->update($data);
-        $user->save();
-        return redirect('user')->with('message', 'User Updated');
+    }else{
+        $request->validate([
+            'first_name' => 'required|string|min:3|max:50',
+            'last_name' => 'required|string|min:3|max:50',
+            'father_name' => 'required|string|min:3|max:50',
+            'email' => 'required|email|unique:users,email','.$id',
+            'phone_number' => 'required|string|min:9|max:13|unique:users,phone_number', '.$id',
+            'id_card_number' => 'required|string|max:13|unique:users,id_card_number','.$id',
+            'salary' => 'required|string|min:0', "max:200000",
+            'bio' => 'required|string|min:3|max:500',
+            'password' => 'required|string|min:6',
+            'gender' => 'required|numeric|min:0|max:1',
+            'join_date' => 'nullable|date',
+            'status' => 'required|min:0|max:1',
+            'date_of_birth' => 'nullable|date',
+            'marital_status' => 'nullable|numeric|min:0|max:1',
+            'currency_id' => 'nullable|numeric',
+            'branch_id' => 'nullable|numeric',
+            'role_id' => 'nullable|numeric',
+        ]);
     }
+
+    $data = $this->getRequest($request);
+
+    if(Auth::user()->id == $id){
+        $data['password'] = bcrypt($request->password);
+    }
+    $user = User::findOrFail($id);
+    $user->update($data);
+    $user->save();
+    return redirect('user')->with('message', 'User Updated');
+}
 
     /**
      * Remove the specified resource from storage.

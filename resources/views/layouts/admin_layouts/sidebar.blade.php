@@ -102,10 +102,10 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="users" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="./user-profile.html"> Add User </a>
+                        <a href="/user/create"> Add User </a>
                     </li>
                     <li>
-                        <a href="./user-account-settings.html"> User Lists </a>
+                        <a href="/user"> User Lists </a>
                     </li>
                 </ul>
             </li>
