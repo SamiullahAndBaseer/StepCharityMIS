@@ -39,10 +39,12 @@ window.addEventListener("load", function(){
         if (getcorkThemeObject !== null) {
                
             if (ParsedObject.admin === 'Cork Admin Template') {
-
+                
                 if (ParsedObject.settings.layout.name === layoutName) {
-
+                    
                     corkThemeObject = ParsedObject;
+                    corkThemeObject.settings.layout.logo.darkLogo = "assets/src/assets/img/logo.png";
+                    corkThemeObject.settings.layout.logo.lightLogo = "assets/src/assets/img/logo.png";
                 } else {
                     corkThemeObject = settingsObject;
                 }
@@ -66,6 +68,7 @@ window.addEventListener("load", function(){
         getParseObject = JSON.parse(getcorkThemeObject)
     
         if (getParseObject.settings.layout.darkMode) {
+            
             ifStarterKit = document.body.getAttribute('page') === 'starter-pack' ? true : false;
             document.body.classList.add('dark');
             if (ifStarterKit) {
@@ -79,6 +82,7 @@ window.addEventListener("load", function(){
             }
         }
     } else {
+        
         localStorage.setItem("theme", JSON.stringify(corkThemeObject));
         getcorkThemeObject = localStorage.getItem("theme");
         getParseObject = JSON.parse(getcorkThemeObject)

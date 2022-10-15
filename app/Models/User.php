@@ -102,4 +102,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Currency::class);
     }
+
+    public function attendance()
+    {
+        $this->hasMany(Attendance::class);
+    }
 }

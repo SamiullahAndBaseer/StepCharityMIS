@@ -76,7 +76,7 @@
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
                                     <form class="section general-info"  method="post" action="{{ route('user.store') }}"  enctype="multipart/form-data">
-                                        {{ csrf_field() }}
+                                        @csrf
                                         <div class="info">
                                             <h6 class="">General Information</h6>
                                             <div class="row">
@@ -748,7 +748,7 @@
     <script src="{{ asset('assets/src/plugins/src/filepond/filepond.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
-    <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script> --}}
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImageCrop.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImageResize.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImageTransform.min.js') }}"></script>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -28,3 +29,5 @@ Route::resource('/user', UserController::class);
 Route::get('/get-districts/{id}', [UserController::class, 'getDistricts']);
 Route::get('/get-villages/{id}', [UserController::class, 'getVillages']);
 Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('searchUser');
+
+Route::get('/user-attendance', [AttendanceController::class, 'index'])->name('user.attendance');

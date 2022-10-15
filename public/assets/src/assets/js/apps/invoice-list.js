@@ -26,7 +26,7 @@ var invoiceList = $('#invoice-list').DataTable({
             text: 'Add New',
             className: 'btn btn-primary',
             action: function(e, dt, node, config ) {
-                window.location = 'app-invoice-add.html';
+                window.location = '/user/create';
             }
         }
     ],

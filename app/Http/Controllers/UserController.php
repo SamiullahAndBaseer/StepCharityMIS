@@ -25,7 +25,6 @@ class UserController extends Controller
 
     private function getRequest(Request $request)
     {
-
         $data = $request->all();
 
         if ($request->hasFile('profile_photo_path')){
@@ -33,8 +32,6 @@ class UserController extends Controller
             $data['profile_photo_path'] = 'assets/img/'. $data['name'] . '.' . $profile_photo_path->getClientOriginalExtension();
             Storage::putFileAs('public/', $profile_photo_path, $data['image']);
         }
-
-      
         return $data;
     }
 
@@ -68,7 +65,6 @@ class UserController extends Controller
 
     public function getDistricts($id)
     {
-       
         $districts = District::where('province_id', $id)->select('id', 'name')->get();
 
         return response()->json($districts);
@@ -76,7 +72,6 @@ class UserController extends Controller
 
     public function getVillages($id)
     {
-       
         $villages = Village::where('district_id', $id)->select('id', 'name')->get();
 
         return response()->json($villages);
@@ -91,6 +86,7 @@ class UserController extends Controller
     {
         $data = $request->all();
 
+        // dd($request->profile_photo_path);
         if ($request->hasFile('profile_photo_path')){
             $profile_photo_path = $request->file('profile_photo_path');
             $data['profile_photo_path'] = '/users/'. $data['first_name'] . '.' . $profile_photo_path->getClientOriginalExtension();
