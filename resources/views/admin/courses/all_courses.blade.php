@@ -12,8 +12,8 @@
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Roles</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">All Roles</li>
+                        <li class="breadcrumb-item"><a href="#">Courses</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">All Courses</li>
                     </ol>
                 </nav>
             </div>
@@ -33,7 +33,7 @@
                         <div class="widget-header">
                             <div class="row">
                                 <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                    <h4>Availiable Roles</h4>
+                                    <h4>Availiable Courses</h4>
                                 </div>
                             </div>
                         </div>
@@ -58,27 +58,27 @@
                                         <tr aria-hidden="true" class="mt-3 d-block table-row-hidden"></tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($roles as $role)
+                                        @foreach ($courses as $course)
                                         <tr>
                                             <td>
                                                 <div class="form-check form-check-primary">
                                                     <input class="form-check-input hover_child" type="checkbox">
                                                 </div>
                                             </td>
-                                            <td class="ps-0">{{ $role->id }}</td>
-                                            <td>{{ $role->name }}</td>
-                                            <td>{{ $role->description }}</td>
+                                            <td class="ps-0">{{ $course->id }}</td>
+                                            <td>{{ $course->name }}</td>
+                                            <td>{{ $course->description }}</td>
                                             <td class="text-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                                <span class="table-inner-text">{{ $role->created_at }}</span>
+                                                <span class="table-inner-text">{{ $course->created_at }}</span>
                                             </td>
                                             <td class="text-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                                <span class="table-inner-text">{{ $role->updated_at }}</span>
+                                                <span class="table-inner-text">{{ $course->updated_at }}</span>
                                             </td>
                                             <td class="text-center">
-                                                <a href="{{ route('role.edit', $role->id) }}"><span class="badge badge-light-info">Edit</span></a>
-                                                <a href="{{ route('delete.role', $role->id) }}"><span class="badge badge-light-danger">Delete</span></a>
+                                                <a href="{{ route('course.edit', $course->id) }}"><span class="badge badge-light-info">Edit</span></a>
+                                                <a href="{{ route('delete.course', $course->id) }}"><span class="badge badge-light-danger">Delete</span></a>
                                             </td>
                                         </tr>
                                         @endforeach

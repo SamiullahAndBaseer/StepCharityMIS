@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->boolean('present')->default(true);
-            $table->string('description');
             $table->foreignId('user_id');
+            $table->time('time_in');
+            $table->time('time_out')->nullable();
+            $table->boolean('present')->default(false);
+            $table->foreignId('attendance_getter_id');
             $table->timestamps();
         });
     }

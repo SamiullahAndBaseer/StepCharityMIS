@@ -44,7 +44,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {   
-        $users = User::select('id','first_name','last_name', 'phone_number', 'email', 'role_id', 'join_date', 'profile_photo_path')->get();
+        $users = User::select('id','first_name','last_name', 'phone_number', 'email', 'role_id', 'join_date', 'profile_photo_path', 'created_at')->get();
         return view('admin.users.employee_list', compact(['users']));
     }
 
@@ -209,7 +209,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $data->delete();
+        // $data->delete();
         return redirect()->route('user')->with('success', 'Record deleted successfully');
     }
 

@@ -36,13 +36,13 @@
                         <a href="./index.html"> Analytics </a>
                     </li>
                     <li>
-                        <a href="./index2.html"> Sales </a>
+                        <a href="{{ route('settings') }}"> Attendance Settings </a>
                     </li>
                 </ul>
             </li>
 
             <li class="menu menu-heading">
-                <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>APPLICATIONS</span></div>
+                <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>Education System</span></div>
             </li>
 
             <li class="menu">
@@ -55,27 +55,21 @@
             </li>
 
             <li class="menu">
-                <a href="#layouts" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <a href="#courses" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-terminal"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-                        <span>Layouts</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        <span>Coureses</span>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled" id="layouts" data-bs-parent="#accordionExample">
+                <ul class="collapse submenu list-unstyled" id="courses" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="./layout-blank-page.html"> Blank Page </a>
+                        <a href="/course/create"> Add Course </a>
                     </li>
                     <li>
-                        <a href="./layout-empty.html"> Empty Page </a>
-                    </li>
-                    <li>
-                        <a href="./layout-full-width.html"> Full Width </a>
-                    </li>
-                    <li>
-                        <a href="./layout-vertical-menu.html"> Vertical Menu </a>
+                        <a href="/course"> List Course </a>
                     </li>
                 </ul>
             </li>
@@ -118,10 +112,10 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="role" data-bs-parent="#accordionExample">
                     <li>
-                        <a href=""> Add Role </a>
+                        <a href="{{ route('role.create') }}"> Add Role </a>
                     </li>
                     <li>
-                        <a href=""> Role List </a>
+                        <a href="{{ route('role.index') }}"> Role List </a>
                     </li>
                 </ul>
             </li>
@@ -179,25 +173,6 @@
                     </li>
                     <li>
                         <a href=""> User Education List</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="menu">
-                <a href="#branch" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                        <span>Coureses</span>
-                    </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    </div>
-                </a>
-                <ul class="collapse submenu list-unstyled" id="branch" data-bs-parent="#accordionExample">
-                    <li>
-                        <a href=""> Add Course </a>
-                    </li>
-                    <li>
-                        <a href=""> List Course </a>
                     </li>
                 </ul>
             </li>

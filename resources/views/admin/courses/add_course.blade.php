@@ -9,8 +9,8 @@
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Roles</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Edit Role</li>
+                        <li class="breadcrumb-item"><a href="#">Courses</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Add Course</li>
                     </ol>
                 </nav>
             </div>
@@ -24,9 +24,8 @@
                         <div class="tab-pane fade show active" id="animated-underline-home" role="tabpanel" aria-labelledby="animated-underline-home-tab">
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
-                                    <form class="section general-info" method="POST" action="{{ route('update.role') }}">
+                                    <form class="section general-info"  method="post" action="{{ route('course.store') }}">
                                         @csrf
-                                        <input type="hidden" name="role_id" value="{{ $role->id }}">
                                         <div class="info">
                                             <div class="row">
                                                 <div class="col-lg-11 mx-auto">
@@ -36,17 +35,17 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <div class="form-group">
-                                                                            <label for="role_name">Role Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="role_name" value="{{ $role->name }}" name="role_name"  >
-                                                                            <span class="text-danger">{{ $errors->first('role_name') }}</span>
+                                                                            <label for="course_name">Course Name<span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control mb-3" id="course_name" placeholder="Course Name" name="course_name"  >
+                                                                            <span class="text-danger">{{ $errors->first('course_name') }}</span>
                                                                            
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-12">
                                                                         <div class="form-group">
-                                                                            <label for="role_descrition">Description<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="role_description" value="{{ $role->description }}" name="role_description" >
-                                                                            <span class="text-danger">{{ $errors->first('role_description') }}</span>
+                                                                            <label for="course_descrition">Description<span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control mb-3" id="course_description" placeholder="Course Description" name="course_description" >
+                                                                            <span class="text-danger">{{ $errors->first('course_description') }}</span>
                                                                         </div>
                                                                     </div>
 

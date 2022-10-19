@@ -167,9 +167,8 @@
                                                                             <select class="form-select mb-3" name="role_id" id="role_id" >
                                                                                 @foreach ($roles as $role)
                                                                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                                                                @endforeach
                                                                             </select>
-                                                                           
-                                                                            @endforeach  
     
                                                                         </div>
                                                                     </div> 
@@ -201,20 +200,19 @@
                                                                             <select class="form-select mb-3" id="currency_id" name="currency_id">
                                                                                 @foreach ($currencies as $currency)
                                                                                 <option value="{{ $currency->id }}">{{ $currency->name }}</option>
+                                                                                @endforeach 
                                                                             </select>
-                                                                           
-                                                                        @endforeach  
+                                                         
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label for="branch">Branche</label>
+                                                                            <label for="branch">Branch</label>
                                                                             <select class="form-select mb-3" id="branch_id" name="branch_id">
                                                                                 @foreach ($branches as $branch)
                                                                                 <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                                                                            </select>
-                                                                           
-                                                                                 @endforeach  
+                                                                                @endforeach 
+                                                                            </select>  
                                                                         </div>
                                                                     </div>
                                                                    

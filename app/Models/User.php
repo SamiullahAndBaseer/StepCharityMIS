@@ -103,8 +103,8 @@ class User extends Authenticatable
         return $this->belongsTo(Currency::class);
     }
 
-    public function attendance()
+    public function attendances()
     {
-        $this->hasMany(Attendance::class);
+        return $this->hasMany(Attendance::class);
     }
 }

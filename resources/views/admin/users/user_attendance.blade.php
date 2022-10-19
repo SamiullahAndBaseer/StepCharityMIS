@@ -17,34 +17,40 @@
                     </ol>
                 </nav>
             </div>
-            <!-- /BREADCRUMB -->
-
-            <div class="row layout-top-spacing">
             
+            <div class="row layout-top-spacing">
                 <div class="col-xl-8 col-lg-8 col-sm-8  layout-spacing">
                     <div class="widget-content widget-content-area br-8">
                         <table class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th scope="col" width="5%">
-                                        #
-                                    </th>
-                                    <th class="ps-0" scope="col">Name</th>
-                                    <th scope="col">Date</th>
+                                    <th scope="col" width="5%">#</th>
+                                    <th class="ps-0" scope="col">Full Name</th>
+                                    <th scope="col">Time IN</th>
+                                    <th scope="col">Time OUT</th>
                                     <th class="text-center" scope="col">Status</th>
+                                    <th class="text-center" scope="col">Created At</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($attends as $attend)
                                 <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td class="ps-0">{{ $user->first_name }} {{ $user->last_name}}</td>
+                                    <td>{{ $attend->id }}</td>
+                                    <td class="ps-0">{{ $attend->users->first_name }}&nbsp;{{ $attend->users->last_name }}</td>
                                     <td>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                        <span class="table-inner-text">25 Apr</span>
+                                        <span class="table-inner-text">{{ Carbon\Carbon::parse($attend->time_in)->format("h:i:s A") }}</span>
+                                    </td>
+                                    <td>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                        <span class="table-inner-text">{{ $attend->time_out }}</span>
                                     </td>
                                     <td class="text-center" id="result">
-                                        <span class="badge badge-light-success">Approved</span>
+                                        <span class="badge badge-light-success">Present</span>
+                                    </td>
+                                    <td>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                        <span class="table-inner-text">{{ $attend->created_at }}</span>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -80,20 +86,29 @@
         }
     });
 </script>
-
 <script>
     $(document).ready(function(){
+
         function onScanSuccess(qrCodeMessage) {
             let qrCodeResult = qrCodeMessage;
+            console.log(qrCodeMessage);
             // document.getElementById('result').innerHTML = '<span class="result">'+qrCodeMessage+'</span>';
+            
             $.ajax({
-                url: "{{ route('user.attendance') }}",
+                url: "{{ route('save.attendance') }}",
                 method: 'post',
                 data: {qrCodeResult: qrCodeResult},
                 success: function(res){
                     if(res.status == 'success'){
-                        // console.log(res.user_id);
                         $('.table').load(location.href+" .table");
+                    }else if(res.status == 'user_exist'){
+                        console.log('You already present.');
+                    }else if(res.status == 'time_out_AM'){
+                        console.log('You are time out in AM');
+                    }else if(res.status == 'afternoon'){
+                        console.log('afternoon');
+                    }else if(res.status == 'time_out_PM'){
+                        console.log('You are time out in PM');
                     }
                 },
                 error: function(err){
