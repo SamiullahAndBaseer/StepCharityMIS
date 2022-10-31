@@ -15,7 +15,6 @@ use App\Http\Requests\UserRequest;
 
 use Illuminate\Http\Request;
 
-
 class UserController extends Controller
 {
     public function __construct()
@@ -44,7 +43,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {   
-        $users = User::select('id','first_name','last_name', 'phone_number', 'email', 'role_id', 'join_date', 'profile_photo_path', 'created_at')->get();
+        $users = User::whereHas('role', Function($q){
+            $q->where('name', 'Employee');
+        })->get();
         return view('admin.users.employee_list', compact(['users']));
     }
 

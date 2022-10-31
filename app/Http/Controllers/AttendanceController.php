@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\AttendanceSettings;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ class AttendanceController extends Controller
     {
         $result = explode(',', $request->qrCodeResult);
         $user_id = $result[0];
+        $user_name = User::find($user_id);
 
         $time= Carbon::now(); // Current Time
         $attend_time = AttendanceSettings::find(1);
@@ -40,6 +42,7 @@ class AttendanceController extends Controller
 
                 // User already is present today.
                 if($attend){
+                    session()->flash('message', $user_name->first_name.' '.$user_name->last_name.' already present.');
                     return response()->json([
                         'status'=> 'user_exist',
                     ]);
@@ -54,6 +57,8 @@ class AttendanceController extends Controller
 
                     return response()->json([
                         'status' => 'success',
+                        'first_name' => $user_name->first_name,
+                        'last_name' => $user_name->last_name,   
                     ]);
                 }
             }else{

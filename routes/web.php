@@ -4,6 +4,8 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Hash;
@@ -20,19 +22,25 @@ use Carbon\Carbon;
 |
 */
 
-// Route::get('/pass', function(){
-//     return Hash::make('sms@1234');
-// });
+Route::get('/pass', function(){
+    return Hash::make('sms@1234');
+});
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin/dashboard');
-    })->name('dashboard');
+Route::middleware(['auth', 'admin', config('jetstream.auth_session'), 'verified'])->group(function(){
+    Route::get('/dashboard', function(){
+        return view('admin.dashboard');
+    });
 });
+
+// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return view('admin/dashboard');
+//     })->name('dashboard');
+// });
 
 Route::resource('/user', UserController::class);
 Route::get('/get-districts/{id}', [UserController::class, 'getDistricts']);
@@ -53,8 +61,16 @@ Route::resource('/role', RoleController::class);
 Route::post('/role/update', [RoleController::class, 'update'])->name('update.role');
 Route::get('/role/del/{id}', [RoleController::class, 'destroy'])->name('delete.role');
 
+Route::resource('teacher', TeacherController::class);
+Route::resource('student', StudentController::class);
+Route::get('/student', [StudentController::class, 'index'])->name('all.student');
+
+// For Teachers View
+// Route::get('/dashboard', [DashboardController::class, 'index']);
+
 Route::get('/get-time', function(){
     echo (Carbon::parse("6:45:02")->format("h:i:s A"));
+    dd(redirect()->route('student.index'));
 });
 
 Route::get('pdf', [PdfController::class, 'index']);

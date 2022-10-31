@@ -22,6 +22,14 @@
                 <div class="col-xl-8 col-lg-8 col-sm-8  layout-spacing">
                     <div class="widget-content widget-content-area br-8">
                         <table class="table table-striped" style="width:100%">
+                            <div class="msg">
+                                @if(Session::has('message'))
+                                    <div class="alert alert-warning">{{ Session::get('message') }}</div>
+                                @endif
+                            </div>
+
+                            <div id="messageBox"></div>
+                            
                             <thead>
                                 <tr>
                                     <th scope="col" width="5%">#</th>
@@ -88,12 +96,11 @@
 </script>
 <script>
     $(document).ready(function(){
-
+        var message = $('#messageBox');
         function onScanSuccess(qrCodeMessage) {
             let qrCodeResult = qrCodeMessage;
             console.log(qrCodeMessage);
-            // document.getElementById('result').innerHTML = '<span class="result">'+qrCodeMessage+'</span>';
-            
+
             $.ajax({
                 url: "{{ route('save.attendance') }}",
                 method: 'post',
@@ -101,12 +108,15 @@
                 success: function(res){
                     if(res.status == 'success'){
                         $('.table').load(location.href+" .table");
+                        message.append('<div class="alert alert-success">'+res.first_name+' '+res.last_name+' present successfully.</div>');
                     }else if(res.status == 'user_exist'){
+                        $('.msg').load(location.href+" .msg");
+                        // message.append('<div class="alert alert-warning">'+res.first_name+' '+res.last_name+' already present.</div>');
                         console.log('You already present.');
                     }else if(res.status == 'time_out_AM'){
                         console.log('You are time out in AM');
                     }else if(res.status == 'afternoon'){
-                        console.log('afternoon');
+                        console.log('You wasn\'t present in the morning');
                     }else if(res.status == 'time_out_PM'){
                         console.log('You are time out in PM');
                     }
