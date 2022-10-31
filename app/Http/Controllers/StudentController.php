@@ -20,10 +20,11 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = User::whereHas('role', function($q){
-            $q->where('name', 'Student');
-        })->get();
-        return view('admin.students.all_students', ['students'=> $students]);
+        return view('student.dashboard');
+        // $students = User::whereHas('role', function($q){
+        //     $q->where('name', 'Student');
+        // })->get();
+        // return view('admin.students.all_students', ['students'=> $students]);
     }
 
     /**

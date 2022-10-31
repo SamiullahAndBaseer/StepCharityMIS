@@ -30,25 +30,32 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// For admin
 Route::middleware(['auth', 'admin', config('jetstream.auth_session'), 'verified'])->group(function(){
     Route::get('/dashboard', function(){
         return view('admin.dashboard');
-    });
+    })->name('admin.dashboard');
+    Route::resource('/user', UserController::class);
+    Route::get('/user-attendance', [AttendanceController::class, 'index'])->name('user.attendance');
+    Route::post('/save/attendance', [AttendanceController::class, 'storeAttendance'])->name('save.attendance');
 });
 
+// For Students this is comment for now after i will create it.
+Route::middleware(['auth', 'student', config('jetstream.auth_session'), 'verified'])->group(function(){
+    Route::get('/dasfhboard', [StudentController::class, 'index'])->name('student.dashboard');
+    Route::get('pdf', [PdfController::class, 'index']);
+});
 // Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
 //     Route::get('/dashboard', function () {
 //         return view('admin/dashboard');
 //     })->name('dashboard');
 // });
 
-Route::resource('/user', UserController::class);
+
 Route::get('/get-districts/{id}', [UserController::class, 'getDistricts']);
 Route::get('/get-villages/{id}', [UserController::class, 'getVillages']);
 Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('searchUser');
 
-Route::get('/user-attendance', [AttendanceController::class, 'index'])->name('user.attendance');
-Route::post('/save/attendance', [AttendanceController::class, 'storeAttendance'])->name('save.attendance');
 
 Route::get('/settings', [AttendanceController::class, 'setting'])->name('settings');
 Route::post('/settings', [AttendanceController::class, 'updateSetting'])->name('update.settings');
@@ -73,4 +80,3 @@ Route::get('/get-time', function(){
     dd(redirect()->route('student.index'));
 });
 
-Route::get('pdf', [PdfController::class, 'index']);
