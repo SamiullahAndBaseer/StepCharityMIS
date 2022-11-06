@@ -1,12 +1,103 @@
 @extends('layouts.admin_layouts.base')
 @section('custom_css_content')
     <!--  BEGIN CUSTOM STYLE FILE  -->
-    <link href="{{  asset('assets/src/assets/css/light/components/list-group.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{  asset('assets/src/assets/css/light/users/user-profile.css') }}" rel="stylesheet" type="text/css" />
-
-    <link href="{{  asset('assets/src/assets/css/dark/components/list-group.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{  asset('assets/src/assets/css/dark/users/user-profile.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{  asset('assets/src/assets/css/light/apps/invoice-preview.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{  asset('assets/src/assets/css/dark/apps/invoice-preview.css') }}" rel="stylesheet" type="text/css" />
     <!--  END CUSTOM STYLE FILE  -->
+    <style>
+        .card{
+            height: 3.575in;
+            width: 2.475in;
+            padding: 1.3rem 0 1 1.3rem 0;
+            box-shadow: 0 0 5px #b4b4b4b4;
+            background-image: url('{{ asset("assets/custom/ID-card.jpeg") }}');
+            background-repeat: no-repeat;
+            background-size: 238.4px 344px;
+            border-radius: 10px;
+        }
+        .companyname{
+            position: absolute;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 1.09rem;
+            margin-top: .7rem;
+            top: 4.3%;
+            left: 3%;
+            color: oldlace;
+        }
+        .company-img{
+            position: absolute;
+            top: 15%;
+            left: 33%;
+            max-width: 76px;
+        }
+        .profile-img{
+            position: absolute;
+            top: 37%;
+            left: 26%;
+            width: 116px;
+            height: 116px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, .2)
+        }
+        .profile-name{
+            position: absolute;
+            top: 70%;
+            font-weight: 400;
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            margin-top: .5rem;
+            color: darkblue;
+        }
+        .profile-username{
+            position: absolute;
+            top: 78%;
+            font-weight: 300;
+            font-size: 1rem;
+            margin-top: .6rem;
+            text-align: center;
+            color: navy;
+        }
+        .names{
+            margin-left: 6%;
+        }
+
+        .squre-qr{
+            position: absolute;
+            align-items: center;
+            top: 15%;
+            left: 15%;
+            box-shadow: 0 0 100px #76aabfb4;
+        }
+
+        .dt{
+            top: 62%;
+            position: absolute;
+            font-weight: 400;
+            font-size: 1.0rem;
+            margin-top: .5rem;
+            color: darkblue;
+            left: 4%;
+        }
+        .dt1{
+            top: 69%;
+            position: absolute;
+            font-weight: 400;
+            font-size: 1.0rem;
+            margin-top: .5rem;
+            color: darkblue;
+            left: 4%;
+        }
+        .dt2{
+            top: 76%;
+            position: absolute;
+            font-weight: 400;
+            font-size: 1.0rem;
+            margin-top: .5rem;
+            color: darkblue;
+            left: 4%;
+        }
+    </style>
 @endsection
 @section('content')
     <!--  BEGIN CONTENT AREA  -->
@@ -14,206 +105,256 @@
         <div class="layout-px-spacing">
 
             <div class="middle-content container-xxl p-0">
-
-                <!-- BREADCRUMB -->
-                <div class="page-meta">
-                    <nav class="breadcrumb-style-one" aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Users</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Profile</li>
-                        </ol>
-                    </nav>
-                </div>
-                <!-- /BREADCRUMB -->
-
-                <div class="row layout-spacing ">
-
-                    <!-- Content -->
-                    <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 layout-top-spacing">
-                        <div class="user-profile">
-                            <div class="widget-content widget-content-area">
-                                <div class="d-flex justify-content-between">
-                                    <h3 class="">Profile</h3>
-                                    <a href="./user-account-settings.html" class="mt-2 edit-profile"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
-                                </div>
-                                <div class="text-center user-info">
-                                    <img width="90px" height="90px" src="{{ asset('storage/users') }}/{{ $user->profile_photo_path }}" alt="avatar">
-                                    <p class="">{{ $user->first_name }}&nbsp;{{ $user->last_name }}</p>
-                                </div>
-                                <div class="user-info-list">
-
-                                    <div class="">
-                                        <ul class="contacts-block list-unstyled">
-                                            <li class="contacts-block__item">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-coffee me-3"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg> {{ $user->role->name }}
-                                            </li>
-                                            <li class="contacts-block__item">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar me-3"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>{{ $user->date_of_birth}}
-                                            </li>
-                                            <li class="contacts-block__item">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin me-3"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>New York, USA
-                                            </li>
-                                            <li class="contacts-block__item">
-                                                <a href="mailto:{{$user->email}}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail me-3"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>{{$user->email}} </a>
-                                            </li>
-                                            <li class="contacts-block__item">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone me-3"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> +93 {{ $user->phone_number}}
-                                            </li>
-                                        </ul>
-
-                                        <ul class="list-inline mt-4">
-                                            <li class="list-inline-item mb-0">
-                                                <a class="btn btn-info btn-icon btn-rounded" href="javascript:void(0);">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item mb-0">
-                                                <a class="btn btn-danger btn-icon btn-rounded" href="javascript:void(0);">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dribbble"><circle cx="12" cy="12" r="10"></circle><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"></path></svg>
-                                                </a>
-                                            </li>
-                                            <li class="list-inline-item mb-0">
-                                                <a class="btn btn-dark btn-icon btn-rounded" href="javascript:void(0);">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 layout-top-spacing">
-
-                        <div class="usr-tasks ">
-                            <div class="widget-content widget-content-area">
-                                <h3 class="">Task</h3>
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Projects</th>
-                                                <th>Progress</th>
-                                                <th>Task Done</th>
-                                                <th class="text-center">Time</th>
-                                            </tr>
-                                            <tr aria-hidden="true" class="mt-3 d-block table-row-hidden"></tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Figma Design</td>
-                                                <td>                                                    
-                                                    <div class="progress br-30">
-                                                        <div class="progress-bar br-30 bg-danger" role="progressbar" style="width: 29.56%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </td>
-                                                <td><p class="text-danger">29.56%</p></td>
-                                                <td class="text-center">
-                                                    <p>2 mins ago</p>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Vue Migration</td>
-                                                <td>
-                                                    <div class="progress br-30">
-                                                        <div class="progress-bar br-30 bg-info" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </td>
-                                                <td><p class="text-success">50%</p></td>
-                                                <td class="text-center">
-                                                    <p>4 hrs ago</p>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>Flutter App</td>
-                                                <td>                                                    
-                                                    <div class="progress br-30">
-                                                        <div class="progress-bar br-30 bg-warning" role="progressbar" style="width: 39%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </td>
-                                                <td><p class="text-danger">39%</p></td>
-                                                <td class="text-center">
-                                                    <p>a min ago</p>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>API Integration</td>
-                                                <td>                                                    
-                                                    <div class="progress br-30">
-                                                        <div class="progress-bar br-30 bg-success" role="progressbar" style="width: 78.03%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </td>
-                                                <td><p class="text-success">78.03%</p></td>
-                                                <td class="text-center">
-                                                    <p>2 weeks ago</p>
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr>
-                                                <td>Blog Update</td>
-                                                <td>                                                    
-                                                    <div class="progress br-30">
-                                                        <div class="progress-bar br-30 bg-secondary" role="progressbar" style="width: 100%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </td>
-                                                <td><p class="text-success">100%</p></td>
-                                                <td class="text-center">
-                                                    <p>18 hrs ago</p>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Landing Page</td>
-                                                <td>                                                    
-                                                    <div class="progress br-30">
-                                                        <div class="progress-bar br-30 bg-danger" role="progressbar" style="width: 19.15%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </td>
-                                                <td><p class="text-danger">19.15%</p></td>
-                                                <td class="text-center">
-                                                    <p>5 days ago</p>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td>Shopify Dev</td>
-                                                <td>                                                    
-                                                    <div class="progress br-30">
-                                                        <div class="progress-bar br-30 bg-info" role="progressbar" style="width: 60.55%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                    </div>
-                                                </td>
-                                                <td><p class="text-success">60.55%</p></td>
-                                                <td class="text-center">
-                                                    <p>8 days ago</p>
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                
+                <div class="row invoice layout-top-spacing layout-spacing">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         
-                    </div>
-                    
-                </div>
+                        <div class="doc-container">
 
-                <div class="row">
+                            <div class="row">
 
-                    <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
-                        <div class="summary layout-spacing ">
-                            <div class="widget-content widget-content-area">
-                                <h3 class="">Your QR-Code</h3>
-                                <div class="m-3 p-3 text-center" style="border: 1px solid black;">
-                                    <div>
-                                        {!! QrCode::size(200)->generate($user->id.",".$user->email) !!}
+                                <div class="col-xl-9">
+
+                                    <div class="invoice-container">
+                                        <div class="invoice-inbox">
+                                            
+                                            <div id="ct" class="">
+                                                
+                                                <div class="invoice-00001">
+                                                    <div class="content-section">
+    
+                                                        <div class="inv--head-section inv--detail-section">
+                                                        
+                                                            <div class="row" style="margin-bottom: 5%;">
+                                                                <div class="col-sm-4 text-sm-end">
+                                                                    
+                                                                    <div class="d-flex">
+                                                                        <h3 class="in-heading align-self-center">{{ $user->first_name }}&nbsp;{{ $user->last_name }}</h3>
+                                                                    </div>
+                                                                    <div class="text-start m-3 mt-5">
+                                                                        <p class="inv-email-address m-2"><em>Email: </em>{{ $user->email }}</p>
+                                                                        <p class="inv-email-address m-2"><em>Phone: </em>{{ $user->phone_number }}</p>
+                                                                        <p class="inv-email-address m-2"><em>Tazkira: </em>{{ $user->id_card_number }}</p>
+                                                                        <p class="inv-created-date m-2 mt-sm-5 mt-3"><span class="inv-title">DoB : </span> <span class="inv-date">{{ $user->date_of_birth }}</span></p>
+                                                                        <p class="inv-due-date"><span class="inv-title">Date of Join : </span> <span class="inv-date">{{ $user->created_at }}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12 mr-auto">
+                                                                    <div class="card">
+                                                                        <div class="text-xenter">
+                                                                            <div class="pp">
+                                                                                <h4 class="companyname">Step Organiztion</h4>
+                                                                                <img class="company-img" src="{{ asset('assets/src/assets/img/logo.png') }}" alt="">
+                                                                                <img class="profile-img" src="{{ asset('images')}}/{{ $user->profile_photo_path }}" alt="">
+                                                                            </div>
+                                                                            <div class="names">
+                                                                                <h2 class="profile-name">{{ $user->first_name }}</h2>
+                                                                                <h4 class="profile-username">{{ $user->role->name }}</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12 mr-auto">
+                                                                    <div class="card">
+                                                                        <div class="pp">
+                                                                            <h4 class="companyname">Step Organiztion</h4>
+                                                                            <div class="squre-qr">
+                                                                                {!! QrCode::size(160)->generate('1, samigulzar178@gmail.com') !!}
+                                                                            </div>
+                                                                            <div class="details">
+                                                                                <h4 class="dt"><b>DoB: </b>{{ $user->date_of_birth }}</h4>
+                                                                                <h4 class="dt1"><b>Moblie: </b>{{ $user->phone_number }}</h4>
+                                                                                <h4 class="dt2"><b>Address: </b>Kabul, Kotali khair khana</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>                                            
+                                                            </div>
+                                                            
+                                                        </div>
+
+                                                        <div class="inv--product-table-section">
+                                                            <div class="table-responsive">
+                                                                <table class="table">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td scope="col"><b>{{ $user->role->name }} ID</b></td>
+                                                                            <td>{{ $user->id }}</td>
+                                                                            <td><b>#Tazkira</b></td>
+                                                                            <td>{{ $user->id_card_number }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>Full Name</b></td>
+                                                                            <td>{{ $user->first_name }}&nbsp;{{ $user->last_name }}</td>
+                                                                            <td><b>Email</b></td>
+                                                                            <td>{{ $user->email }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>Father Name</b></td>
+                                                                            <td>{{ $user->father_name }}</td>
+                                                                            <td><b>Salary</b></td>
+                                                                            <td>{{ $user->salary }}</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>Phone</b></td>
+                                                                            <td>{{ $user->phone_number }}</td>
+                                                                            <td><b>Gender</b></td>
+                                                                            @if($user->gender == 1)
+                                                                                <td>Male</td>
+                                                                            @else
+                                                                                <td>Female</td>
+                                                                            @endif
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>Bio</b></td>
+                                                                            <td>{{ $user->bio }}</td>
+                                                                            <td><b>Marital Status</b></td>
+                                                                            @if($user->marital_status == 1)
+                                                                                <td>Married</td>
+                                                                            @else
+                                                                                <td>Single</td>
+                                                                            @endif
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>Phone</b></td>
+                                                                            <td>{{ $user->phone_number }}</td>
+                                                                            <td><b>Address</b></td>
+                                                                            <td>Khair khana, Kabul, Afghanistan</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="inv--detail-section inv--customer-detail-section">
+
+                                                            <div class="row">
+    
+                                                                <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4 align-self-center">
+                                                                    <p class="inv-to">Monthly Report </p>
+                                                                </div>
+
+                                                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 align-self-center order-sm-0 order-1 text-sm-end mt-sm-0 mt-5">
+                                                                    <h6 class=" inv-title"></h6>
+                                                                </div>
+                                                                
+                                                                <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4">
+                                                                    <p class="inv-customer-name">Present</p>
+                                                                    <p class="inv-street-addr">Leave</p>
+                                                                    <p class="inv-email-address text-danger">Absent</p>
+                                                                </div>
+                                                                
+                                                                <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 order-sm-0 order-1 text-sm-end">
+                                                                    <p class="inv-customer-name">23 Days</p>
+                                                                    <p class="inv-street-addr">3 Days</p>
+                                                                    <p class="inv-email-address text-danger">0 Days</p>
+                                                                </div>
+
+                                                            </div>
+                                                            
+                                                        </div>
+
+                                                        <div class="inv--note">
+
+                                                            <div class="row mt-4">
+                                                                <div class="col-sm-12 col-12 order-sm-0 order-1">
+                                                                    <p>Note: Go to print page select custom type 2 for print only card.</p>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <hr>
+                                                        <div class="inv--head-section inv--detail-section">
+                                                        
+                                                            <div class="row" style="margin-bottom: 5%;">
+                                                                <div class="col-sm-4 text-sm-end">
+                                                                    
+                                                                    <div class="d-flex">
+                                                                        <h3 class="in-heading align-self-center">{{ $user->first_name }}&nbsp;{{ $user->last_name }}</h3>
+                                                                    </div>
+                                                                    <div class="text-start m-3 mt-5">
+                                                                        <p class="inv-email-address m-2"><em>Email: </em>{{ $user->email }}</p>
+                                                                        <p class="inv-email-address m-2"><em>Phone: </em>{{ $user->phone_number }}</p>
+                                                                        <p class="inv-email-address m-2"><em>Tazkira: </em>{{ $user->id_card_number }}</p>
+                                                                        <p class="inv-created-date m-2 mt-sm-5 mt-3"><span class="inv-title">DoB : </span> <span class="inv-date">{{ $user->date_of_birth }}</span></p>
+                                                                        <p class="inv-due-date"><span class="inv-title">Date of Join : </span> <span class="inv-date">{{ $user->created_at }}</span></p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12 mr-auto">
+                                                                    <div class="card">
+                                                                        <div class="text-xenter">
+                                                                            <div class="pp">
+                                                                                <h4 class="companyname">Step Organiztion</h4>
+                                                                                <img class="company-img" src="{{ asset('assets/src/assets/img/logo.png') }}" alt="">
+                                                                                <img class="profile-img" src="{{ asset('images')}}/{{ $user->profile_photo_path }}" alt="">
+                                                                            </div>
+                                                                            <div class="names">
+                                                                                <h2 class="profile-name">{{ $user->first_name }}</h2>
+                                                                                <h4 class="profile-username">{{ $user->role->name }}</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-4 col-12 mr-auto">
+                                                                    <div class="card">
+                                                                        <div class="pp">
+                                                                            <h4 class="companyname">Step Organiztion</h4>
+                                                                            <div class="squre-qr">
+                                                                                {!! QrCode::size(160)->generate('1, samigulzar178@gmail.com') !!}
+                                                                            </div>
+                                                                            <div class="details">
+                                                                                <h4 class="dt"><b>DoB: </b>{{ $user->date_of_birth }}</h4>
+                                                                                <h4 class="dt1"><b>Moblie: </b>{{ $user->phone_number }}</h4>
+                                                                                <h4 class="dt2"><b>Address: </b>Kabul, Kotali khair khana</h4>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>                                            
+                                                            </div>
+                                                            
+                                                        </div>
+    
+                                                    </div>
+                                                </div> 
+                                                
+                                            </div>
+    
+    
+                                        </div>
+    
                                     </div>
+
                                 </div>
+
+                                <div class="col-xl-3">
+
+                                    <div class="invoice-actions-btn">
+
+                                        <div class="invoice-action-btn">
+
+                                            <div class="row">
+                                                <div class="col-xl-12 col-md-3 col-sm-6">
+                                                    <a href="javascript:void(0);" class="btn btn-primary btn-send">Send Email</a>
+                                                </div>
+                                                <div class="col-xl-12 col-md-3 col-sm-6">
+                                                    <a href="javascript:void(0);" class="btn btn-secondary btn-print  action-print">Print</a>
+                                                </div>
+                                                <div class="col-xl-12 col-md-3 col-sm-6">
+                                                    <a href="{{ route('user.show', $user->id) }}" class="btn btn-dark btn-edit">Edit</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+
                             </div>
+                            
                         </div>
+
                     </div>
                 </div>
 
@@ -231,7 +372,9 @@
             </div>
         </div>
         <!--  END FOOTER  -->
-        
     </div>
     <!--  END CONTENT AREA  -->
+@endsection
+@section('custom_js_content')
+    <script src="{{ asset('assets/src/assets/js/apps/invoice-preview.js') }}"></script>
 @endsection

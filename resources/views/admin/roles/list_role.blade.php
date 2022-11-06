@@ -1,7 +1,7 @@
 @extends('layouts.admin_layouts.base')
 @section('custom_css_content')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/light/elements/alert.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/elements/alert.css') }}">
+<link href="{{  asset('assets/src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{  asset('assets/src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div id="content" class="main-content">
@@ -32,8 +32,12 @@
                     <div class="statbox widget box box-shadow">
                         <div class="widget-header">
                             <div class="row">
-                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <div class="col-xl-6 col-md-6 col-sm-6 col-6">
                                     <h4>Availiable Roles</h4>
+                                </div>
+                                <div class="col-xl-6 col-md-6 col-sm-6 col-6">
+                                    <!-- Zoom in up modal -->
+                                    <button type="button" id="addRole" class="btn btn-primary m-3 float-end" data-bs-toggle="modal" data-bs-target="#addRoleModal">Add Role</button>
                                 </div>
                             </div>
                         </div>
@@ -77,8 +81,11 @@
                                                 <span class="table-inner-text">{{ $role->updated_at }}</span>
                                             </td>
                                             <td class="text-center">
-                                                <a href="{{ route('role.edit', $role->id) }}"><span class="badge badge-light-info">Edit</span></a>
-                                                <a href="{{ route('delete.role', $role->id) }}"><span class="badge badge-light-danger">Delete</span></a>
+                                                <a href="#" id="updateRole" data-id="{{ $role->id }}"
+                                                    data-bs-toggle="modal" data-bs-target="#editRoleModal"
+                                                    data-name="{{ $role->name }}" data-description="{{ $role->description }}">
+                                                    <span class="badge badge-light-info">Edit</span></a>
+                                                <a href="#" class="delete_role confirm-role-{{ $role->id }}" data-id="{{ $role->id }}" data-name="{{ $role->name }}"><span class="badge badge-light-danger">Delete</span></a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -91,7 +98,13 @@
                 </div>
             </div>
         </div>
+        @include('admin.roles.add_role')
+        @include('admin.roles.edit_role')
     </div>
 </div>
-
+@endsection
+@section('custom_js_content')
+    <script src="{{ asset('assets/custom/js/jquery-3.6.0.js') }}"></script>
+    @include('admin.roles.role_js')
+    <script src="{{ asset('assets/src/plugins/src/highlight/highlight.pack.js') }}"></script>
 @endsection

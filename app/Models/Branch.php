@@ -10,10 +10,20 @@ class Branch extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'description'];
-  
-    public function user()
+
+    public function users()
    {
         return $this->hasMany(User::class);
+    }
+
+    /**
+     * Get all of the surveyies for the Branch
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function surveyies()
+    {
+        return $this->hasMany(Survey::class);
     }
 
 }

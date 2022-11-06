@@ -7,92 +7,61 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // all courses
     public function index()
     {
         $courses = Course::all();
         return view('admin.courses.all_courses', ['courses'=> $courses]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.courses.add_course');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // add new course
     public function store(Request $request)
     {
         $this->validate($request, [
-            'course_name'=> 'required|max:255|unique:courses,name',
-            'course_description' => 'required',
+            'name'=> 'required|max:255|unique:courses,name',
+            'description' => 'required',
         ]);
 
         $course = new Course();
-        $course->name = $request->course_name;
-        $course->description = $request->course_description;
+        $course->name = $request->name;
+        $course->description = $request->description;
         $course->save();
 
-        return redirect('course')->with('message', 'Course Created Successfully!');
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $course = Course::find($id);
-        return view('admin.courses.edit_course', ['course'=>$course]);
+        session()->flash('message', 'Course Created Successfully!');
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // update course
     public function update(Request $request)
     {
         $this->validate($request, [
-            'course_name'=> 'required|max:255',
-            'course_description' => 'required',
+            'name'=> 'required|max:255',
+            'description' => 'required',
         ]);
 
-        $course = Course::find($request->course_id);
-        $course->name = $request->course_name;
-        $course->description = $request->course_description;
+        $course = Course::find($request->id);
+        $course->name = $request->name;
+        $course->description = $request->description;
         $course->save();
 
-        return redirect('course')->with('message', 'Course Updated Successfully!');
+        session()->flash('message', $course->name.' updated successfully!');
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    // delete the course
+    public function destroy(Request $request)
     {
-        $course = Course::find($id);
+        $course = Course::find($request->id);
         $course->delete();
 
-        return back()->with('message', 'Course deleted successfully!');
+        session()->flash('message', 'Course deleted successfully!');
+        
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 }

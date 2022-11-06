@@ -40,8 +40,8 @@
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Students</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Add Student</li>
+                        <li class="breadcrumb-item"><a href="#">Teachers</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Add Teacher</li>
                     </ol>
                 </nav>
             </div>
@@ -55,7 +55,7 @@
                         <div class="tab-pane fade show active" id="animated-underline-home" role="tabpanel" aria-labelledby="animated-underline-home-tab">
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
-                                    <form class="section general-info"  method="post" action="{{ route('student.store') }}"  enctype="multipart/form-data">
+                                    <form class="section general-info"  method="post" action="{{ route('teacher.store') }}"  enctype="multipart/form-data">
                                         @csrf
                                         <div class="info">
                                             <h6 class="">General Information</h6>
@@ -250,7 +250,7 @@
     
                                                                     <div class="col-md-12 mt-1">
                                                                         <div class="form-group text-end">
-                                                                            <button type="submit" class="btn btn-secondary">Add Student</button></button>
+                                                                            <button type="submit" class="btn btn-secondary">Add Teacher</button></button>
                                                                         </div>
                                                                     </div>
                                                                 </div>

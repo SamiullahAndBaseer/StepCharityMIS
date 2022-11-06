@@ -7,33 +7,12 @@ use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $roles = Role::all();
         return view('admin.roles.list_role', ['roles'=> $roles]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.roles.add_role');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -46,30 +25,10 @@ class RoleController extends Controller
         $role->description = $request->role_description;
         $role->save();
 
-        return redirect('role')->with('message', 'Role Created Successfully!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $role = Role::find($id);
-        return view('admin.roles.edit_role', ['role'=> $role]);
+        session()->flash('message', 'Role created successfully!');
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
     /**
@@ -91,7 +50,10 @@ class RoleController extends Controller
         $role->description = $request->role_description;
         $role->save();
 
-        return redirect('role')->with('message', 'Role Updated Successfully!');
+        session()->flash('message', $role->name.' updated successfully!');
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
     /**
@@ -100,10 +62,13 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $role = Role::find($id);
+        $role = Role::findOrFail($request->id);
         $role->delete();
-        return back()->with('message', 'Role Deleted Successfully!');
+        session()->flash('message', 'Role deleted successfully!');
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 }

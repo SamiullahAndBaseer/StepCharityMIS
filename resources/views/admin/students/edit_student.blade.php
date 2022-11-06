@@ -40,8 +40,8 @@
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Users</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Edit User</li>
+                        <li class="breadcrumb-item"><a href="#">Students</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Student</li>
                     </ol>
                 </nav>
             </div>
@@ -55,7 +55,7 @@
                         <div class="tab-pane fade show active" id="animated-underline-home" role="tabpanel" aria-labelledby="animated-underline-home-tab">
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
-                                    <form class="section general-info"  method="post" action="{{ route('update.user', $user->id) }}"  enctype="multipart/form-data">
+                                    <form class="section general-info"  method="post" action="{{ route('update.student', $student->id) }}"  enctype="multipart/form-data">
                                         @csrf
                                         <div class="info">
                                             <h6 class="">General Information</h6>
@@ -82,7 +82,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="fullName">First Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $user->first_name }}" id="first_name" placeholder="First Name" name="first_name"  >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->first_name }}" id="first_name" placeholder="First Name" name="first_name"  >
                                                                             <span class="text-danger">{{ $errors->first('first_name') }}</span>
                                                                            
                                                                         </div>
@@ -90,14 +90,14 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="fullName">Last Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $user->last_name }}" id="last_name" placeholder="Last Name" name="last_name" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->last_name }}" id="last_name" placeholder="Last Name" name="last_name" >
                                                                             <span class="text-danger">{{ $errors->first('last_name') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="fullName">Father Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $user->father_name }}" id="father_name" placeholder="Father Name" name="father_name" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->father_name }}" id="father_name" placeholder="Father Name" name="father_name" >
                                                                             <span class="text-danger">{{ $errors->first('father_name') }}</span>
                                                                         </div>
                                                                     </div>
@@ -138,7 +138,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="email">Email<span class="text-danger">*</span></label>
-                                                                            <input type="email" class="form-control mb-3" value="{{ $user->email }}" id="email" placeholder="Write your email here" name="email">
+                                                                            <input type="email" class="form-control mb-3" value="{{ $student->email }}" id="email" placeholder="Write your email here" name="email">
                                                                             <span class="text-danger">{{ $errors->first('email') }}</span>
                                                                         </div>
                                                                     </div> 
@@ -146,21 +146,21 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="phone">Phone<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $user->phone_number }}" id="phone" placeholder="Write your phone number here" name="phone_number" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->phone_number }}" id="phone" placeholder="Write your phone number here" name="phone_number" >
                                                                             <span class="text-danger">{{ $errors->first('phone_number') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="id_card_number">Tazkira Number<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $user->id_card_number }}" id="id_card_number" placeholder="Write yourTazkira number here" name="id_card_number" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->id_card_number }}" id="id_card_number" placeholder="Write yourTazkira number here" name="id_card_number" >
                                                                             <span class="text-danger">{{ $errors->first('id_card_number') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="salary">Salary<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $user->salary }}" id="salary" name="salary" placeholder="Write your Salary number here" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->salary }}" id="salary" name="salary" placeholder="Write your Salary number here" >
                                                                             <span class="text-danger">{{ $errors->first('salary') }}</span>
                                                                         </div>
                                                                     </div>
@@ -190,19 +190,19 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="date_of_birth">Date Of Birth</label>
-                                                                            <input type="date" class="form-control mb-3" value="{{ $user->date_of_birth }}" id="basicFlatpickr" placeholder="" name="date_of_birth"  >
+                                                                            <input type="date" class="form-control mb-3" value="{{ $student->date_of_birth }}" id="basicFlatpickr" placeholder="" name="date_of_birth"  >
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="join_date">Join Date</label>
-                                                                            <input type="date" class="form-control mb-3" value="{{ $user->join_date }}" id="basicFlatpickr" placeholder="" name="join_date" >
+                                                                            <input type="date" class="form-control mb-3" value="{{ $student->join_date }}" id="basicFlatpickr" placeholder="" name="join_date" >
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="address">Address</label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $user->address }}" id="address" placeholder="Address"  >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->address }}" id="address" placeholder="Address"  >
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
@@ -243,14 +243,14 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="bio">Bio<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $user->bio }}" id="bio" name="bio" placeholder="bio here">
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->bio }}" id="bio" name="bio" placeholder="bio here">
                                                                             <span class="text-danger">{{ $errors->first('bio') }}</span>
                                                                         </div>
                                                                     </div>
     
                                                                     <div class="col-md-12 mt-1">
                                                                         <div class="form-group text-end">
-                                                                            <button type="submit" class="btn btn-secondary">Update User</button>
+                                                                            <button type="submit" class="btn btn-secondary">Update Student</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -330,7 +330,7 @@
                 files: [
                     {
                         // the server file reference
-                        source: '{{ asset('images') }}/{{ $user->profile_photo_path }}',
+                        source: '{{ asset('images') }}/{{ $student->profile_photo_path }}',
 
                         // set type to limbo to tell FilePond this is a temp file
                         options: {

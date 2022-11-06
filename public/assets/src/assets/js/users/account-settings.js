@@ -30,17 +30,6 @@ FilePond.registerPlugin(
       styleProgressIndicatorPosition: 'right bottom',
       styleButtonRemoveItemPosition: 'left bottom',
       styleButtonProcessItemPosition: 'right bottom',
-      files: [
-          {
-              // the server file reference
-              source: '../src/assets/img/user-profile.jpeg',
-
-              // set type to limbo to tell FilePond this is a temp file
-              options: {
-                  type: 'image/png',
-              },
-          },
-      ],
     }
 );
 

@@ -1,13 +1,21 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\DashboardController;
+// use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Models\Branch;
+use App\Models\Course;
+use App\Models\Role;
+use App\Models\TemporaryFiles;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
@@ -22,61 +30,83 @@ use Carbon\Carbon;
 |
 */
 
-Route::get('/pass', function(){
-    return Hash::make('sms@1234');
-});
+// Route::get('/pass', function(){
+//     return Hash::make('sms@1234');
+// });
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
+// All users authentication to their dashboard.
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
+
 // For admin
-Route::middleware(['auth', 'admin', config('jetstream.auth_session'), 'verified'])->group(function(){
-    Route::get('/dashboard', function(){
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
+Route::middleware(['auth', 'admin'])->group(function(){
+    Route::post('/upload', [UploadController::class, 'store'])->name('image');
+    Route::post('/update/image', [UploadController::class, 'updateImage'])->name('update.image');
+    // For users
     Route::resource('/user', UserController::class);
+    Route::get('/user/del/{id}', [UserController::class, 'destroy'])->name('delete.user');
+    Route::post('/update/user/{id}', [UserController::class, 'update'])->name('update.user');
+    Route::get('/single-user/{id}', [UserController::class, 'singleUser'])->name('single.user');
+    // For Teachers
+    Route::resource('/teacher', TeacherController::class);
+    Route::get('/teacher-delete/{id}', [TeacherController::class, 'destroy'])->name('delete.teacher');
+    Route::post('/teacher-update/{id}', [TeacherController::class, 'update'])->name('update.teacher');
+    // For Students
+    Route::resource('/student', StudentController::class);
+    Route::post('/student-update/{id}', [StudentController::class, 'update'])->name('update.student');
+    Route::get('/student-delete/{id}', [StudentController::class, 'destroy'])->name('delete.student');
+    // Roles
+    Route::resource('/role', RoleController::class);
+    Route::post('/role-update', [RoleController::class, 'update'])->name('update.role');
+    Route::post('/role-delete', [RoleController::class, 'destroy'])->name('delete.role');
+    // Courses
+    Route::resource('/course', CourseController::class);
+    Route::post('/course/update', [CourseController::class, 'update'])->name('update.course');
+    Route::post('/course/delete', [CourseController::class, 'destroy'])->name('delete.course');
+    // Branches
+    Route::resource('/branch', BranchController::class);
+    Route::post('/branch-update', [BranchController::class, 'update'])->name('update.branch');
+    Route::post('/branch-delete', [BranchController::class, 'destroy'])->name('delete.branch');
+    // Attendance settings
+    Route::get('/settings', [AttendanceController::class, 'setting'])->name('settings');
+    Route::post('/settings', [AttendanceController::class, 'updateSetting'])->name('update.settings');  
+    // user attendance
     Route::get('/user-attendance', [AttendanceController::class, 'index'])->name('user.attendance');
     Route::post('/save/attendance', [AttendanceController::class, 'storeAttendance'])->name('save.attendance');
 });
 
-// For Students this is comment for now after i will create it.
-Route::middleware(['auth', 'student', config('jetstream.auth_session'), 'verified'])->group(function(){
-    Route::get('/dasfhboard', [StudentController::class, 'index'])->name('student.dashboard');
+// For Student
+Route::middleware(['auth', 'student'])->group(function(){
     Route::get('pdf', [PdfController::class, 'index']);
 });
-// Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return view('admin/dashboard');
-//     })->name('dashboard');
-// });
-
 
 Route::get('/get-districts/{id}', [UserController::class, 'getDistricts']);
 Route::get('/get-villages/{id}', [UserController::class, 'getVillages']);
 Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('searchUser');
 
 
-Route::get('/settings', [AttendanceController::class, 'setting'])->name('settings');
-Route::post('/settings', [AttendanceController::class, 'updateSetting'])->name('update.settings');
-
-Route::resource('/course', CourseController::class);
-Route::post('/course/update', [CourseController::class, 'update'])->name('update.course');
-Route::get('/course/del/{id}', [CourseController::class, 'destroy'])->name('delete.course');
-
-Route::resource('/role', RoleController::class);
-Route::post('/role/update', [RoleController::class, 'update'])->name('update.role');
-Route::get('/role/del/{id}', [RoleController::class, 'destroy'])->name('delete.role');
-
-Route::resource('teacher', TeacherController::class);
-Route::resource('student', StudentController::class);
-Route::get('/student', [StudentController::class, 'index'])->name('all.student');
-
-// For Teachers View
-// Route::get('/dashboard', [DashboardController::class, 'index']);
-
 Route::get('/get-time', function(){
-    echo (Carbon::parse("6:45:02")->format("h:i:s A"));
-    dd(redirect()->route('student.index'));
+    
+    // echo (Carbon::parse("6:45:02")->format("h:i:s A"));
+    // dd(redirect()->route('student.index'));
+});
+
+Route::get('tmp-delete', function(){
+    foreach(TemporaryFiles::all() as $item){
+        if($item->new_photo){
+            unlink(public_path('tmp/'.$item->folder).'/'.$item->new_photo);
+        }else{
+            unlink(public_path('tmp/'.$item->folder).'/'.$item->filename);
+        }
+        
+        rmdir(public_path('tmp/'.$item->folder));
+        $item->delete();
+    }
+    return 'done';
 });
 

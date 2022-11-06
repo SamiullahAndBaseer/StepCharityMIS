@@ -1,13 +1,12 @@
 @extends('layouts.admin_layouts.base')
 @section('custom_css_content')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/light/elements/alert.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/elements/alert.css') }}">
+<link href="{{  asset('assets/src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{  asset('assets/src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
 <div id="content" class="main-content">
     <div class="container">
         <div class="container">
-
             <!-- BREADCRUMB -->
             <div class="page-meta">
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
@@ -32,8 +31,13 @@
                     <div class="statbox widget box box-shadow">
                         <div class="widget-header">
                             <div class="row">
-                                <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <div class="col-xl-6 col-md-6 col-sm-6 col-6">
                                     <h4>Availiable Courses</h4>
+                                </div>
+                                <div class="col-xl-6 col-md-6 col-sm-6 col-6">
+                                    <!-- Zoom in up modal -->
+                                    <button type="button" id="addCourse" class="btn btn-primary m-3 float-end" data-bs-toggle="modal" data-bs-target="#addCourseModal">Add Course</button>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -58,6 +62,7 @@
                                         <tr aria-hidden="true" class="mt-3 d-block table-row-hidden"></tr>
                                     </thead>
                                     <tbody>
+                                        
                                         @foreach ($courses as $course)
                                         <tr>
                                             <td>
@@ -76,9 +81,12 @@
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                                                 <span class="table-inner-text">{{ $course->updated_at }}</span>
                                             </td>
-                                            <td class="text-center">
-                                                <a href="{{ route('course.edit', $course->id) }}"><span class="badge badge-light-info">Edit</span></a>
-                                                <a href="{{ route('delete.course', $course->id) }}"><span class="badge badge-light-danger">Delete</span></a>
+                                            <td class="widget-content text-center">
+                                                <a href="#" id="updateCourse" data-bs-toggle="modal" data-bs-target="#editCourseModal" 
+                                                    data-id="{{ $course->id }}"
+                                                    data-name="{{ $course->name }}"
+                                                    data-description="{{ $course->description }}"><span class="badge badge-light-info">Edit</span></a>
+                                                    <a class="delete_course confirm-{{ $course->id }}" data-id="{{ $course->id }}" data-name="{{ $course->name }}"><span class="badge badge-light-danger">Delete</span></a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -91,7 +99,13 @@
                 </div>
             </div>
         </div>
+        @include('admin.courses.add_course')
+        @include('admin.courses.edit_course')
     </div>
 </div>
-
+@endsection
+@section('custom_js_content')
+    <script src="{{ asset('assets/custom/js/jquery-3.6.0.js') }}"></script>
+    @include('admin.courses.course_js')
+    <script src="{{ asset('assets/src/plugins/src/highlight/highlight.pack.js') }}"></script>
 @endsection

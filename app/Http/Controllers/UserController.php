@@ -8,34 +8,15 @@ use App\Models\User;
 use App\Models\Province;
 use App\Models\Village;
 use App\Models\District;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Currency;
-use App\Http\Requests\UserRequest;
-
+use App\Models\TemporaryFiles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    private function getRequest(Request $request)
-    {
-        $data = $request->all();
-
-        if ($request->hasFile('profile_photo_path')){
-            $profile_photo_path = $request->file('profile_photo_path');
-            $data['profile_photo_path'] = 'assets/img/'. $data['name'] . '.' . $profile_photo_path->getClientOriginalExtension();
-            Storage::putFileAs('public/', $profile_photo_path, $data['image']);
-        }
-        return $data;
-    }
-
-    private $limit = 10;
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // it shows all users.
     public function index(Request $request)
     {   
         $users = User::whereHas('role', Function($q){
@@ -44,11 +25,7 @@ class UserController extends Controller
         return view('admin.users.employee_list', compact(['users']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Show the create page
     public function create()
     {
         $branches = Branch::select('name', 'id')->get();
@@ -72,143 +49,178 @@ class UserController extends Controller
 
         return response()->json($villages);
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(UserRequest $request)
+
+    // Store new user in database.
+    public function store(Request $request)
     {
-        $data = $request->all();
+        $request->validate([
+            'first_name' => 'required|string|min:3|max:50',
+            'last_name' => 'required|string|min:3|max:50',
+            'father_name' => 'required|string|min:3|max:50',
+            'email' => 'required|email|unique:users,email',
+            'phone_number' => 'required|string|min:9|max:13|unique:users,phone_number',
+            'id_card_number' => 'required|string|max:13|unique:users,id_card_number',
+            'salary' => 'required|string|min:0', "max:200000",
+            'bio' => 'required|string|min:3|max:500',
+            'password' => 'required|string|min:6',
+            'gender' => 'required|numeric|min:0|max:1',
+            'join_date' => 'nullable|date',
+            'status' => 'required|min:0|max:1',
+            'date_of_birth' => 'nullable|date',
+            'marital_status' => 'nullable|numeric|min:0|max:1',
+            'currency_id' => 'nullable|numeric',
+            'branch_id' => 'nullable|numeric',
+        ]);
 
-        // dd($request->profile_photo_path);
-        if ($request->hasFile('profile_photo_path')){
-            $profile_photo_path = $request->file('profile_photo_path');
-            $data['profile_photo_path'] = '/users/'. $data['first_name'] . '.' . $profile_photo_path->getClientOriginalExtension();
-            Storage::putFileAs('public/', $profile_photo_path, $data['profile_photo_path']);
+        $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
+        $photo = '';
+        if($temporaryFile)
+        {
+            $status = File::move(public_path('tmp/'. $request->profile_photo .'/'.$temporaryFile->filename),
+            public_path('images/'.$temporaryFile->filename));
+            if($status){
+                $photo = $temporaryFile->filename;
+                rmdir(public_path('tmp/'. $request->profile_photo));
+                $temporaryFile->delete();
+            }    
         }
-
-        $data['password'] = bcrypt('password');
-
-        $users = User::create($data);
+        $role = Role::where('name', 'Employee')->first();
+        
+        User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'father_name' => $request->father_name,
+            'phone_number' => $request->phone_number,
+            'id_card_number' => $request->id_card_number,
+            'salary' => $request->salary,
+            'bio' => $request->bio,
+            'gender' => $request->gender,
+            'marital_status' => $request->marital_status,
+            'date_of_birth' => $request->date_of_birth,
+            'status' => $request->status,
+            'join_date' => $request->join_date,
+            'role_id' => $role->id,
+            'branch_id' => $request->branch_id,
+            'currency_id' => $request->currency_id,
+            'email' => $request->email,
+            'profile_photo_path' => $photo,
+            'password' => Hash::make($request->password),
+        ]);
 
         return redirect('user')->with('message', 'User Created Successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Show user for edit.
     public function show($id)
     {
         $user = User::findOrFail($id);
         $branches = Branch::select('name', 'id')->get();
         // $province = Province::pluck('name', 'id')->all();
         // $districts = District::pluck('name', 'id')->all();
-        $roles = Role::select('name', 'id')->get();
         $currencies = Currency::select('name', 'id')->get();
         $provinces = Province::select('id', 'name')->get();
 
-        return view('admin.users.employee_profile',compact(['user','currencies','roles','branches', 'provinces']));
-       
+        return view('admin.users.edit_employee' ,compact(['user','currencies','branches', 'provinces']));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $user = User::findOrFail($id);
-        $branches = Branch::select('name', 'id')->get();
-        // $province = Province::pluck('name', 'id')->all();
-        // $districts = District::pluck('name', 'id')->all();
-        $roles = Role::select('name', 'id')->get();
-        $currencies = Currency::select('name', 'id')->get();
-        $provinces = Province::select('id', 'name')->get();
-
-        return view('admin.users.edit_employee',compact(['user','currencies','roles','branches', 'provinces']));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Update the user.
     public function update(Request $request, $id)
     {
-        if(Auth::user()->id == $id){
-            $request->validate([
-            'first_name' => 'bail|required|string|min:3|max:50',
-            'last_name' => 'required|string|min:3|max:50',
-            'father_name' => 'required|string|min:3|max:50',
-            'email' => 'required|email|unique:users,email','.$id',
-            'phone_number' => "required|string|min:9|max:13|unique:users,phone_numbers,except,${id}",
-            'id_card_number' => 'required|string|max:13|unique:users,id_card_number','.$id',
-            'salary' => 'required|string|min:0', "max:200000",
-            'bio' => 'required|string|min:3|max:500',
-            'password' => 'required|string|min:6',
-            'gender' => 'required|numeric|min:0|max:1',
-            'join_date' => 'nullable|date',
-            'status' => 'required|min:0|max:1',
-            'date_of_birth' => 'nullable|date',
-            'marital_status' => 'nullable|numeric|min:0|max:1',
-            'currency_id' => 'nullable|numeric',
-            'branch_id' => 'nullable|numeric',
-            'role_id' => 'nullable|numeric',
-        ]);
-    }else{
-        $request->validate([
-            'first_name' => 'required|string|min:3|max:50',
-            'last_name' => 'required|string|min:3|max:50',
-            'father_name' => 'required|string|min:3|max:50',
-            'email' => 'required|email|unique:users,email','.$id',
-            'phone_number' => 'required|string|min:9|max:13|unique:users,phone_number', '.$id',
-            'id_card_number' => 'required|string|max:13|unique:users,id_card_number','.$id',
-            'salary' => 'required|string|min:0', "max:200000",
-            'bio' => 'required|string|min:3|max:500',
-            'password' => 'required|string|min:6',
-            'gender' => 'required|numeric|min:0|max:1',
-            'join_date' => 'nullable|date',
-            'status' => 'required|min:0|max:1',
-            'date_of_birth' => 'nullable|date',
-            'marital_status' => 'nullable|numeric|min:0|max:1',
-            'currency_id' => 'nullable|numeric',
-            'branch_id' => 'nullable|numeric',
-            'role_id' => 'nullable|numeric',
-        ]);
+        $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
+        $user = User::findOrFail($id);
+        if($temporaryFile)
+        {
+            if($user->profile_photo_path == $temporaryFile->filename){
+                unlink(public_path('tmp/'.$temporaryFile->folder).'/'.$temporaryFile->new_photo);
+                rmdir(public_path('tmp/'.$temporaryFile->folder));
+                $temporaryFile->delete();
+
+                $request->validate([
+                    'first_name' => 'required|string|min:3|max:50',
+                    'last_name' => 'required|string|min:3|max:50',
+                    'father_name' => 'required|string|min:3|max:50',
+                    'email' => 'required|email',
+                    'phone_number' => 'required|string|min:9|max:13',
+                    'id_card_number' => 'required|string|max:13',
+                    'salary' => 'required|string|min:0', "max:200000",
+                    'bio' => 'required|string|min:3|max:500',
+                    'password' => 'required|string|min:6',
+                    'gender' => 'required|numeric|min:0|max:1',
+                    'join_date' => 'nullable|date',
+                    'status' => 'required|min:0|max:1',
+                    'date_of_birth' => 'nullable|date',
+                    'marital_status' => 'nullable|numeric|min:0|max:1',
+                    'currency_id' => 'nullable|numeric',
+                    'branch_id' => 'nullable|numeric',
+                ]);
+            }else{
+                $old_image = $user->profile_photo_path;
+                $status = File::move(public_path('tmp/'. $request->profile_photo .'/'.$temporaryFile->new_photo), public_path('images/'.$temporaryFile->new_photo));
+                if($status){
+                    unlink(public_path('images').'/'.$old_image);
+                    $user->profile_photo_path = $temporaryFile->new_photo;
+                    $user->save();
+                    rmdir(public_path('tmp/'. $request->profile_photo));
+                    $temporaryFile->delete();
+
+                    $request->validate([
+                        'first_name' => 'required|string|min:3|max:50',
+                        'last_name' => 'required|string|min:3|max:50',
+                        'father_name' => 'required|string|min:3|max:50',
+                        'email' => 'required|email',
+                        'phone_number' => 'required|string|min:9|max:13',
+                        'id_card_number' => 'required|string|max:13',
+                        'salary' => 'required|string|min:0', "max:200000",
+                        'bio' => 'required|string|min:3|max:500',
+                        'password' => 'required|string|min:6',
+                        'gender' => 'required|numeric|min:0|max:1',
+                        'join_date' => 'nullable|date',
+                        'status' => 'required|min:0|max:1',
+                        'date_of_birth' => 'nullable|date',
+                        'marital_status' => 'nullable|numeric|min:0|max:1',
+                        'currency_id' => 'nullable|numeric',
+                        'branch_id' => 'nullable|numeric',
+                    ]);
+                } 
+            }
+
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->father_name = $request->father_name;
+            $user->email = $request->email;
+            $user->phone_number = $request->phone_number;
+            $user->id_card_number = $request->id_card_number;
+            $user->salary = $request->salary;
+            $user->bio = $request->bio;
+            $user->password = Hash::make($request->password);
+            $user->gender = $request->gender;
+            $user->join_date = $request->join_date;
+            $user->status = $request->status;
+            $user->date_of_birth = $request->date_of_birth;
+            $user->marital_status = $request->marital_status;
+            $user->currency_id = $request->currency_id;
+            $user->branch_id = $request->branch_id;
+            $user->save();
+
+            return redirect('user')->with('message', $user->first_name.' updated successfully');
+        }
     }
 
-    $data = $this->getRequest($request);
-
-    if(Auth::user()->id == $id){
-        $data['password'] = bcrypt($request->password);
-    }
-    $user = User::findOrFail($id);
-    $user->update($data);
-    $user->save();
-    return redirect('user')->with('message', 'User Updated');
-}
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // For delete the single user.
     public function destroy($id)
     {
-        // $data->delete();
-        return redirect()->route('user')->with('success', 'Record deleted successfully');
+        $user = User::findOrFail($id);
+        $user->delete();
+        unlink(public_path('images').'/'.$user->profile_photo_path);
+        return redirect()->route('user.index')->with('message', 'Record deleted successfully');
     }
 
+    public function singleUser($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.users.employee_profile', ['user'=> $user]);
+    }
+    
     public function searchUsers(Request $request)
     {
         $name = $request->input('name');
@@ -221,10 +233,8 @@ class UserController extends Controller
         ->orWhere('last_name', 'LIKE', "%{$name}%")
         ->orWhere('role_id', 'LIKE', "%{$role}%")
         ->orWhere('phone_number', 'LIKE', "%{$phone}%")
-
         ->get();
+
         return view('admin.users.employee_list', compact([ 'users']));
-
-
     }
 }

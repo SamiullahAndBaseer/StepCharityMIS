@@ -6,7 +6,7 @@ var invoiceList = $('#invoice-list').DataTable({
     headerCallback:function(e, a, t, n, s) {
         e.getElementsByTagName("th")[0].innerHTML=`
         <div class="form-check form-check-primary d-block new-control">
-            <input class="form-check-input chk-parent" type="checkbox" id="form-check-default">
+            <input class="form-check-input chk-parent" name="record_no" type="checkbox" id="form-check-default">
         </div>`
     },
     columnDefs:[{
@@ -39,28 +39,28 @@ var invoiceList = $('#invoice-list').DataTable({
         "sLengthMenu": "Results :  _MENU_",
     },
     "stripeClasses": [],
-    "lengthMenu": [7, 10, 20, 50],
+    "lengthMenu": [5, 10, 20, 50],
     "pageLength": 10
 });
 
-$("div.toolbar").html('<button class="dt-button dt-delete btn btn-danger" tabindex="0" aria-controls="invoice-list"><span>Delete</span></button>');
+// $("div.toolbar").html('<button class="dt-button dt-delete btn btn-danger" tabindex="0" aria-controls="invoice-list"><span>Delete</span></button>');
 
 multiCheck(invoiceList);
 
 
-$('.dt-delete').on('click', function() {
-      // Read all checked checkboxes
-    $(".select-customers-info:checked").each(function () {
-        if (this.classList.contains('chk-parent')) {
-            return;
-        } else {
-            $(this).parents('tr').remove();
-        }
-    });
+// $('.dt-delete').on('click', function() {
+//       // Read all checked checkboxes
+//     $(".select-customers-info:checked").each(function () {
+//         if (this.classList.contains('chk-parent')) {
+//             return;
+//         } else {
+//             $(this).parents('tr').remove();
+//         }
+//     });
     
-})
+// })
 
 
-$('.action-delete').on('click', function() {
-    $(this).parents('tr').remove();
-})
+// $('.action-delete').on('click', function() {
+//     $(this).parents('tr').remove();
+// })
