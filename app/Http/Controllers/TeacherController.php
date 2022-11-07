@@ -135,84 +135,59 @@ class TeacherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
         $teacher = User::findOrFail($id);
+        $request->validate([
+            'first_name' => 'required|string|min:3|max:50',
+            'last_name' => 'required|string|min:3|max:50',
+            'father_name' => 'required|string|min:3|max:50',
+            'email' => 'required|email',
+            'phone_number' => 'required|string|min:9|max:13',
+            'id_card_number' => 'required|string|max:13',
+            'salary' => 'required|string|min:0', "max:200000",
+            'bio' => 'required|string|min:3|max:500',
+            'password' => 'required|string|min:6',
+            'gender' => 'required|numeric|min:0|max:1',
+            'join_date' => 'nullable|date',
+            'status' => 'required|min:0|max:1',
+            'date_of_birth' => 'nullable|date',
+            'marital_status' => 'nullable|numeric|min:0|max:1',
+            'currency_id' => 'nullable|numeric',
+            'branch_id' => 'nullable|numeric',
+        ]);
+
+        $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
+        $photo = $teacher->profile_photo_path;
         if($temporaryFile)
         {
-            if($teacher->profile_photo_path == $temporaryFile->filename){
-                unlink(public_path('tmp/'.$temporaryFile->folder).'/'.$temporaryFile->new_photo);
-                rmdir(public_path('tmp/'.$temporaryFile->folder));
+            $status = File::move(public_path('tmp/'. $request->profile_photo .'/'.$temporaryFile->filename),
+            public_path('images/'.$temporaryFile->filename));
+            if($status){
+                $photo = $temporaryFile->filename;
+                rmdir(public_path('tmp/'. $request->profile_photo));
                 $temporaryFile->delete();
-
-                $request->validate([
-                    'first_name' => 'required|string|min:3|max:50',
-                    'last_name' => 'required|string|min:3|max:50',
-                    'father_name' => 'required|string|min:3|max:50',
-                    'email' => 'required|email',
-                    'phone_number' => 'required|string|min:9|max:13',
-                    'id_card_number' => 'required|string|max:13',
-                    'salary' => 'required|string|min:0', "max:200000",
-                    'bio' => 'required|string|min:3|max:500',
-                    'password' => 'required|string|min:6',
-                    'gender' => 'required|numeric|min:0|max:1',
-                    'join_date' => 'nullable|date',
-                    'status' => 'required|min:0|max:1',
-                    'date_of_birth' => 'nullable|date',
-                    'marital_status' => 'nullable|numeric|min:0|max:1',
-                    'currency_id' => 'nullable|numeric',
-                    'branch_id' => 'nullable|numeric',
-                ]);
-            }else{
-                $old_image = $teacher->profile_photo_path;
-                $status = File::move(public_path('tmp/'. $request->profile_photo .'/'.$temporaryFile->new_photo), public_path('images/'.$temporaryFile->new_photo));
-                if($status){
-                    unlink(public_path('images').'/'.$old_image);
-                    $teacher->profile_photo_path = $temporaryFile->new_photo;
-                    $teacher->save();
-                    rmdir(public_path('tmp/'. $request->profile_photo));
-                    $temporaryFile->delete();
-
-                    $request->validate([
-                        'first_name' => 'required|string|min:3|max:50',
-                        'last_name' => 'required|string|min:3|max:50',
-                        'father_name' => 'required|string|min:3|max:50',
-                        'email' => 'required|email',
-                        'phone_number' => 'required|string|min:9|max:13',
-                        'id_card_number' => 'required|string|max:13',
-                        'salary' => 'required|string|min:0', "max:200000",
-                        'bio' => 'required|string|min:3|max:500',
-                        'password' => 'required|string|min:6',
-                        'gender' => 'required|numeric|min:0|max:1',
-                        'join_date' => 'nullable|date',
-                        'status' => 'required|min:0|max:1',
-                        'date_of_birth' => 'nullable|date',
-                        'marital_status' => 'nullable|numeric|min:0|max:1',
-                        'currency_id' => 'nullable|numeric',
-                        'branch_id' => 'nullable|numeric',
-                    ]);
-                } 
-            }
-
-            $teacher->first_name = $request->first_name;
-            $teacher->last_name = $request->last_name;
-            $teacher->father_name = $request->father_name;
-            $teacher->email = $request->email;
-            $teacher->phone_number = $request->phone_number;
-            $teacher->id_card_number = $request->id_card_number;
-            $teacher->salary = $request->salary;
-            $teacher->bio = $request->bio;
-            $teacher->password = Hash::make($request->password);
-            $teacher->gender = $request->gender;
-            $teacher->join_date = $request->join_date;
-            $teacher->status = $request->status;
-            $teacher->date_of_birth = $request->date_of_birth;
-            $teacher->marital_status = $request->marital_status;
-            $teacher->currency_id = $request->currency_id;
-            $teacher->branch_id = $request->branch_id;
-            $teacher->save();
-
-            return redirect('teacher')->with('message', $teacher->first_name.' updated successfully');
+            }    
         }
+        
+        $teacher->first_name = $request->first_name;
+        $teacher->last_name = $request->last_name;
+        $teacher->father_name = $request->father_name;
+        $teacher->email = $request->email;
+        $teacher->phone_number = $request->phone_number;
+        $teacher->id_card_number = $request->id_card_number;
+        $teacher->salary = $request->salary;
+        $teacher->bio = $request->bio;
+        $teacher->password = Hash::make($request->password);
+        $teacher->gender = $request->gender;
+        $teacher->join_date = $request->join_date;
+        $teacher->status = $request->status;
+        $teacher->date_of_birth = $request->date_of_birth;
+        $teacher->marital_status = $request->marital_status;
+        $teacher->currency_id = $request->currency_id;
+        $teacher->branch_id = $request->branch_id;
+        $teacher->profile_photo_path = $photo;
+        $teacher->save();
+
+        return redirect('teacher')->with('message', $teacher->first_name.' updated Successfully!');
     }
 
     /**

@@ -101,40 +101,7 @@
                                                                             <span class="text-danger">{{ $errors->first('father_name') }}</span>
                                                                         </div>
                                                                     </div>
-                                                                    
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="status">Status<span class="text-danger">*</span></label>
-                                                                            <select class="form-select mb-3" id="status" name="status">
-                                                                                <option selected>Select Status</option>
-                                                                                <option value="1">Active</option>
-                                                                                <option value="0">Not Active</option>
-                                                                            </select>
-                                                                            <span class="text-danger">{{ $errors->first('status') }}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="gender">Gender<span class="text-danger">*</span></label>
-                                                                            <select class="form-select mb-3" id="gender" name="gender">
-                                                                                <option selected>Select Gender</option>
-                                                                                <option value="1">Male</option>
-                                                                                <option value="0">Female</option>
-                                                                            </select>
-                                                                            <span class="text-danger">{{ $errors->first('gender') }}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="status">Mertial Status<span class="text-danger">*</span></label>
-                                                                            <select class="form-select mb-3" id="marital_status" name="marital_status">
-                                                                                <option selected>Select Marital Status</option>
-                                                                                <option value="1">Marriade</option>
-                                                                                <option value="0">Single</option>
-                                                                            </select>
-                                                                            <span class="text-danger">{{ $errors->first('marital_status') }}</span>
-                                                                        </div>
-                                                                    </div>
+
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="email">Email<span class="text-danger">*</span></label>
@@ -247,6 +214,66 @@
                                                                             <span class="text-danger">{{ $errors->first('bio') }}</span>
                                                                         </div>
                                                                     </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="status">Status<span class="text-danger">*</span></label><br/>
+                                                                            <div class="form-check form-check-primary form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="status" value="1" id="form-check-radio-primary" @if($teacher->status == 1) checked @endif>
+                                                                                <label class="form-check-label" for="form-check-radio-primary">
+                                                                                    Active
+                                                                                </label>
+                                                                            </div>
+                                                                            
+                                                                            <div class="form-check form-check-info form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="status" value="0" id="form-check-radio-info" @if($teacher->status == 0) checked @endif>
+                                                                                <label class="form-check-label" for="form-check-radio-info">
+                                                                                    Not active
+                                                                                </label>
+                                                                            </div><br/>
+                                                                            <span class="text-danger">{{ $errors->first('status') }}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="gender">Gender<span class="text-danger">*</span></label><br/>
+                                                                            <div class="form-check form-check-primary form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="gender" value="1" id="form-check-radio-primary" @if($teacher->gender == 1) checked @endif>
+                                                                                <label class="form-check-label" for="form-check-radio-primary">
+                                                                                    Male
+                                                                                </label>
+                                                                            </div>
+                                                                            
+                                                                            <div class="form-check form-check-info form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="gender" value="0" id="form-check-radio-info" @if($teacher->gender == 0) checked @endif>
+                                                                                <label class="form-check-label" for="form-check-radio-info">
+                                                                                    Female
+                                                                                </label>
+                                                                            </div><br/>
+                                                                            <span class="text-danger">{{ $errors->first('gender') }}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="marital_status">Marital Status<span class="text-danger">*</span></label><br/>
+                                                                            <div class="form-check form-check-primary form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="marital_status" value="1" id="form-check-radio-primary" @if($teacher->status == 1) checked @endif>
+                                                                                <label class="form-check-label" for="form-check-radio-primary">
+                                                                                    Marriade
+                                                                                </label>
+                                                                            </div>
+                                                                            
+                                                                            <div class="form-check form-check-info form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="marital_status" value="0" id="form-check-radio-info" @if($teacher->status == 0) checked @endif>
+                                                                                <label class="form-check-label" for="form-check-radio-info">
+                                                                                    Single
+                                                                                </label>
+                                                                            </div><br/>
+                                                                            <span class="text-danger">{{ $errors->first('marital_status') }}</span>
+                                                                        </div>
+                                                                    </div>
     
                                                                     <div class="col-md-12 mt-1">
                                                                         <div class="form-group text-end">
@@ -343,7 +370,7 @@
 
         FilePond.setOptions({
             server: {
-                url: '{{ route('update.image') }}',
+                url: '{{ route('update.image', $teacher->id) }}',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },

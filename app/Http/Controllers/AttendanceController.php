@@ -18,15 +18,25 @@ class AttendanceController extends Controller
 
     public function index()
     {
-        $attends = Attendance::all()->where('created_at', Carbon::today());
-        return view("admin.users.user_attendance", ['attends'=> $attends]);
+        $attends = Attendance::whereDate('created_at', Carbon::today())->where('present', true)->get();
+        return view("admin.attendance", ['attends'=> $attends]);
     }
 
+    // saving attendance in the database.
     public function storeAttendance(Request $request)
     {
         $result = explode(',', $request->qrCodeResult);
         $user_id = $result[0];
+
+
         $user_name = User::find($user_id);
+
+        if($user_name == null)
+        {
+            return response()->json([
+                'status'=> 'not_exist',
+            ]);
+        }
 
         $time= Carbon::now(); // Current Time
         $attend_time = AttendanceSettings::find(1);
@@ -42,7 +52,6 @@ class AttendanceController extends Controller
 
                 // User already is present today.
                 if($attend){
-                    session()->flash('message', $user_name->first_name.' '.$user_name->last_name.' already present.');
                     return response()->json([
                         'status'=> 'user_exist',
                     ]);
@@ -55,10 +64,10 @@ class AttendanceController extends Controller
                     $attendance->attendance_getter_id = Auth::user()->id;
                     $attendance->save();
 
+                    session()->flash('message', $user_name->first_name.' present successfully!');
                     return response()->json([
-                        'status' => 'success',
-                        'first_name' => $user_name->first_name,
-                        'last_name' => $user_name->last_name,   
+                        'status' => 'success', 
+                        'result' => $user_name->first_name,
                     ]);
                 }
             }else{
@@ -82,8 +91,10 @@ class AttendanceController extends Controller
                     $attendance->time_out = Carbon::now()->toTimeString();
                     $attendance->save();
 
+                    session()->flash('message', 'You present successfully!');
                     return response()->json([
                         'status' => 'success',
+                        'result' => $user_name->first_name,
                     ]);
 
                 }else{
@@ -107,6 +118,7 @@ class AttendanceController extends Controller
         return view('admin.attendance_settings', ['setting'=> $setting]);
     }
 
+    // update time for attendance.
     public function updateSetting(Request $request)
     {
         // $attend_setting = new AttendanceSettings();
@@ -118,5 +130,96 @@ class AttendanceController extends Controller
         $attend_setting->save();
 
         return back()->with('status', 'Attendance settings updated successfully.');
+    }
+
+    // user attendance
+    public function userAttendance()
+    {
+        $time= Carbon::now(); // Current Time
+        $attend_time = AttendanceSettings::find(1);
+        if($time->isAfter($attend_time->end_attendance_PM)){
+            $users = User::whereHas('role', function($q){
+                $q->where('name', 'Employee');
+            })->get();
+
+            foreach($users as $user){
+                if(!Attendance::where('user_id', $user->id)->whereDate('created_at', Carbon::today())->exists()){
+                    $attendance = new Attendance();
+                    $attendance->user_id = $user->id;
+                    $attendance->time_in = Carbon::now()->toTimeString();
+                    $attendance->time_out = Carbon::now()->toTimeString();
+                    $attendance->present = false;
+                    $attendance->attendance_getter_id = Auth::user()->id;
+                    $attendance->save();
+                }
+            }
+        }
+        
+        $attends = User::whereHas('role', function($q){
+            $q->where('name', 'Employee');
+        })->join('attendances', 'users.id', 'attendances.user_id')->orderBy('attendances.created_at', 'DESC')->get();
+
+        return view('admin.users.user_attendance', ['attends'=> $attends]);
+    }
+
+    // teacher attendance
+    public function teacherAttendance()
+    {
+        $time= Carbon::now(); // Current Time
+        $attend_time = AttendanceSettings::find(1);
+
+        if($time->isAfter($attend_time->end_attendance_PM)){
+            $users = User::whereHas('role', function($q){
+                $q->where('name', 'Teacher');
+            })->get();
+
+            foreach($users as $user){
+                if(!Attendance::where('user_id', $user->id)->whereDate('created_at', Carbon::today())->exists()){
+                    $attendance = new Attendance();
+                    $attendance->user_id = $user->id;
+                    $attendance->time_in = Carbon::now()->toTimeString();
+                    $attendance->time_out = Carbon::now()->toTimeString();
+                    $attendance->present = false;
+                    $attendance->attendance_getter_id = Auth::user()->id;
+                    $attendance->save();
+                }
+            }
+        }
+        
+        $attends = User::whereHas('role', function($q){
+            $q->where('name', 'Teacher');
+        })->join('attendances', 'users.id', 'attendances.user_id')->orderBy('attendances.created_at', 'DESC')->get();
+
+        return view('admin.teachers.teacher_attendance', ['attends'=> $attends]);
+    }
+
+    // student attendance
+    public function studentAttendance()
+    {
+        $time= Carbon::now(); // Current Time
+        $attend_time = AttendanceSettings::find(1);
+        if($time->isAfter($attend_time->end_attendance_PM)){
+            $users = User::whereHas('role', function($q){
+                $q->where('name', 'Student');
+            })->get();
+
+            foreach($users as $user){
+                if(!Attendance::where('user_id', $user->id)->whereDate('created_at', Carbon::today())->exists()){
+                    $attendance = new Attendance();
+                    $attendance->user_id = $user->id;
+                    $attendance->time_in = Carbon::now()->toTimeString();
+                    $attendance->time_out = Carbon::now()->toTimeString();
+                    $attendance->present = false;
+                    $attendance->attendance_getter_id = Auth::user()->id;
+                    $attendance->save();
+                }
+            }
+        }
+        
+        $attends = User::whereHas('role', function($q){
+            $q->where('name', 'Student');
+        })->join('attendances', 'users.id', 'attendances.user_id')->orderBy('attendances.created_at', 'DESC')->get();
+
+        return view('admin.students.student_attendance', ['attends'=> $attends]);
     }
 }

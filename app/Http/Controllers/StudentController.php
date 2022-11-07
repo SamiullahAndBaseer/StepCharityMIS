@@ -134,84 +134,59 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
         $student = User::findOrFail($id);
+        $request->validate([
+            'first_name' => 'required|string|min:3|max:50',
+            'last_name' => 'required|string|min:3|max:50',
+            'father_name' => 'required|string|min:3|max:50',
+            'email' => 'required|email',
+            'phone_number' => 'required|string|min:9|max:13',
+            'id_card_number' => 'required|string|max:13',
+            'salary' => 'required|string|min:0', "max:200000",
+            'bio' => 'required|string|min:3|max:500',
+            'password' => 'required|string|min:6',
+            'gender' => 'required|numeric|min:0|max:1',
+            'join_date' => 'nullable|date',
+            'status' => 'required|min:0|max:1',
+            'date_of_birth' => 'nullable|date',
+            'marital_status' => 'nullable|numeric|min:0|max:1',
+            'currency_id' => 'nullable|numeric',
+            'branch_id' => 'nullable|numeric',
+        ]);
+
+        $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
+        $photo = $student->profile_photo_path;
         if($temporaryFile)
         {
-            if($student->profile_photo_path == $temporaryFile->filename){
-                unlink(public_path('tmp/'.$temporaryFile->folder).'/'.$temporaryFile->new_photo);
-                rmdir(public_path('tmp/'.$temporaryFile->folder));
+            $status = File::move(public_path('tmp/'. $request->profile_photo .'/'.$temporaryFile->filename),
+            public_path('images/'.$temporaryFile->filename));
+            if($status){
+                $photo = $temporaryFile->filename;
+                rmdir(public_path('tmp/'. $request->profile_photo));
                 $temporaryFile->delete();
-
-                $request->validate([
-                    'first_name' => 'required|string|min:3|max:50',
-                    'last_name' => 'required|string|min:3|max:50',
-                    'father_name' => 'required|string|min:3|max:50',
-                    'email' => 'required|email',
-                    'phone_number' => 'required|string|min:9|max:13',
-                    'id_card_number' => 'required|string|max:13',
-                    'salary' => 'required|string|min:0', "max:200000",
-                    'bio' => 'required|string|min:3|max:500',
-                    'password' => 'required|string|min:6',
-                    'gender' => 'required|numeric|min:0|max:1',
-                    'join_date' => 'nullable|date',
-                    'status' => 'required|min:0|max:1',
-                    'date_of_birth' => 'nullable|date',
-                    'marital_status' => 'nullable|numeric|min:0|max:1',
-                    'currency_id' => 'nullable|numeric',
-                    'branch_id' => 'nullable|numeric',
-                ]);
-            }else{
-                $old_image = $student->profile_photo_path;
-                $status = File::move(public_path('tmp/'. $request->profile_photo .'/'.$temporaryFile->new_photo), public_path('images/'.$temporaryFile->new_photo));
-                if($status){
-                    unlink(public_path('images').'/'.$old_image);
-                    $student->profile_photo_path = $temporaryFile->new_photo;
-                    $student->save();
-                    rmdir(public_path('tmp/'. $request->profile_photo));
-                    $temporaryFile->delete();
-
-                    $request->validate([
-                        'first_name' => 'required|string|min:3|max:50',
-                        'last_name' => 'required|string|min:3|max:50',
-                        'father_name' => 'required|string|min:3|max:50',
-                        'email' => 'required|email',
-                        'phone_number' => 'required|string|min:9|max:13',
-                        'id_card_number' => 'required|string|max:13',
-                        'salary' => 'required|string|min:0', "max:200000",
-                        'bio' => 'required|string|min:3|max:500',
-                        'password' => 'required|string|min:6',
-                        'gender' => 'required|numeric|min:0|max:1',
-                        'join_date' => 'nullable|date',
-                        'status' => 'required|min:0|max:1',
-                        'date_of_birth' => 'nullable|date',
-                        'marital_status' => 'nullable|numeric|min:0|max:1',
-                        'currency_id' => 'nullable|numeric',
-                        'branch_id' => 'nullable|numeric',
-                    ]);
-                } 
-            }
-
-            $student->first_name = $request->first_name;
-            $student->last_name = $request->last_name;
-            $student->father_name = $request->father_name;
-            $student->email = $request->email;
-            $student->phone_number = $request->phone_number;
-            $student->id_card_number = $request->id_card_number;
-            $student->salary = $request->salary;
-            $student->bio = $request->bio;
-            $student->password = Hash::make($request->password);
-            $student->gender = $request->gender;
-            $student->join_date = $request->join_date;
-            $student->status = $request->status;
-            $student->date_of_birth = $request->date_of_birth;
-            $student->marital_status = $request->marital_status;
-            $student->currency_id = $request->currency_id;
-            $student->branch_id = $request->branch_id;
-            $student->save();
-
-            return redirect('student')->with('message', $student->first_name.' updated successfully');
+            }    
         }
+        
+        $student->first_name = $request->first_name;
+        $student->last_name = $request->last_name;
+        $student->father_name = $request->father_name;
+        $student->email = $request->email;
+        $student->phone_number = $request->phone_number;
+        $student->id_card_number = $request->id_card_number;
+        $student->salary = $request->salary;
+        $student->bio = $request->bio;
+        $student->password = Hash::make($request->password);
+        $student->gender = $request->gender;
+        $student->join_date = $request->join_date;
+        $student->status = $request->status;
+        $student->date_of_birth = $request->date_of_birth;
+        $student->marital_status = $request->marital_status;
+        $student->currency_id = $request->currency_id;
+        $student->branch_id = $request->branch_id;
+        $student->profile_photo_path = $photo;
+        $student->save();
+
+        return redirect('student')->with('message', $student->first_name.' updated Successfully!');
     }
 
     /**

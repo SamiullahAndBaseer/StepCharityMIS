@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,26 +30,36 @@ class UploadController extends Controller
     }
 
     // This is for update image upload
-    public function updateImage(Request $request)
+    public function updateImage(Request $request, $id)
     {
         if($request->hasFile('profile_photo'))
         {
+            $user = User::findOrFail($id);
             $file = $request->file('profile_photo');
             $filename = $file->getClientOriginalName();
-            $new_photo = uniqid().now()->timestamp.'.'.$file->getClientOriginalExtension();
-            $folder = uniqid(). '-'. now()->timestamp;
 
-            $file->storeAs('tmp/'.$folder, $new_photo);
+            if($user->profile_photo_path != $filename){
+                $filename = uniqid().now()->timestamp.'.'.$file->getClientOriginalExtension();
+                $folder = uniqid(). '-'. now()->timestamp;
 
-            DB::table('temporary_files')->insert([
-                'folder' => $folder,
-                'filename' => $filename,
-                'new_photo' => $new_photo,
-            ]);
+                $file->storeAs('tmp/'.$folder, $filename);
+            
+                DB::table('temporary_files')->insert([
+                    'folder' => $folder,
+                    'filename' => $filename,
+                ]);
 
-            return $folder;
+                return $folder;
+            }else{
+                return '';
+            }
         }
 
         return '';
+    }
+
+    public function deleteImage($id)
+    {
+        return $id;
     }
 }

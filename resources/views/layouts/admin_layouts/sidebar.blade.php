@@ -160,16 +160,16 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="attendance" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="{{ route('user.attendance') }}"> Start Attandance </a>
+                        <a href="{{ route('attendance') }}"> Start Attandance </a>
                     </li>
                     <li>
-                        <a href="#"> Employee Attandance List </a>
+                        <a href="{{ route('user.attendance') }}"> Employee Attandance List </a>
                     </li>
                     <li>
-                        <a href="/user"> Teacher Attandance List </a>
+                        <a href="{{ route('teacher.attendance') }}"> Teacher Attandance List </a>
                     </li>
                     <li>
-                        <a href="/user"> Student Attandance List </a>
+                        <a href="{{ route('student.attendance') }}"> Student Attandance List </a>
                     </li>
                 </ul>
             </li>

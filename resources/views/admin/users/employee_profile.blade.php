@@ -159,7 +159,7 @@
                                                                         <div class="pp">
                                                                             <h4 class="companyname">Step Organiztion</h4>
                                                                             <div class="squre-qr">
-                                                                                {!! QrCode::size(160)->generate('1, samigulzar178@gmail.com') !!}
+                                                                                {!! QrCode::size(160)->generate($user->id.', '.$user->email) !!}
                                                                             </div>
                                                                             <div class="details">
                                                                                 <h4 class="dt"><b>DoB: </b>{{ $user->date_of_birth }}</h4>
@@ -235,7 +235,7 @@
                                                                 </div>
 
                                                                 <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 align-self-center order-sm-0 order-1 text-sm-end mt-sm-0 mt-5">
-                                                                    <h6 class=" inv-title"></h6>
+                                                                    <h6 class=" inv-to">{{ Carbon\Carbon::now()->format('Y-F') }}</h6>
                                                                 </div>
                                                                 
                                                                 <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4">
@@ -245,9 +245,9 @@
                                                                 </div>
                                                                 
                                                                 <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 order-sm-0 order-1 text-sm-end">
-                                                                    <p class="inv-customer-name">23 Days</p>
+                                                                    <p class="inv-customer-name">{{ $present_per_month }} Days</p>
                                                                     <p class="inv-street-addr">3 Days</p>
-                                                                    <p class="inv-email-address text-danger">0 Days</p>
+                                                                    <p class="inv-email-address text-danger">{{ $absent_per_month }} Days</p>
                                                                 </div>
 
                                                             </div>

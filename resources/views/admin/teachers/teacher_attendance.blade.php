@@ -13,7 +13,7 @@
                 <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Applications</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">User Attendance</li>
+                        <li class="breadcrumb-item active" aria-current="page">Teachers Attendance</li>
                     </ol>
                 </nav>
             </div>
@@ -25,7 +25,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col" width="5%">#</th>
-                                    <th class="ps-0" scope="col">Employee Name</th>
+                                    <th class="ps-0" scope="col">Teacher Name</th>
                                     <th scope="col">Time IN</th>
                                     <th scope="col">Time OUT</th>
                                     <th class="text-center" scope="col">Status</th>

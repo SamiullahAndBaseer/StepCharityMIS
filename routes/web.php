@@ -12,12 +12,15 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Models\Attendance;
 use App\Models\Branch;
 use App\Models\Course;
 use App\Models\Role;
 use App\Models\TemporaryFiles;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +49,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 // For admin
 Route::middleware(['auth', 'admin'])->group(function(){
     Route::post('/upload', [UploadController::class, 'store'])->name('image');
-    Route::post('/update/image', [UploadController::class, 'updateImage'])->name('update.image');
+    Route::post('/update/image/{id}', [UploadController::class, 'updateImage'])->name('update.image');
+    Route::delete('/update/image/{id}', [UploadController::class, 'deleteImage'])->name('update.image');
     // For users
     Route::resource('/user', UserController::class);
     Route::get('/user/del/{id}', [UserController::class, 'destroy'])->name('delete.user');
@@ -75,9 +79,13 @@ Route::middleware(['auth', 'admin'])->group(function(){
     // Attendance settings
     Route::get('/settings', [AttendanceController::class, 'setting'])->name('settings');
     Route::post('/settings', [AttendanceController::class, 'updateSetting'])->name('update.settings');  
-    // user attendance
-    Route::get('/user-attendance', [AttendanceController::class, 'index'])->name('user.attendance');
+    // attendance
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
     Route::post('/save/attendance', [AttendanceController::class, 'storeAttendance'])->name('save.attendance');
+    // user attendance
+    Route::get('/user-attendance', [AttendanceController::class, 'userAttendance'])->name('user.attendance');
+    Route::get('/teacher-attendance', [AttendanceController::class, 'teacherAttendance'])->name('teacher.attendance');
+    Route::get('/student-attendance', [AttendanceController::class, 'studentAttendance'])->name('student.attendance');
 });
 
 // For Student
@@ -91,7 +99,9 @@ Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('search
 
 
 Route::get('/get-time', function(){
-    
+    foreach(Attendance::all() as $item){
+        return Carbon::now()->year;
+    }
     // echo (Carbon::parse("6:45:02")->format("h:i:s A"));
     // dd(redirect()->route('student.index'));
 });
