@@ -6,9 +6,13 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\NotificationController;
 // use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TeacherCourseController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -21,6 +25,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\FuncCall;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +49,10 @@ Route::get('/', function () {
 // All users authentication to their dashboard.
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('leave', LeaveController::class);
+    // notifications
+    Route::get('/delete-notify', [NotificationController::class, 'destroy'])->name('delete.notification');
+    Route::get('/markAsRead', [NotificationController::class, 'markAsRead']);
 });
 
 // For admin
@@ -84,14 +93,48 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::post('/save/attendance', [AttendanceController::class, 'storeAttendance'])->name('save.attendance');
     // user attendance
     Route::get('/user-attendance', [AttendanceController::class, 'userAttendance'])->name('user.attendance');
+    Route::get('/absent-users', [AttendanceController::class, 'absentUsers']);
     Route::get('/teacher-attendance', [AttendanceController::class, 'teacherAttendance'])->name('teacher.attendance');
+    Route::get('/absent-teachers', [AttendanceController::class, 'absentTeachers']);
     Route::get('/student-attendance', [AttendanceController::class, 'studentAttendance'])->name('student.attendance');
+    Route::get('/absent-students', [AttendanceController::class, 'absentStudents']);
+    // Leaves
+    Route::get('/employee-leaves', [LeaveController::class, 'index'])->name('employee.leaves');
+    Route::get('/student-leaves', [LeaveController::class, 'studentLeave'])->name('student.leaves');
+    Route::get('/teacher-leaves', [LeaveController::class, 'teacherLeave'])->name('teacher.leaves');
+    Route::post('/leave-update', [LeaveController::class, 'update'])->name('update.leave');
+    Route::delete('leave-delete', [LeaveController::class, 'destroy'])->name('leave.delete');
+    Route::get('/search', [LeaveController::class, 'search'])->name('leave.search');
+    // LeaveTypes
+    Route::resource('/leaveType', LeaveTypeController::class);
+    Route::post('/leaveType/update', [LeaveTypeController::class, 'update'])->name('update.leaveType');
+    Route::post('/leaveType/delete', [LeaveTypeController::class, 'destroy'])->name('delete.leaveType');
+    // teacher and course
+    Route::resource('teacher-course', TeacherCourseController::class);
 });
 
-// For Student
+// For Student view
 Route::middleware(['auth', 'student'])->group(function(){
     Route::get('pdf', [PdfController::class, 'index']);
 });
+
+// For Employee view
+Route::middleware(['auth', 'employee'])->group(function(){
+    
+});
+
+// For Teacher view
+Route::middleware(['auth', 'teacher'])->group(function(){
+    
+});
+
+// For Director view
+Route::middleware(['auth', 'director'])->group(function(){
+    Route::get('test', function(){
+        return "Director works";
+    });
+});
+
 
 Route::get('/get-districts/{id}', [UserController::class, 'getDistricts']);
 Route::get('/get-villages/{id}', [UserController::class, 'getVillages']);

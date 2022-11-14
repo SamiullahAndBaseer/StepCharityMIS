@@ -1,8 +1,4 @@
 @extends('layouts.admin_layouts.base')
-@section('custom_css_content')
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/light/elements/alert.css') }}">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/elements/alert.css') }}">
-@endsection
 @section('content')
 <div id="content" class="main-content">
     <div class="layout-px-spacing">

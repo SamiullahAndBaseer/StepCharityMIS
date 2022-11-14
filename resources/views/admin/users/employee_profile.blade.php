@@ -121,62 +121,37 @@
                                             <div id="ct" class="">
                                                 
                                                 <div class="invoice-00001">
-                                                    <div class="content-section">
+                                                    <div id="details-user" class="content-section">
     
                                                         <div class="inv--head-section inv--detail-section">
-                                                        
-                                                            <div class="row" style="margin-bottom: 5%;">
-                                                                <div class="col-sm-4 text-sm-end">
-                                                                    
+
+                                                            <div class="row">
+
+                                                                <div class="col-sm-6 col-12 mr-auto">
                                                                     <div class="d-flex">
-                                                                        <h3 class="in-heading align-self-center">{{ $user->first_name }}&nbsp;{{ $user->last_name }}</h3>
-                                                                    </div>
-                                                                    <div class="text-start m-3 mt-5">
-                                                                        <p class="inv-email-address m-2"><em>Email: </em>{{ $user->email }}</p>
-                                                                        <p class="inv-email-address m-2"><em>Phone: </em>{{ $user->phone_number }}</p>
-                                                                        <p class="inv-email-address m-2"><em>Tazkira: </em>{{ $user->id_card_number }}</p>
-                                                                        <p class="inv-created-date m-2 mt-sm-5 mt-3"><span class="inv-title">DoB : </span> <span class="inv-date">{{ $user->date_of_birth }}</span></p>
-                                                                        <p class="inv-due-date"><span class="inv-title">Date of Join : </span> <span class="inv-date">{{ $user->created_at }}</span></p>
+                                                                        <img class="rounded" height="150px" width="150px" src="{{ asset('images') }}/{{ $user->profile_photo_path }}" alt="{{ $user->first_name }}">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-4 col-12 mr-auto">
-                                                                    <div class="card">
-                                                                        <div class="text-xenter">
-                                                                            <div class="pp">
-                                                                                <h4 class="companyname">Step Organiztion</h4>
-                                                                                <img class="company-img" src="{{ asset('assets/src/assets/img/logo.png') }}" alt="">
-                                                                                <img class="profile-img" src="{{ asset('images')}}/{{ $user->profile_photo_path }}" alt="">
-                                                                            </div>
-                                                                            <div class="names">
-                                                                                <h2 class="profile-name">{{ $user->first_name }}</h2>
-                                                                                <h4 class="profile-username">{{ $user->role->name }}</h4>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-4 col-12 mr-auto">
-                                                                    <div class="card">
-                                                                        <div class="pp">
-                                                                            <h4 class="companyname">Step Organiztion</h4>
-                                                                            <div class="squre-qr">
-                                                                                {!! QrCode::size(160)->generate($user->id.', '.$user->email) !!}
-                                                                            </div>
-                                                                            <div class="details">
-                                                                                <h4 class="dt"><b>DoB: </b>{{ $user->date_of_birth }}</h4>
-                                                                                <h4 class="dt1"><b>Moblie: </b>{{ $user->phone_number }}</h4>
-                                                                                <h4 class="dt2"><b>Address: </b>Kabul, Kotali khair khana</h4>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>                                            
+                                                                
+                                                                <div class="col-sm-6 text-sm-end">
+                                                                    <p class="inv-list-number mt-sm-3 pb-sm-2 mt-2"><span class="inv-title">{{  $user->first_name  }}&nbsp;{{ $user->last_name }} : </span> <span class="inv-number">#{{ $user->id }}</span></p>
+                                                                    <p class="inv-created-date mt-sm-5 mt-3"><span class="inv-title">Email : </span> <span class="inv-date">{{ $user->email }}</span></p>
+                                                                    <p class="inv-created-date"><span class="inv-title">Phone : </span> <span class="inv-date">{{ $user->phone_number }}</span></p>
+                                                                </div>                                                                
                                                             </div>
                                                             
+                                                        </div>
+
+                                                        <div class="inv--detail-section inv--customer-detail-section">
+                                                            <h3 class="inv-to">Biography: </h3>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est, excepturi esse vel dolore rerum at maxime maiores sed reiciendis totam quo modi. Sed ea et voluptatum ducimus sint iste repudiandae.</p>
                                                         </div>
 
                                                         <div class="inv--product-table-section">
                                                             <div class="table-responsive">
                                                                 <table class="table">
                                                                     <tbody>
+                                                                        <tr></tr>
                                                                         <tr>
                                                                             <td scope="col"><b>{{ $user->role->name }} ID</b></td>
                                                                             <td>{{ $user->id }}</td>
@@ -206,8 +181,8 @@
                                                                             @endif
                                                                         </tr>
                                                                         <tr>
-                                                                            <td><b>Bio</b></td>
-                                                                            <td>{{ $user->bio }}</td>
+                                                                            <td><b>Address</b></td>
+                                                                            <td>Khair khana, Kabul, Afghanistan</td>
                                                                             <td><b>Marital Status</b></td>
                                                                             @if($user->marital_status == 1)
                                                                                 <td>Married</td>
@@ -218,8 +193,18 @@
                                                                         <tr>
                                                                             <td><b>Phone</b></td>
                                                                             <td>{{ $user->phone_number }}</td>
-                                                                            <td><b>Address</b></td>
-                                                                            <td>Khair khana, Kabul, Afghanistan</td>
+                                                                            <td><b>Blood Group</b></td>
+                                                                            <td>O RH+</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td><b>Join Date</b></td>
+                                                                            <td>{{ Carbon\Carbon::parse($user->join_date)->format('Y-M-d') }}</td>
+                                                                            <td><b>Status</b></td>
+                                                                            @if($user->status == 1)
+                                                                            <td>Active</td>
+                                                                            @else
+                                                                            <td>Inactive</td>
+                                                                            @endif
                                                                         </tr>
                                                                     </tbody>
                                                                 </table>
@@ -239,14 +224,14 @@
                                                                 </div>
                                                                 
                                                                 <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4">
-                                                                    <p class="inv-customer-name">Present</p>
-                                                                    <p class="inv-street-addr">Leave</p>
+                                                                    <p class="inv-customer-name text-success">Present</p>
+                                                                    <p class="inv-customer-name">Leave</p>
                                                                     <p class="inv-email-address text-danger">Absent</p>
                                                                 </div>
                                                                 
                                                                 <div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 order-sm-0 order-1 text-sm-end">
-                                                                    <p class="inv-customer-name">{{ $present_per_month }} Days</p>
-                                                                    <p class="inv-street-addr">3 Days</p>
+                                                                    <p class="inv-customer-name text-success">{{ $present_per_month }} Days</p>
+                                                                    <p class="inv-customer-name">{{  $leave_per_month }} Days</p>
                                                                     <p class="inv-email-address text-danger">{{ $absent_per_month }} Days</p>
                                                                 </div>
 
@@ -263,25 +248,15 @@
                                                             </div>
 
                                                         </div>
+    
+                                                    </div>
 
-                                                        <hr>
+                                                    <div id="card-panel" class="content-section">
                                                         <div class="inv--head-section inv--detail-section">
                                                         
                                                             <div class="row" style="margin-bottom: 5%;">
-                                                                <div class="col-sm-4 text-sm-end">
-                                                                    
-                                                                    <div class="d-flex">
-                                                                        <h3 class="in-heading align-self-center">{{ $user->first_name }}&nbsp;{{ $user->last_name }}</h3>
-                                                                    </div>
-                                                                    <div class="text-start m-3 mt-5">
-                                                                        <p class="inv-email-address m-2"><em>Email: </em>{{ $user->email }}</p>
-                                                                        <p class="inv-email-address m-2"><em>Phone: </em>{{ $user->phone_number }}</p>
-                                                                        <p class="inv-email-address m-2"><em>Tazkira: </em>{{ $user->id_card_number }}</p>
-                                                                        <p class="inv-created-date m-2 mt-sm-5 mt-3"><span class="inv-title">DoB : </span> <span class="inv-date">{{ $user->date_of_birth }}</span></p>
-                                                                        <p class="inv-due-date"><span class="inv-title">Date of Join : </span> <span class="inv-date">{{ $user->created_at }}</span></p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-4 col-12 mr-auto">
+                                                                <div class="col-2"></div>
+                                                                <div class="col-sm-5 col-12 mr-auto">
                                                                     <div class="card">
                                                                         <div class="text-xenter">
                                                                             <div class="pp">
@@ -296,7 +271,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-4 col-12 mr-auto">
+                                                                <div class="col-sm-5 col-12 mr-auto">
                                                                     <div class="card">
                                                                         <div class="pp">
                                                                             <h4 class="companyname">Step Organiztion</h4>
@@ -312,9 +287,7 @@
                                                                     </div>
                                                                 </div>                                            
                                                             </div>
-                                                            
                                                         </div>
-    
                                                     </div>
                                                 </div> 
                                                 
@@ -339,6 +312,10 @@
                                                 </div>
                                                 <div class="col-xl-12 col-md-3 col-sm-6">
                                                     <a href="javascript:void(0);" class="btn btn-secondary btn-print  action-print">Print</a>
+                                                </div>
+                                                <div class="col-xl-12 col-md-3 col-sm-6">
+                                                    <a href="javascript:void(0);" id="hide-card" class="btn btn-light btn-download">Hide Card</a>
+                                                    <a href="javascript:void(0);" id="card" class="btn btn-success btn-download">Show Card</a>
                                                 </div>
                                                 <div class="col-xl-12 col-md-3 col-sm-6">
                                                     <a href="{{ route('user.show', $user->id) }}" class="btn btn-dark btn-edit">Edit</a>
@@ -377,4 +354,18 @@
 @endsection
 @section('custom_js_content')
     <script src="{{ asset('assets/src/assets/js/apps/invoice-preview.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('#card-panel').hide();
+            $('#card').on('click', function(e){
+                $('.content-section').hide();
+                $('#card-panel').show();
+            });
+
+            $('#hide-card').on('click', function(e){
+                $('#details-user').show();
+                $('#card-panel').hide();
+            });
+        });
+    </script>
 @endsection

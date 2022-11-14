@@ -188,16 +188,19 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="leave" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create"> Add Leave </a>
+                        <a href="{{ route('leave.create') }}"> Add Leave </a>
                     </li>
                     <li>
-                        <a href="/user"> Employee Leave List </a>
+                        <a href="{{ route('leaveType.index') }}"> Leave Types</a>
                     </li>
                     <li>
-                        <a href="/user"> Teacher Leave List </a>
+                        <a href="{{ route('employee.leaves') }}"> Employee Leave List </a>
                     </li>
                     <li>
-                        <a href="/user"> Student Leave List </a>
+                        <a href="{{ route('teacher.leaves') }}"> Teacher Leave List </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('student.leaves') }}"> Student Leave List </a>
                     </li>
                 </ul>
             </li>
@@ -220,7 +223,7 @@
                         <a href="{{ route('course.index') }}"> Course List </a>
                     </li>
                     <li>
-                        <a href="/user">Add Teacher Course  </a>
+                        <a href="/teacher-course">Add Teacher Course  </a>
                     </li>
                     <li>
                         <a href="/user">Teacher Course List  </a>

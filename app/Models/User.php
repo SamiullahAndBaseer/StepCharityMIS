@@ -107,4 +107,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Attendance::class);
     }
+
+    /**
+     * Get all of the leaves for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class, 'user_id');
+    }
 }

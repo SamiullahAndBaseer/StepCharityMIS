@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\DatabaseNotification;
 
 class DashboardController extends Controller
 {
@@ -22,6 +23,14 @@ class DashboardController extends Controller
 
             case 'Teacher':
                 return view('teacher.dashboard');
+                break;
+
+            case 'Employee':
+                return view('employee.dashboard');
+                break;
+
+            case 'Director':
+                return view('director.dashboard');
                 break;
             
             default:

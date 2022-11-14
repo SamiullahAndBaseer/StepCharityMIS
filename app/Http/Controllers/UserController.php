@@ -10,6 +10,7 @@ use App\Models\Province;
 use App\Models\Village;
 use App\Models\District;
 use App\Models\Currency;
+use App\Models\Leave;
 use App\Models\TemporaryFiles;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -192,6 +193,7 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('message', 'Record deleted successfully');
     }
 
+    // user profile
     public function singleUser($id)
     {
         $user = User::findOrFail($id);
@@ -202,10 +204,16 @@ class UserController extends Controller
         $absent_per_month = Attendance::where('user_id', $user->id)
                 ->where('present', false)
                 ->whereMonth('created_at', Carbon::now()->month)->count();
+
+        $leave_per_month = Leave::where('user_id', $user->id)
+                ->where('status', 'approved')
+                ->whereMonth('created_at', Carbon::now()->month)->count();
+
         return view('admin.users.employee_profile', [
             'user'=> $user, 
             'present_per_month'=> $present_per_month,
             'absent_per_month'=> $absent_per_month,
+            'leave_per_month' => $leave_per_month,
         ]);
     }
     

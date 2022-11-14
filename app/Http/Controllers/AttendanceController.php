@@ -132,8 +132,8 @@ class AttendanceController extends Controller
         return back()->with('status', 'Attendance settings updated successfully.');
     }
 
-    // user attendance
-    public function userAttendance()
+    // save attendance today
+    public function absentUsers()
     {
         $time= Carbon::now(); // Current Time
         $attend_time = AttendanceSettings::find(1);
@@ -154,7 +154,13 @@ class AttendanceController extends Controller
                 }
             }
         }
-        
+
+        return redirect()->route('user.attendance');
+    }
+
+    // user attendance
+    public function userAttendance()
+    {
         $attends = User::whereHas('role', function($q){
             $q->where('name', 'Employee');
         })->join('attendances', 'users.id', 'attendances.user_id')->orderBy('attendances.created_at', 'DESC')->get();
@@ -164,6 +170,16 @@ class AttendanceController extends Controller
 
     // teacher attendance
     public function teacherAttendance()
+    {
+        $attends = User::whereHas('role', function($q){
+            $q->where('name', 'Teacher');
+        })->join('attendances', 'users.id', 'attendances.user_id')->orderBy('attendances.created_at', 'DESC')->get();
+
+        return view('admin.teachers.teacher_attendance', ['attends'=> $attends]);
+    }
+
+    // absent teachers today
+    public function absentTeachers()
     {
         $time= Carbon::now(); // Current Time
         $attend_time = AttendanceSettings::find(1);
@@ -185,16 +201,24 @@ class AttendanceController extends Controller
                 }
             }
         }
-        
-        $attends = User::whereHas('role', function($q){
-            $q->where('name', 'Teacher');
-        })->join('attendances', 'users.id', 'attendances.user_id')->orderBy('attendances.created_at', 'DESC')->get();
 
-        return view('admin.teachers.teacher_attendance', ['attends'=> $attends]);
+        return redirect()->route('teacher.attendance');
     }
 
     // student attendance
     public function studentAttendance()
+    {
+        $attends = User::whereHas('role', function($q){
+            $q->where('name', 'Student');
+        })->join('attendances', 'users.id', 'attendances.user_id')->orderBy('attendances.created_at', 'DESC')->get();
+
+        //->whereMonth('attendances.created_at', Carbon::now())
+
+        return view('admin.students.student_attendance', ['attends'=> $attends]);
+    }
+
+    // student absent today
+    public function absentStudents()
     {
         $time= Carbon::now(); // Current Time
         $attend_time = AttendanceSettings::find(1);
@@ -215,11 +239,7 @@ class AttendanceController extends Controller
                 }
             }
         }
-        
-        $attends = User::whereHas('role', function($q){
-            $q->where('name', 'Student');
-        })->join('attendances', 'users.id', 'attendances.user_id')->orderBy('attendances.created_at', 'DESC')->get();
 
-        return view('admin.students.student_attendance', ['attends'=> $attends]);
+        return redirect()->route('student.attendance');
     }
 }

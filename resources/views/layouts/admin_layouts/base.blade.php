@@ -32,6 +32,7 @@
     <link href="{{ asset('assets/src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/src/plugins/src/animate/animate.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('assets/custom/js/jquery-3.6.0.js') }}"></script>
     @yield('custom_css_content')
 
 </head>
@@ -63,6 +64,7 @@
     </div>
     <!-- END MAIN CONTAINER -->
 
+    
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="{{ asset('assets/src/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>

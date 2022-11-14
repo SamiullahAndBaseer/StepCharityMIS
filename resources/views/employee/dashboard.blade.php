@@ -10,7 +10,7 @@
                 <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                     <div class="widget widget-six">
                         <div class="widget-heading">
-                            <h6 class="">Teacher Dashboard</h6>
+                            <h6 class="">Employee Dashboard</h6>
                             <div class="task-action">
                                 <div class="dropdown">
                                     <a class="dropdown-toggle" href="#" role="button" id="statistics" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

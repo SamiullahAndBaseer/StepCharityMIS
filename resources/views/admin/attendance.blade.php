@@ -56,7 +56,7 @@
                                     </td>
                                     <td class="ps-0">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                        <span class="table-inner-text">{{ $attend->created_at }}</span>
+                                        <span class="table-inner-text">{{ Carbon\Carbon::parse($attend->created_at)->diffForHumans() }}</span>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -69,6 +69,15 @@
                 <div class="col-xl-4 col-lg-4 col-sm-4 layout-spacing">
                     <div class="errMsgContainer"></div>
                     <div id="reader"></div>
+                    <div class="row m-4">
+                        <a href="/absent-teachers" class="btn btn-outline-primary btn-rounded">Save Teachers Attendance</a>
+                    </div>
+                    <div class="row m-4">
+                        <a href="/absent-students" class="btn btn-outline-info btn-rounded">Save Students Attendance</a>
+                    </div>
+                    <div class="row m-4">
+                        <a href="/absent-users" class="btn btn-outline-success btn-rounded">Save Employees Attendance</a>
+                    </div>
                 </div>
             </div>
 
