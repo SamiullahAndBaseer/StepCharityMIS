@@ -8,24 +8,22 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\MaktobController;
+use App\Http\Controllers\MaktobTypeController;
 use App\Http\Controllers\NotificationController;
 // use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherCourseController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Models\Attendance;
-use App\Models\Branch;
-use App\Models\Course;
-use App\Models\Role;
 use App\Models\TemporaryFiles;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use PhpParser\Node\Expr\FuncCall;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,6 +109,19 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::post('/leaveType/delete', [LeaveTypeController::class, 'destroy'])->name('delete.leaveType');
     // teacher and course
     Route::resource('teacher-course', TeacherCourseController::class);
+    Route::post('/teacher-course/delete', [TeacherCourseController::class, 'destroy'])->name('delete.teacher-course');
+    Route::post('/teacher-course/update', [TeacherCourseController::class, 'update'])->name('update.teacher-course');
+    // teacher and course
+    Route::resource('student-course', StudentCourseController::class);
+    Route::post('/student-course/delete', [StudentCourseController::class, 'destroy'])->name('delete.student-course');
+    Route::post('/student-course/update', [StudentCourseController::class, 'update'])->name('update.student-course');
+    // Maktob Types
+    Route::resource('maktob-type', MaktobTypeController::class);
+    Route::post('/maktob-type/update', [MaktobTypeController::class, 'update'])->name('update.maktob-type');
+    Route::post('/maktob-type/delete', [MaktobTypeController::class, 'destroy'])->name('delete.maktob-type');
+    // Maktob
+    Route::resource('maktob', MaktobController::class);
+    
 });
 
 // For Student view

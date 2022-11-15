@@ -12,6 +12,16 @@ class Course extends Model
     protected $fillable = ['name', 'description'];
 
     /**
+     * Get all of the teacher_courses for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teacher_courses()
+    {
+        return $this->hasMany(Teacher_course::class, 'course_id');
+    }
+
+    /**
      * Get all of the student_course for the Course
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

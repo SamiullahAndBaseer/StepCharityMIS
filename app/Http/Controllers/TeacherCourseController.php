@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Teacher_course;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -20,18 +21,11 @@ class TeacherCourseController extends Controller
         })->get();
         $courses = Course::all();
 
-        
-        return view('admin.education.teacher_course', ['teachers'=> $teachers, 'courses'=> $courses]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $teacher_courses = Teacher_course::all();
+        return view('admin.education.teacher_course', [
+            'teachers'=> $teachers, 
+            'courses'=> $courses,
+            'teacher_courses'=> $teacher_courses]);
     }
 
     /**
@@ -42,51 +36,54 @@ class TeacherCourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $this->validate($request, [
+            'course_id' => 'required',
+            'teacher_id' => 'required',
+        ],
+        [
+            'course_id' => 'The course name is required',
+            'teacher_id' => 'The teacher name is required',
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $th_course = new Teacher_course();
+        $th_course->course_id = $request->course_id;
+        $th_course->user_id = $request->teacher_id;
+        $th_course->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        session()->flash('saved', 'Teacher add for course successfully!');
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $th_course = Teacher_course::findOrFail($request->id);
+        $th_course->user_id = $request->teacher_id;
+        $th_course->course_id = $request->course_id;
+        $th_course->save();
+
+        session()->flash('saved', 'Teacher course updated successfully!');
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    // delete
+    public function destroy(Request $request)
     {
-        //
+        $teacher_course = Teacher_course::findOrFail($request->id);
+        $teacher_course->delete();
+
+        session()->flash('saved', 'Teacher course deleted successfully!');
+        return response()->json([
+            'status'=> 'success',
+        ]);
     }
 }

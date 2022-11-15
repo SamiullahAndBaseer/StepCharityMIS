@@ -14,7 +14,7 @@
                     <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Eduction Section</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Teacher with Courses</li>
+                            <li class="breadcrumb-item active" aria-current="page">Students with Courses</li>
                         </ol>
                     </nav>
                 </div>
@@ -27,21 +27,21 @@
                             <div class="widget-header">                                
                                 <div class="row">
                                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                        <h4>Add Teacher to the Course</h4>
+                                        <h4>Add Student to the Course</h4>
                                     </div>
                                 </div>
                             </div>
                             <form method="post" id="addFormThCo" class="widget-content widget-content-area">
                                 <div class="row">
                                     <div class="col-6">
-                                        <label for="teacher">Teachers</label>
-                                        <select id="teacher" class="form-control">
-                                            <option value="">Choose Teacher</option>
-                                            @foreach ($teachers as $th)
+                                        <label for="student">Student</label>
+                                        <select id="student" class="form-control">
+                                            <option value="">Choose Student</option>
+                                            @foreach ($students as $th)
                                                 <option value="{{ $th->id }}">{{ $th->first_name }}&nbsp;{{ $th->last_name }}</option>
                                             @endforeach
                                         </select>
-                                        <div class="errMsgTeacher text-danger"></div>
+                                        <div class="errMsgStudent text-danger"></div>
                                     </div>
                                     <div class="col-6">
                                         <label for="course">Courses</label>
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <button type="submit" class="add_teach_course btn btn-primary mt-3 float-end">Add teacher to this course</button>
+                                        <button type="submit" class="add_teach_course btn btn-primary mt-3 float-end">Add student to this course</button>
                                     </div>
                                 </div>
                             </form>
@@ -71,7 +71,7 @@
                             <div class="widget-header">                                
                                 <div class="row">
                                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                        <h4>Teachers teach these courses</h4>
+                                        <h4>Students study courses</h4>
                                     </div>
                                 </div>
                             </div>
@@ -79,18 +79,18 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Teacher</th>
+                                            <th>Student</th>
                                             <th>Course</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($teacher_courses as $item)
+                                        @foreach ($student_courses as $item)
                                         <tr>
                                             <td>{{ $item->user->first_name }}&nbsp;{{ $item->user->last_name }}</td>
                                             <td>{{ $item->course->name }}</td>
                                             <td>
-                                                <a href="#" id="updateTechCourse" data-t_id="{{ $item->user_id }}" data-c_id="{{ $item->course_id }}" data-id="{{ $item->id }}"
+                                                <a href="#" id="updateStudentCourse" data-s_id="{{ $item->user_id }}" data-c_id="{{ $item->course_id }}" data-id="{{ $item->id }}"
                                                     data-bs-toggle="modal" data-bs-target="#editModal">
                                                     <span class="badge badge-light-info">Edit</span></a>
                                                 <a href="#" class="delete_tech_course confirm-th_co-{{ $item->id }}" data-id="{{ $item->id }}"><span class="badge badge-light-danger">Delete</span></a>
@@ -105,7 +105,7 @@
 
                 </div>
 
-                @include('admin.education.edit_teacher_course')
+                @include('admin.education.edit_student_course')
 
             </div>
         </div>
@@ -124,5 +124,5 @@
     </div>
 @endsection
 @section('custom_js_content')
-@include('admin.education.teacher_course_js')
+@include('admin.education.student_course_js')
 @endsection

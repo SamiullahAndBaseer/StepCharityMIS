@@ -223,16 +223,10 @@
                         <a href="{{ route('course.index') }}"> Course List </a>
                     </li>
                     <li>
-                        <a href="/teacher-course">Add Teacher Course  </a>
+                        <a href="/teacher-course">Teacher Course List  </a>
                     </li>
                     <li>
-                        <a href="/user">Teacher Course List  </a>
-                    </li>
-                    <li>
-                        <a href="/user">Add Student Course  </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Student Course List </a>
+                        <a href="/student-course"> Student Course List </a>
                     </li>
                     <li>
                         <a href="/user"> Add Corculm  </a>
@@ -269,10 +263,13 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="maktoob" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create"> Send Maktob </a>
+                        <a href="{{ route('maktob-type.index') }}"> Maktoob Types List </a>
                     </li>
                     <li>
-                        <a href="/user"> Maktoob List </a>
+                        <a href="{{ route('maktob.create') }}"> Send Maktob </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('maktob.index') }}"> Maktoob List </a>
                     </li>
                     <li>
                         <a href="/user"> Add Recevied Maktoob  </a>

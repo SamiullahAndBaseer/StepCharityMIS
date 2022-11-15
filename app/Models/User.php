@@ -117,4 +117,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Leave::class, 'user_id');
     }
+
+    /**
+     * Get all of the teachers for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teachers()
+    {
+        return $this->hasMany(Teacher_course::class, 'user_id');
+    }
+
+    /**
+     * Get all of the students for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function students()
+    {
+        return $this->hasMany(Student_course::class, 'user_id');
+    }
 }

@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->boolean('status_for_sending');
+            $table->enum('status', ['sending', 'received', 'sent']);
             $table->string('reference_to');
             $table->foreignId('maktob_type_id');
+            $table->file('images');
             $table->timestamps();
         });
     }

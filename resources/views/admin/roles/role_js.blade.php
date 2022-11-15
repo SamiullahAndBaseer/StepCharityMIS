@@ -51,7 +51,7 @@
             $('.errDescription').text("");
         });
 
-        // show course value in update form
+        // show role value in update form
         $(document).on('click', '#updateRole', function(e){
             e.preventDefault();
             var id = $(this).data('id');
