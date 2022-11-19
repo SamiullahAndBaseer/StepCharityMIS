@@ -30,4 +30,24 @@ class Course extends Model
     {
         return $this->hasMany(Student_course::class);
     }
+
+    /**
+     * Get all of the lessons for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class, 'course_id');
+    }
+
+    /**
+     * Get the curriculum associated with the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function curriculum()
+    {
+        return $this->hasOne(Curriculum::class, 'course_id');
+    }
 }

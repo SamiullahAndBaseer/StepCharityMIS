@@ -226,25 +226,25 @@
                         <a href="/teacher-course">Teacher Course List  </a>
                     </li>
                     <li>
-                        <a href="/student-course"> Student Course List </a>
+                        <a href="/student-course"> Enrollment </a>
                     </li>
                     <li>
-                        <a href="/user"> Add Corculm  </a>
+                        <a href="{{ route('curriculum.create') }}"> Add Curriculum  </a>
                     </li>
                     <li>
-                        <a href="/user"> Corculm List </a>
+                        <a href="{{ route('curriculum.index') }}"> Curriculum List </a>
                     </li>
                     <li>
-                        <a href="/user"> Add Assignment</a>
+                        <a href="{{ route('lesson.create') }}"> Add Lesson</a>
                     </li>
                     <li>
-                        <a href="/user"> Add Lesson</a>
+                        <a href="{{ route('lesson.index') }}"> Lessons List</a>
                     </li>
                     <li>
-                        <a href="/user"> Lessons List</a>
+                        <a href="{{ route('assignment.create') }}"> Add Assignment</a>
                     </li>
                     <li>
-                        <a href="/user"> Assginmnet List </a>
+                        <a href="{{ route('assignment.index') }}"> Assginmnet List </a>
                     </li>
                 </ul>
             </li>
@@ -266,16 +266,10 @@
                         <a href="{{ route('maktob-type.index') }}"> Maktoob Types List </a>
                     </li>
                     <li>
-                        <a href="{{ route('maktob.create') }}"> Send Maktob </a>
+                        <a href="{{ route('maktob.create') }}"> Add Maktob </a>
                     </li>
                     <li>
                         <a href="{{ route('maktob.index') }}"> Maktoob List </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Add Recevied Maktoob  </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Maktoob Recevie List </a>
                     </li>
                 </ul>
             </li>
@@ -306,10 +300,7 @@
                         <a href="/user">Salary Report List </a>
                     </li>
                     <li>
-                        <a href="/user"> Add Report Type</a>
-                    </li>
-                    <li>
-                        <a href="/user"> Report Type List </a>
+                        <a href="{{ route('report-types.index') }}"> Report Type List </a>
                     </li>
                 </ul>
             </li>

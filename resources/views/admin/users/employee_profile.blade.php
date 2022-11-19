@@ -276,7 +276,7 @@
                                                                         <div class="pp">
                                                                             <h4 class="companyname">Step Organiztion</h4>
                                                                             <div class="squre-qr">
-                                                                                {!! QrCode::size(160)->generate('1, samigulzar178@gmail.com') !!}
+                                                                                {!! QrCode::size(160)->generate($user->id.', '.$user->email.$user->phone_number) !!}
                                                                             </div>
                                                                             <div class="details">
                                                                                 <h4 class="dt"><b>DoB: </b>{{ $user->date_of_birth }}</h4>

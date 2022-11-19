@@ -43,14 +43,14 @@ class MaktobTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'name'=> 'required|max:255',
             'description' => 'required',
         ]);
  
-        $maktob_type = MaktobType::findOrFail($request->id);
+        $maktob_type = MaktobType::findOrFail($id);
         $maktob_type->name = $request->name;
         $maktob_type->description = $request->description;
         $maktob_type->save();
@@ -67,16 +67,15 @@ class MaktobTypeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $maktob_type = MaktobType::find($request->id);
-       $maktob_type->delete();
+        $maktob_type = MaktobType::find($id);
+        $maktob_type->delete();
 
-       session()->flash('message', 'Maktob type deleted successfully!');
-       
-       return response()->json([
-           'status' => 'success',
-       ]);
+        session()->flash('message', 'Maktob type deleted successfully!');
         
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 }

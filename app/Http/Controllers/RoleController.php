@@ -31,30 +31,24 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-        $this->validate($request, [
-            'role_name'=> 'required|max:255',
-            'role_description' => 'required',
-        ]);
+    // if role edit all user denied.
+    // public function update(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'role_name'=> 'required|max:255',
+    //         'role_description' => 'required',
+    //     ]);
 
-        $role = role::find($request->role_id);
-        $role->name = $request->role_name;
-        $role->description = $request->role_description;
-        $role->save();
+    //     $role = role::find($request->role_id);
+    //     $role->name = $request->role_name;
+    //     $role->description = $request->role_description;
+    //     $role->save();
 
-        session()->flash('message', $role->name.' updated successfully!');
-        return response()->json([
-            'status' => 'success',
-        ]);
-    }
+    //     session()->flash('message', $role->name.' updated successfully!');
+    //     return response()->json([
+    //         'status' => 'success',
+    //     ]);
+    // }
 
     /**
      * Remove the specified resource from storage.

@@ -25,6 +25,11 @@
                         $('#addMaktobTypeModal').modal('hide');
                         $('#addMaktobTypeForm')[0].reset();
                         $('#tableHover').load(location.href+" #tableHover");
+                        Swal.fire(
+                            'Added!',
+                            'Maktob type added successfully.',
+                            'success'
+                        );
                     }
                 },
                 error: function(response){
@@ -63,14 +68,19 @@
             $('.errDescription').text("");
 
             $.ajax({
-                url: "{{ route('update.maktob-type') }}",
-                method: 'post',
+                url: "/maktob-type/"+up_id,
+                method: 'put',
                 data: {id: up_id, name: up_name, description: up_description},
                 success: function(res){
                     if(res.status == 'success'){
                         $('#editMaktobTypeModal').modal('hide');
                         $('#editMaktobTypeForm')[0].reset();
                         $('#tableHover').load(location.href+" #tableHover");
+                        Swal.fire(
+                            'Updated!',
+                            'Maktob type updated successfully.',
+                            'success'
+                        );
                     }
                 },
                 error: function(response){
@@ -117,9 +127,8 @@
                 if (result.isConfirmed) {
                     // if confirmed course will be delete.
                     $.ajax({
-                        url: "{{ route('delete.maktob-type') }}",
-                        method: 'post',
-                        data: {id: up_id},
+                        url: "/maktob-type/"+up_id,
+                        method: 'delete',
                         success: function(res){
                             if(res.status == 'success'){
                                 Swal.fire(

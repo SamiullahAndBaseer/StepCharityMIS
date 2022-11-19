@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Leave;
 use App\Models\Leave_type;
 use Illuminate\Http\Request;
 
@@ -34,14 +35,14 @@ class LeaveTypeController extends Controller
    }
 
    // update leave_type
-   public function update(Request $request)
+   public function update(Request $request, $id)
    {
        $this->validate($request, [
            'name'=> 'required|max:255',
            'description' => 'required',
        ]);
 
-       $leave_type = Leave_type::find($request->id);
+       $leave_type = Leave_type::find($id);
        $leave_type->name = $request->name;
        $leave_type->description = $request->description;
        $leave_type->save();
@@ -53,10 +54,15 @@ class LeaveTypeController extends Controller
    }
 
    // delete the leave_type
-   public function destroy(Request $request)
+   public function destroy($id)
    {
-       $leave_type = Leave_type::find($request->id);
+       $leave_type = Leave_type::find($id);
        $leave_type->delete();
+       
+       $leaves = Leave::where('leave_type_id', $leave_type->id)->get();
+       foreach($leaves as $leave){
+            $leave->delete();
+       }
 
        session()->flash('message', 'Leave type deleted successfully!');
        

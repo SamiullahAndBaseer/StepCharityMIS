@@ -14,7 +14,7 @@
                     <nav class="breadcrumb-style-one" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#">Eduction Section</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Students with Courses</li>
+                            <li class="breadcrumb-item active" aria-current="page">Enrollments</li>
                         </ol>
                     </nav>
                 </div>
@@ -27,7 +27,7 @@
                             <div class="widget-header">                                
                                 <div class="row">
                                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                                        <h4>Add Student to the Course</h4>
+                                        <h4>Enroll Student</h4>
                                     </div>
                                 </div>
                             </div>

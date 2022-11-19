@@ -2,31 +2,9 @@
 @section('custom_css_content')
 <link rel="stylesheet" href="{{ asset('assets/src/plugins/src/filepond/filepond.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.css') }}">
-<link href="{{ asset('assets/src/plugins/src/notification/snackbar/snackbar.min.css') }}" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="{{ asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
-
 <link href="{{ asset('assets/src/plugins/css/light/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/src/assets/css/light/components/tabs.css') }}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/light/elements/alert.css') }}">
-
-<link href="{{ asset('assets/src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/src/plugins/css/light/notification/snackbar/custom-snackbar.css') }}" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/light/forms/switches.css') }}">
-<link href="{{ asset('assets/src/assets/css/light/components/list-group.css') }}" rel="stylesheet" type="text/css">
-
-<link href="{{ asset('assets/src/assets/css/light/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
-
-
-
 <link href="{{ asset('assets/src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/elements/alert.css') }}">
-
-<link href="{{ asset('assets/src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ asset('assets/src/plugins/css/dark/notification/snackbar/custom-snackbar.css') }}" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/forms/switches.css') }}">
-<link href="{{ asset('assets/src/assets/css/dark/components/list-group.css') }}" rel="stylesheet" type="text/css">
-
+<link href="{{ asset('assets/src/assets/css/light/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/src/assets/css/dark/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 
@@ -60,81 +38,84 @@
                                         <div class="info">
                                             <h6 class="">Maktob Details</h6>
                                             <div class="row">
-                                                <div class="col-lg-11 mx-auto">
+                                                <div class="col-12 mx-auto">
                                                     <div class="row">
-
-                                                        <div class="col-xl-4 col-lg-12 col-md-6">
-                                                            <label for="filepond">Maktob Images</label>
-                                                            <div class="multiple-file-upload">
-                                                                <input type="file" 
-                                                                    class="filepond file-upload-multiple"
-                                                                    name="images" 
-                                                                    multiple 
-                                                                    data-allow-reorder="true"
-                                                                    data-max-file-size="3MB"
-                                                                    data-max-files="3">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-xl-8 col-lg-12 col-md-6 mt-md-0 mt-4">
-                                                            <div class="form">
-                                                                <div class="row">
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="title">Title<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="title" placeholder="Maktob title" name="title"  >
-                                                                            <span class="text-danger">{{ $errors->first('title') }}</span>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="vallage">Status</label>
-                                                                            <select class="form-select mb-3" id="status" name="status  ">
-                                                                                <option value="">Choose status</option>
-                                                                                <option value="sent">Sent</option>
-                                                                                <option value="received">Received</option>
-                                                                                <option value="sending">Sending</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="reference_to">Reference to<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="reference_to" placeholder="Reference to" name="reference_to"  >
-                                                                            <span class="text-danger">{{ $errors->first('reference_to') }}</span>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="maktob_type_id">Maktob Type</label>
-                                                                            <select class="form-select mb-3" id="maktob_type_id" name="maktob_type_id">
-                                                                                <option value="">Choose maktob type</option>
-                                                                                @foreach ($maktob_types as $type)
-                                                                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="description">Description<span class="text-danger">*</span></label>
-                                                                            <textarea name="description" id="description" class="form-control"></textarea>
-                                                                            <span class="text-danger">{{ $errors->first('description') }}</span>
-                                                                        </div>
-                                                                    </div>
-    
-                                                                    <div class="col-md-12 mt-1">
-                                                                        <div class="form-group text-end">
-                                                                            <button type="submit" class="btn btn-secondary">Add Maktob</button>
-                                                                        </div>
+                                                        <div class="form">
+                                                            <div class="row">
+                                                                <div class="col-xl-6 col-sm-12 mt-3">
+                                                                    <div class="form-group">
+                                                                        <label for="title">Title<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control mb-3" placeholder="Maktob title" name="title">
+                                                                        <span class="text-danger">{{ $errors->first('title') }}</span>
                                                                     </div>
                                                                 </div>
-                                                                
+
+                                                                <div class="col-xl-6 col-sm-12 mt-3">
+                                                                    <div class="form-group">
+                                                                        <label for="vallage">Status</label>
+                                                                        <select class="form-select mb-3" name="status">
+                                                                            <option value="sending">Sending</option>
+                                                                            <option value="sent">Sent</option>
+                                                                            <option value="received">Received</option>
+                                                                        </select>
+                                                                        <span class="text-danger">{{ $errors->first('status') }}</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xl-6 col-sm-12 mt-3">
+                                                                    <div class="form-group">
+                                                                        <label for="reference_to">Reference to<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control mb-3" id="reference_to" placeholder="Reference to" name="reference_to"  >
+                                                                        <span class="text-danger">{{ $errors->first('reference_to') }}</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xl-6 col-sm-12 mt-3">
+                                                                    <div class="form-group">
+                                                                        <label for="maktob_type_id">Maktob Type</label>
+                                                                        <select class="form-select mb-3" id="maktob_type_id" name="maktob_type_id">
+                                                                            <option value="">Choose maktob type</option>
+                                                                            @foreach ($maktob_types as $type)
+                                                                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                        @error('maktob_type_id')
+                                                                            <div class="text-danger">{{ $message }}</div>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xl-6 col-sm-12 mt-3">
+                                                                    <div class="form-group">
+                                                                        <label for="description">Description<span class="text-danger">*</span></label>
+                                                                        <textarea name="description" id="description" class="form-control"></textarea>
+                                                                        <span class="text-danger">{{ $errors->first('description') }}</span>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-xl-6 col-sm-12 mt-3 mb-3">
+                                                                    <label for="filepond">Maktob Images</label>
+                                                                    <div class="multiple-file-upload">
+                                                                        <input type="file" 
+                                                                            class="filepond file-upload-multiple"
+                                                                            name="images" 
+                                                                            multiple 
+                                                                            data-allow-reorder="true"
+                                                                            data-max-file-size="3MB"
+                                                                            data-max-files="3">
+                                                                    </div>
+                                                                    @error('images')
+                                                                        <div class="text-danger">{{ $message }}</div>
+                                                                    @enderror
+                                                                </div>
+
+                                                                <div class="col-md-12 mt-1">
+                                                                    <div class="form-group text-end">
+                                                                        <button type="submit" class="btn btn-secondary">Add Maktob</button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -168,35 +149,35 @@
 </div>
 
 @endsection
-@section('custom_js_content')
+@section('custom_js_content') 
     <script src="{{ asset('assets/src/plugins/src/filepond/filepond.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/filepondPluginFileValidateSize.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/notification/snackbar/snackbar.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
     <script>
-        /**
-         * ====================
-         * Multiple File Upload
-         * ====================
-        */
         FilePond.registerPlugin(
             FilePondPluginImagePreview,
             FilePondPluginImageExifOrientation,
             FilePondPluginFileValidateSize,
             // FilePondPluginImageEdit
         );
-
-        FilePond.create(
+        
+        // Select the file input and use 
+        // create() to turn it into a pond
+        var multifiles = FilePond.create(
             document.querySelector('.file-upload-multiple')
         );
-
+    </script>
+    <script>
         FilePond.setOptions({
             server: {
-                url: '{{ route('maktob.store') }}',
+                url: '{{ route('maktob.images') }}',
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 }
             }
         });

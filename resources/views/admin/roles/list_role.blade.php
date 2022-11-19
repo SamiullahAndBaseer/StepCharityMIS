@@ -81,10 +81,6 @@
                                                 <span class="table-inner-text">{{ $role->updated_at }}</span>
                                             </td>
                                             <td class="text-center">
-                                                <a href="#" id="updateRole" data-id="{{ $role->id }}"
-                                                    data-bs-toggle="modal" data-bs-target="#editRoleModal"
-                                                    data-name="{{ $role->name }}" data-description="{{ $role->description }}">
-                                                    <span class="badge badge-light-info">Edit</span></a>
                                                 <a href="#" class="delete_role confirm-role-{{ $role->id }}" data-id="{{ $role->id }}" data-name="{{ $role->name }}"><span class="badge badge-light-danger">Delete</span></a>
                                             </td>
                                         </tr>
@@ -99,7 +95,6 @@
             </div>
         </div>
         @include('admin.roles.add_role')
-        @include('admin.roles.edit_role')
     </div>
 </div>
 @endsection

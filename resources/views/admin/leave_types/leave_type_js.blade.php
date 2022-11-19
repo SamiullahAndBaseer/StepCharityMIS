@@ -25,6 +25,11 @@
                         $('#addLeaveTypeModal').modal('hide');
                         $('#addLeaveTypeForm')[0].reset();
                         $('#tableHover').load(location.href+" #tableHover");
+                        Swal.fire(
+                            'Added!',
+                            'Leave type has been added.',
+                            'success'
+                        );
                     }
                 },
                 error: function(response){
@@ -63,14 +68,19 @@
             $('.errDescription').text("");
 
             $.ajax({
-                url: "{{ route('update.leaveType') }}",
-                method: 'post',
+                url: "/leaveType/"+up_id,
+                method: 'put',
                 data: {id: up_id, name: up_name, description: up_description},
                 success: function(res){
                     if(res.status == 'success'){
                         $('#editLeaveTypeModal').modal('hide');
                         $('#editLeaveTypeForm')[0].reset();
                         $('#tableHover').load(location.href+" #tableHover");
+                        Swal.fire(
+                            'Updated!',
+                            'Leave type has been updated.',
+                            'success'
+                        );
                     }
                 },
                 error: function(response){
@@ -117,9 +127,8 @@
                 if (result.isConfirmed) {
                     // if confirmed course will be delete.
                     $.ajax({
-                        url: "{{ route('delete.leaveType') }}",
-                        method: 'post',
-                        data: {id: up_id},
+                        url: "/leaveType/"+up_id,
+                        method: 'delete',
                         success: function(res){
                             if(res.status == 'success'){
                                 Swal.fire(

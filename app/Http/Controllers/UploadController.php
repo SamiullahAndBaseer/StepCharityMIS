@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TemporaryFiles;
 use App\Models\User;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -61,5 +63,38 @@ class UploadController extends Controller
     public function deleteImage($id)
     {
         return $id;
+    }
+
+    // for maktob images
+    public function maktobImages(Request $request)
+    {   
+        if($request->hasFile('images')){
+            $file = $request->file('images');
+            $file_ext = $file->getClientOriginalExtension();
+            $filename = uniqid().now()->timestamp.'.'.$file_ext;
+            $folder = uniqid(). '-'. now()->timestamp;
+
+            $file->storeAs('tmp/'.$folder, $filename);
+
+            TemporaryFiles::create([
+                'folder'=> $folder,
+                'filename' => $filename
+            ]);
+
+            session()->push('folder', $folder); //save session folder
+            // $folder = ($item1, $item2, $item3)
+            session()->push('filename', $filename); //save session filename
+
+            return $folder;
+        }
+        return '';
+    }
+
+    public function delete(Request $request)
+    {
+        if($request->hasFile('images')){
+            return $request->file('images')->getClientOriginalName();
+        }
+        return 'null';
     }
 }

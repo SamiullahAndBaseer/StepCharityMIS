@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->foreignId('user_id');
             $table->foreignId('course_id');
-            $table->foreignId('attendance_id');
+            $table->string('material', 2048)->nullable();
             $table->timestamps();
         });
     }

@@ -1,16 +1,20 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MaktobController;
 use App\Http\Controllers\MaktobTypeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ReportTypeController;
 // use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentCourseController;
@@ -105,8 +109,6 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/search', [LeaveController::class, 'search'])->name('leave.search');
     // LeaveTypes
     Route::resource('/leaveType', LeaveTypeController::class);
-    Route::post('/leaveType/update', [LeaveTypeController::class, 'update'])->name('update.leaveType');
-    Route::post('/leaveType/delete', [LeaveTypeController::class, 'destroy'])->name('delete.leaveType');
     // teacher and course
     Route::resource('teacher-course', TeacherCourseController::class);
     Route::post('/teacher-course/delete', [TeacherCourseController::class, 'destroy'])->name('delete.teacher-course');
@@ -117,11 +119,28 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::post('/student-course/update', [StudentCourseController::class, 'update'])->name('update.student-course');
     // Maktob Types
     Route::resource('maktob-type', MaktobTypeController::class);
-    Route::post('/maktob-type/update', [MaktobTypeController::class, 'update'])->name('update.maktob-type');
-    Route::post('/maktob-type/delete', [MaktobTypeController::class, 'destroy'])->name('delete.maktob-type');
     // Maktob
     Route::resource('maktob', MaktobController::class);
-    
+    Route::post('/maktob-images', [UploadController::class, 'maktobImages'])->name('maktob.images');
+    Route::delete('/maktob-images', [UploadController::class, 'delete']);
+    Route::post('maktob/{id}', [MaktobController::class, 'destroy']);
+    Route::post('maktob-update/{id}', [MaktobController::class, 'update'])->name('update.maktob');
+    // Lessons
+    Route::resource('lesson', LessonController::class);
+    Route::post('lesson-update/{id}', [LessonController::class, 'update'])->name('update.lesson');
+    Route::post('lesson/{id}', [LessonController::class, 'destroy']);
+    Route::post('lesson-file', [LessonController::class, 'storeFile'])->name('store.file');
+    // Curriculum
+    Route::resource('curriculum', CurriculumController::class);
+    Route::post('curriculum/{id}', [CurriculumController::class, 'destroy']);
+    Route::post('curriculum-update/{id}', [CurriculumController::class, 'update'])->name('update.curriculum');
+    // Assignment
+    Route::resource('assignment', AssignmentController::class);
+    Route::post('assignment-file', [AssignmentController::class, 'storeFile'])->name('save.file');
+    Route::post('assignment-update/{id}', [AssignmentController::class, 'update'])->name('update.assignment');
+    Route::post('assignment/{id}', [AssignmentController::class, 'destroy']);
+    // Report Type
+    Route::resource('report-types', ReportTypeController::class);
 });
 
 // For Student view
@@ -153,6 +172,7 @@ Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('search
 
 
 Route::get('/get-time', function(){
+    return route('report-types.update', 1);
     foreach(Attendance::all() as $item){
         return Carbon::now()->year;
     }
