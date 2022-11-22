@@ -6,6 +6,13 @@
 <link href="{{ asset('assets/src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/src/assets/css/light/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/src/assets/css/dark/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
+<!--  BEGIN CUSTOM STYLE FILE  -->
+<link href="{{ asset('assets/src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/light/editors/quill/quill.snow.css') }}">
+
+<link href="{{ asset('assets/src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/dark/editors/quill/quill.snow.css') }}">
+<!--  END CUSTOM STYLE FILE  -->
 @endsection
 
 @section('content')
@@ -88,7 +95,10 @@
                                                                 <div class="col-xl-6 col-sm-12 mt-3">
                                                                     <div class="form-group">
                                                                         <label for="description">Description<span class="text-danger">*</span></label>
-                                                                        <textarea name="description" id="description" class="form-control"></textarea>
+                                                                        <div id="editor-container">
+
+                                                                        </div>
+                                                                        <textarea name="description" id="description" class="form-control" style="display: none;"></textarea>
                                                                         <span class="text-danger">{{ $errors->first('description') }}</span>
                                                                     </div>
                                                                 </div>
@@ -149,7 +159,29 @@
 </div>
 
 @endsection
-@section('custom_js_content') 
+@section('custom_js_content')
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{{ asset('assets/src/assets/js/scrollspyNav.js') }}"></script>
+    <script src="{{ asset('assets/src/plugins/src/editors/quill/quill.js') }}"></script>
+    <script>
+        var quill = new Quill('#editor-container', {
+            modules: {
+                toolbar: [
+                [{ header: [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                ['image','link'],
+                [{list: 'ordered'}, {list: 'bullet'}]
+                ]
+            },
+            placeholder: 'Description of maktob...',
+            theme: 'snow'  // or 'bubble'
+        });
+
+        quill.on('text-change', function(delta, oldDelta, source){
+            $('#description').text($(".ql-editor").html());
+        });
+    </script>
+    <!-- END PAGE LEVEL SCRIPTS -->
     <script src="{{ asset('assets/src/plugins/src/filepond/filepond.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script>

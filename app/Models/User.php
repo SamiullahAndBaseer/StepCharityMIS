@@ -147,4 +147,44 @@ class User extends Authenticatable
     {
         return $this->hasMany(Lesson::class, 'user_id');
     }
+
+    /**
+     * Get the certificate associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function certificate()
+    {
+        return $this->hasMany(Certificate::class, 'user_id');
+    }
+
+    /**
+     * Get all of the contracts for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class, 'user_id');
+    }
+
+    /**
+     * Get all of the createReport for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function createReport()
+    {
+        return $this->hasMany(Report::class, 'user_id');
+    }
+
+    /**
+     * Get all of the feedbacks for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class, 'user_id');
+    }
 }

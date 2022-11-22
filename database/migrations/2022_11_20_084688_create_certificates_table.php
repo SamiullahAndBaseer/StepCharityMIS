@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->foreignId('user_id');
             $table->foreignId('course_id');
-            $table->foreignId('type_of_certificate_id');
+            $table->enum('certificate_type', ['High School Graduate', 'Bachelor degree','Master degree', 'PhD'])->default(null);
             $table->timestamps();
         });
     }

@@ -74,8 +74,8 @@
             $('.errDescription').text("");
 
             $.ajax({
-                url: "{{ route('update.branch') }}",
-                method: 'post',
+                url: "/branch/"+up_id,
+                method: 'put',
                 data: {branch_id: up_id, branch_name: up_name, branch_description: up_description},
                 success: function(res){
                     if(res.status == 'success'){
@@ -117,9 +117,8 @@
                     if (result.isConfirmed) {
                         // if confirmed course will be delete.
                         $.ajax({
-                            url: "{{ route('delete.branch') }}",
-                            method: 'post',
-                            data: {id: id},
+                            url: "/branch/"+id,
+                            method: 'delete',
                             success: function(res){
                                 if(res.status == 'success'){
                                     Swal.fire(

@@ -7,24 +7,29 @@
 </script>
 <script>
     $(document).ready(function(){
-        // add new course
-        $(document).on('click', '.add_course', function(e){
+        // add new leave_type
+        $(document).on('click', '.add_FeedbackType', function(e){
             e.preventDefault();
             let name = $('#name').val();
             let description = $('#description').val();
 
             $('.errMsgName').text("");
             $('.errMsgDescription').text("");
-
+            
             $.ajax({
-                url: "{{ route('course.store') }}",
+                url: "{{ route('feedback-type.store') }}",
                 method: 'post',
                 data: {name: name, description: description},
                 success: function(res){
                     if(res.status == 'success'){
-                        $('#addCourseModal').modal('hide');
-                        $('#addCourseForm')[0].reset();
+                        $('#addFeedbackTypeModal').modal('hide');
+                        $('#addFeedbackTypeForm')[0].reset();
                         $('#tableHover').load(location.href+" #tableHover");
+                        Swal.fire(
+                            'Added!',
+                            'Feedback type has been added.',
+                            'success'
+                        );
                     }
                 },
                 error: function(response){
@@ -40,8 +45,8 @@
             });
         });
 
-        // show course value in update form
-        $(document).on('click', '#updateCourse', function(e){
+        // show LeaveType value in update form
+        $(document).on('click', '#updateFeedbackType', function(e){
             e.preventDefault();
             var id = $(this).data('id');
             var name = $(this).data('name');
@@ -53,7 +58,7 @@
         });
 
         // update course data
-        $(document).on('click', '.update_course', function(e){
+        $(document).on('click', '.update_FeedbackType', function(e){
             e.preventDefault();
             let up_id = $('#up_id').val();
             let up_name = $('#up_name').val();
@@ -63,14 +68,19 @@
             $('.errDescription').text("");
 
             $.ajax({
-                url: "/course/"+up_id,
+                url: "/feedback-type/"+up_id,
                 method: 'put',
                 data: {id: up_id, name: up_name, description: up_description},
                 success: function(res){
                     if(res.status == 'success'){
-                        $('#editCourseModal').modal('hide');
-                        $('#editCourseForm')[0].reset();
+                        $('#editFeedbackTypeModal').modal('hide');
+                        $('#editFeedbackTypeForm')[0].reset();
                         $('#tableHover').load(location.href+" #tableHover");
+                        Swal.fire(
+                            'Updated!',
+                            'Feedback type has been updated.',
+                            'success'
+                        );
                     }
                 },
                 error: function(response){
@@ -87,18 +97,18 @@
         });
 
         // reset validation errors
-        $(document).on('click', '#updateCourse', function(){
+        $(document).on('click', '#updateFeedbackType', function(){
             $('.errName').text("");
             $('.errDescription').text("");
         });
 
-        $(document).on('click', '#addCourse', function(){
+        $(document).on('click', '#addFeedbackType', function(){
             $('.errMsgName').text("");
             $('.errMsgDescription').text("");
         });
 
         // delete course data
-        $(document).on('mouseenter', '.delete_course', function(e){
+        $(document).on('mouseenter', '.delete_FeedbackType', function(e){
             e.preventDefault();
             let up_id = $(this).data('id');
             let name = $(this).data('name');
@@ -117,13 +127,13 @@
                 if (result.isConfirmed) {
                     // if confirmed course will be delete.
                     $.ajax({
-                        url: "/course/"+up_id,
+                        url: "/feedback-type/"+up_id,
                         method: 'delete',
                         success: function(res){
                             if(res.status == 'success'){
                                 Swal.fire(
                                     'Deleted!',
-                                    'Course has been deleted.',
+                                    'Feedback type has been deleted.',
                                     'success'
                                 );
                                 $('#tableHover').load(location.href+" #tableHover");

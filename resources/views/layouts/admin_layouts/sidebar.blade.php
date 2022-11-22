@@ -288,10 +288,10 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="report" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create"> Create Report</a>
+                        <a href="{{ route('report.create') }}"> Create Report</a>
                     </li>
                     <li>
-                        <a href="/user">Report List </a>
+                        <a href="{{ route('report.index') }}">Report List </a>
                     </li>
                     <li>
                         <a href="/user">Add Salary Report</a>
@@ -311,7 +311,7 @@
                 <a href="#graduated" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                        <span>Certificate Managment</span>
+                        <span>Certificate Management</span>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -319,38 +319,10 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="graduated" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create"> Add Certificate </a>
+                        <a href="{{ route('certificate.create') }}"> Add Certificate </a>
                     </li>
                     <li>
-                        <a href="/user"> Certifcates List </a>
-                    </li>
-                </ul>
-            </li>
-            <li class="menu menu-heading">
-                <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>Certification Section</span></div>
-            </li>
-            <li class="menu">
-                <a href="#certificate" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                        <span>Certificate Managment</span>
-                    </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    </div>
-                </a>
-                <ul class="collapse submenu list-unstyled" id="certificate" data-bs-parent="#accordionExample">
-                    <li>
-                        <a href="/user/create"> Add Certificate </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Certifcates List </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Add Certifcates Type</a>
-                    </li>
-                    <li>
-                        <a href="/user"> Certifcates Type List </a>
+                        <a href="{{ route('certificate.index') }}"> Certifcates List </a>
                     </li>
                 </ul>
             </li>
@@ -369,16 +341,13 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="contract" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create"> Add Contract </a>
+                        <a href="{{ route('contract.create') }}"> Add Contract </a>
                     </li>
                     <li>
-                        <a href="/user"> Contracts List </a>
+                        <a href="{{ route('contract.index') }}"> Contracts List </a>
                     </li>
                     <li>
-                        <a href="/user"> Add Contract Type  </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Maktoob Contract Type List </a>
+                        <a href="{{ route('contract-type.index') }}"> Maktoob Contract Type List </a>
                     </li>
                 </ul>
             </li>
@@ -403,10 +372,7 @@
                         <a href="/user"> Feedback List </a>
                     </li>
                     <li>
-                        <a href="/user"> Add Feedback Type  </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Feedback Type List </a>
+                        <a href="{{ route('feedback-type.index') }}"> Feedback Type List </a>
                     </li>
                 </ul>
             </li>

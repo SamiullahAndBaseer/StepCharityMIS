@@ -3,17 +3,22 @@
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\ContractController;
+use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FeedbackTypeController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MaktobController;
 use App\Http\Controllers\MaktobTypeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportTypeController;
 // use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\StudentController;
@@ -75,18 +80,6 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/student', StudentController::class);
     Route::post('/student-update/{id}', [StudentController::class, 'update'])->name('update.student');
     Route::get('/student-delete/{id}', [StudentController::class, 'destroy'])->name('delete.student');
-    // Roles
-    Route::resource('/role', RoleController::class);
-    Route::post('/role-update', [RoleController::class, 'update'])->name('update.role');
-    Route::post('/role-delete', [RoleController::class, 'destroy'])->name('delete.role');
-    // Courses
-    Route::resource('/course', CourseController::class);
-    Route::post('/course/update', [CourseController::class, 'update'])->name('update.course');
-    Route::post('/course/delete', [CourseController::class, 'destroy'])->name('delete.course');
-    // Branches
-    Route::resource('/branch', BranchController::class);
-    Route::post('/branch-update', [BranchController::class, 'update'])->name('update.branch');
-    Route::post('/branch-delete', [BranchController::class, 'destroy'])->name('delete.branch');
     // Attendance settings
     Route::get('/settings', [AttendanceController::class, 'setting'])->name('settings');
     Route::post('/settings', [AttendanceController::class, 'updateSetting'])->name('update.settings');  
@@ -107,8 +100,6 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::post('/leave-update', [LeaveController::class, 'update'])->name('update.leave');
     Route::delete('leave-delete', [LeaveController::class, 'destroy'])->name('leave.delete');
     Route::get('/search', [LeaveController::class, 'search'])->name('leave.search');
-    // LeaveTypes
-    Route::resource('/leaveType', LeaveTypeController::class);
     // teacher and course
     Route::resource('teacher-course', TeacherCourseController::class);
     Route::post('/teacher-course/delete', [TeacherCourseController::class, 'destroy'])->name('delete.teacher-course');
@@ -117,8 +108,6 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('student-course', StudentCourseController::class);
     Route::post('/student-course/delete', [StudentCourseController::class, 'destroy'])->name('delete.student-course');
     Route::post('/student-course/update', [StudentCourseController::class, 'update'])->name('update.student-course');
-    // Maktob Types
-    Route::resource('maktob-type', MaktobTypeController::class);
     // Maktob
     Route::resource('maktob', MaktobController::class);
     Route::post('/maktob-images', [UploadController::class, 'maktobImages'])->name('maktob.images');
@@ -139,8 +128,34 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::post('assignment-file', [AssignmentController::class, 'storeFile'])->name('save.file');
     Route::post('assignment-update/{id}', [AssignmentController::class, 'update'])->name('update.assignment');
     Route::post('assignment/{id}', [AssignmentController::class, 'destroy']);
+    // Certificate 
+    Route::resource('certificate', CertificateController::class);
+    Route::post('/certificate/{id}', [CertificateController::class, 'destroy']);
+    Route::post('/update/certificate/{id}', [CertificateController::class, 'update'])->name('update.certificate');
+    // Roles
+    Route::resource('/role', RoleController::class);
+    // Courses
+    Route::resource('/course', CourseController::class);
+    // Branches
+    Route::resource('/branch', BranchController::class);
     // Report Type
     Route::resource('report-types', ReportTypeController::class);
+    // LeaveTypes
+    Route::resource('/leaveType', LeaveTypeController::class);
+    // Maktob Types
+    Route::resource('maktob-type', MaktobTypeController::class);
+    // Contract Type
+    Route::resource('contract-type', ContractTypeController::class);
+    // Feedback type
+    Route::resource('feedback-type', FeedbackTypeController::class);
+    // Contract
+    Route::resource('contract', ContractController::class);
+    Route::post('/contract/update/{id}', [ContractController::class, 'update'])->name('update.contract');
+    Route::post('/contract/{id}', [ContractController::class, 'destroy']);
+    // Report
+    Route::resource('report', ReportController::class);
+    Route::post('/report-update/{id}', [ReportController::class, 'update'])->name('update.report');
+    Route::post('/report/{id}', [ReportController::class, 'destroy']);
 });
 
 // For Student view
@@ -172,7 +187,6 @@ Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('search
 
 
 Route::get('/get-time', function(){
-    return route('report-types.update', 1);
     foreach(Attendance::all() as $item){
         return Carbon::now()->year;
     }

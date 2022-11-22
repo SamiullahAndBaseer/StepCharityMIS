@@ -22,4 +22,14 @@ class Report extends Model
     {
         return $this->belongsTo(ReportType::class);
     }
+
+    /**
+     * Get the user that owns the Report
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

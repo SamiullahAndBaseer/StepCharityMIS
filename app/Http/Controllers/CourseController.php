@@ -34,7 +34,7 @@ class CourseController extends Controller
     }
 
     // update course
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'name'=> 'required|max:255',
@@ -53,9 +53,9 @@ class CourseController extends Controller
     }
 
     // delete the course
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $course = Course::find($request->id);
+        $course = Course::find($id);
         $course->delete();
 
         session()->flash('message', 'Course deleted successfully!');

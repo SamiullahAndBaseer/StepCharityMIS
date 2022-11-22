@@ -76,9 +76,8 @@
                     if (result.isConfirmed) {
                         // if confirmed course will be delete.
                         $.ajax({
-                            url: "{{ route('delete.role') }}",
-                            method: 'post',
-                            data: {id: id},
+                            url: "/role/"+id,
+                            method: 'delete',
                             success: function(res){
                                 if(res.status == 'success'){
                                     Swal.fire(

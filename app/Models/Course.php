@@ -21,14 +21,15 @@ class Course extends Model
         return $this->hasMany(Teacher_course::class, 'course_id');
     }
 
+    
     /**
-     * Get all of the student_course for the Course
+     * Get all of the student_courses for the Course
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function student_course()
+    public function student_courses()
     {
-        return $this->hasMany(Student_course::class);
+        return $this->hasMany(Student_course::class, 'course_id');
     }
 
     /**
@@ -49,5 +50,15 @@ class Course extends Model
     public function curriculum()
     {
         return $this->hasOne(Curriculum::class, 'course_id');
+    }
+
+    /**
+     * Get all of the certificate for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function certificate()
+    {
+        return $this->hasMany(Certificate::class, 'course_id');
     }
 }

@@ -48,14 +48,14 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $this->validate($request, [
             'branch_name'=> 'required|max:255',
             'branch_description' => 'required',
         ]);
 
-        $branch = Branch::find($request->branch_id);
+        $branch = Branch::find($id);
         $branch->name = $request->branch_name;
         $branch->description = $request->branch_description;
         $branch->save();
@@ -69,9 +69,9 @@ class BranchController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $branch = Branch::findOrFail($request->id);
+        $branch = Branch::findOrFail($id);
         $branch->delete();
         session()->flash('message', 'Branch deleted successfully!');
         return response()->json([

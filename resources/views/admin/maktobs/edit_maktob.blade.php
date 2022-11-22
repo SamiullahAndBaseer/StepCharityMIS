@@ -16,12 +16,14 @@
 
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/components/tabs.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/apps/ecommerce-details.css') }}">
-<!--  END CUSTOM STYLE FILE  -->
-<link href="{{ asset('assets/src/assets/css/light/components/accordions.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/src/assets/css/dark/components/accordions.css') }}" rel="stylesheet" type="text/css">
-    <!-- END GLOBAL MANDATORY STYLES -->
-@endsection
+<!--  BEGIN CUSTOM STYLE FILE  -->
+<link href="{{ asset('assets/src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/light/editors/quill/quill.snow.css') }}">
 
+<link href="{{ asset('assets/src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/dark/editors/quill/quill.snow.css') }}">
+<!--  END CUSTOM STYLE FILE  -->
+@endsection
 @section('content')
 <div id="content" class="main-content">
     <div class="layout-px-spacing">
@@ -135,7 +137,10 @@
                                                                     <div class="mt-3">
                                                                         <div class="form-group">
                                                                             <label for="description">Description<span class="text-danger">*</span></label>
-                                                                            <textarea name="description" id="description" class="form-control">{{ $maktob->description }}</textarea>
+                                                                            <div id="editor-container">
+                                                                                {!! $maktob->description !!}
+                                                                            </div>
+                                                                            <textarea name="description" id="description" class="form-control" style="display: none;"></textarea>
                                                                             <span class="text-danger">{{ $errors->first('description') }}</span>
                                                                         </div>
                                                                     </div>
@@ -200,6 +205,28 @@
 
 @endsection
 @section('custom_js_content')
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="{{ asset('assets/src/assets/js/scrollspyNav.js') }}"></script>
+<script src="{{ asset('assets/src/plugins/src/editors/quill/quill.js') }}"></script>
+<script>
+    var quill = new Quill('#editor-container', {
+        modules: {
+            
+            toolbar: [
+            [{ header: [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            ['image','link'],
+            [{list: 'ordered'}, {list: 'bullet'}]
+            ]
+        },
+        placeholder: 'Description of maktob...',
+        theme: 'snow'  // or 'bubble'
+    });
+
+    quill.on('text-change', function(delta, oldDelta, source){
+        $('#description').text($(".ql-editor").html());
+    });
+</script>
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="{{ asset('assets/src/plugins/src/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
 <script src="{{ asset('assets/src/plugins/src/glightbox/glightbox.min.js') }}"></script>

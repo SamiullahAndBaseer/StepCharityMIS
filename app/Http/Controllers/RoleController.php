@@ -56,9 +56,9 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $role = Role::findOrFail($request->id);
+        $role = Role::findOrFail($id);
         $role->delete();
         session()->flash('message', 'Role deleted successfully!');
         return response()->json([
