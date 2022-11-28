@@ -294,10 +294,10 @@
                         <a href="{{ route('report.index') }}">Report List </a>
                     </li>
                     <li>
-                        <a href="/user">Add Salary Report</a>
+                        <a href="{{ route('salary-report.create') }}">Add Salary Report</a>
                     </li>
                     <li>
-                        <a href="/user">Salary Report List </a>
+                        <a href="{{ route('salary-report.index') }}">Salary Report List </a>
                     </li>
                     <li>
                         <a href="{{ route('report-types.index') }}"> Report Type List </a>
@@ -366,10 +366,10 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="feedback" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create">Send FeedBack </a>
+                        <a href="{{ route('feedback.create') }}">Send Feedback </a>
                     </li>
                     <li>
-                        <a href="/user"> Feedback List </a>
+                        <a href="{{ route('feedback.index') }}"> Feedback List </a>
                     </li>
                     <li>
                         <a href="{{ route('feedback-type.index') }}"> Feedback Type List </a>
@@ -389,21 +389,15 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled" id="feedback" data-bs-parent="#accordionExample">
+                <ul class="collapse submenu list-unstyled" id="survey" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create">Start Survey </a>
+                        <a href="{{ route('survey.create') }}">Survey Form </a>
                     </li>
                     <li>
-                        <a href="/user"> Survey List </a>
+                        <a href="{{ route('survey.index') }}"> Survey List </a>
                     </li>
                     <li>
-                        <a href="/user"> Add User Garantee  </a>
-                    </li>
-                    <li>
-                        <a href="/user"> User Garantee List </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Add User Relations </a>
+                        <a href="{{ route('guarantee.index') }}"> User Garantee List </a>
                     </li>
                 </ul>
             </li>
@@ -422,16 +416,16 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="finance" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create">Request For Items </a>
+                        <a href="{{ route('request-item.create') }}">Request For Items </a>
                     </li>
                     <li>
-                        <a href="/user"> Request Item List </a>
+                        <a href="{{ route('request-item.index') }}"> Request Item List </a>
                     </li>
                     <li>
-                        <a href="/user"> Add Quotation  </a>
+                        <a href="{{ route('quotation.create') }}"> Add Quotation  </a>
                     </li>
                     <li>
-                        <a href="/user"> Quotation List </a>
+                        <a href="{{ route('quotation.index') }}"> Quotation List </a>
                     </li>
                 </ul>
             </li>
@@ -439,7 +433,7 @@
                 <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>Remittance Section</span></div>
             </li>
             <li class="menu">
-                <a href="#finance" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <a href="#remittance" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                         <span>Remittance Managment</span>
@@ -448,18 +442,12 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </div>
                 </a>
-                <ul class="collapse submenu list-unstyled" id="finance" data-bs-parent="#accordionExample">
+                <ul class="collapse submenu list-unstyled" id="remittance" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create">Send Remittance </a>
+                        <a href="{{ route('remittance.create') }}">Send Remittance </a>
                     </li>
                     <li>
-                        <a href="/user"> Send Remittance List </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Recevie Remittance List  </a>
-                    </li>
-                    <li>
-                        <a href="/user"> Pending Remittance List </a>
+                        <a href="{{ route('remittance.index') }}">Remittances List </a>
                     </li>
                 </ul>
             </li>
@@ -479,21 +467,19 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="inventory" data-bs-parent="#accordionExample">
                     <li>
-                        <a href="/user/create">Add Item </a>
+                        <a href="{{ route('category.index') }}"> Category List  </a>
                     </li>
                     <li>
-                        <a href="/user"> Items List </a>
+                        <a href="{{ route('inventory.create') }}">Add Item </a>
                     </li>
                     <li>
-                        <a href="/user"> Damaged Item List  </a>
+                        <a href="{{ route('inventory.index') }}"> Items List </a>
                     </li>
-                   
                 </ul>
             </li>
 
         </ul>
-
-
+        
     </nav>
 
 </div>

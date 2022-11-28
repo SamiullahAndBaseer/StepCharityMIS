@@ -164,6 +164,7 @@ class TeacherController extends Controller
             if($status){
                 $photo = $temporaryFile->filename;
                 rmdir(public_path('tmp/'. $request->profile_photo));
+                unlink(public_path('images/').$teacher->profile_photo_path);
                 $temporaryFile->delete();
             }    
         }

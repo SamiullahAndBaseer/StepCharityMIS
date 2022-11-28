@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Survey;
 use App\Models\TemporaryFiles;
 use App\Models\User;
-use Illuminate\Contracts\Session\Session;
+use App\Models\UserGuarantee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -60,6 +61,65 @@ class UploadController extends Controller
         return '';
     }
 
+    // This is for update survey image
+    public function updateSurveyImage(Request $request, $id)
+    {
+        if($request->hasFile('profile_photo'))
+        {
+            $survey = Survey::findOrFail($id);
+            $file = $request->file('profile_photo');
+            $filename = $file->getClientOriginalName();
+
+            if($survey->photo != $filename){
+                $filename = uniqid().now()->timestamp.'.'.$file->getClientOriginalExtension();
+                $folder = uniqid(). '-'. now()->timestamp;
+
+                $file->storeAs('tmp/'.$folder, $filename);
+            
+                DB::table('temporary_files')->insert([
+                    'folder' => $folder,
+                    'filename' => $filename,
+                ]);
+
+                return $folder;
+            }else{
+                return '';
+            }
+        }
+
+        return '';
+    }
+
+    // update user guarantee image
+    public function updateGuaranteeImage(Request $request, $id)
+    {
+        if($request->hasFile('profile_photo'))
+        {
+            $user_guarantee = UserGuarantee::findOrFail($id);
+            $file = $request->file('profile_photo');
+            $filename = $file->getClientOriginalName();
+
+            if($user_guarantee->photo != $filename){
+                $filename = uniqid().now()->timestamp.'.'.$file->getClientOriginalExtension();
+                $folder = uniqid(). '-'. now()->timestamp;
+
+                $file->storeAs('tmp/'.$folder, $filename);
+            
+                DB::table('temporary_files')->insert([
+                    'folder' => $folder,
+                    'filename' => $filename,
+                ]);
+
+                return $folder;
+            }else{
+                return '';
+            }
+        }
+
+        return '';
+    }
+
+    //
     public function deleteImage($id)
     {
         return $id;
@@ -70,6 +130,31 @@ class UploadController extends Controller
     {   
         if($request->hasFile('images')){
             $file = $request->file('images');
+            $file_ext = $file->getClientOriginalExtension();
+            $filename = uniqid().now()->timestamp.'.'.$file_ext;
+            $folder = uniqid(). '-'. now()->timestamp;
+
+            $file->storeAs('tmp/'.$folder, $filename);
+
+            TemporaryFiles::create([
+                'folder'=> $folder,
+                'filename' => $filename
+            ]);
+
+            session()->push('folder', $folder); //save session folder
+            // $folder = ($item1, $item2, $item3)
+            session()->push('filename', $filename); //save session filename
+
+            return $folder;
+        }
+        return '';
+    }
+
+    // for request item image
+    public function requestItemImage(Request $request)
+    {   
+        if($request->hasFile('upload_file')){
+            $file = $request->file('upload_file');
             $file_ext = $file->getClientOriginalExtension();
             $filename = uniqid().now()->timestamp.'.'.$file_ext;
             $folder = uniqid(). '-'. now()->timestamp;

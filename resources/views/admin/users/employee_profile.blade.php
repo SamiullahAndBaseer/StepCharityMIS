@@ -44,7 +44,6 @@
             position: absolute;
             top: 70%;
             font-weight: 400;
-            text-transform: uppercase;
             font-size: 1.2rem;
             margin-top: .5rem;
             color: darkblue;
@@ -314,7 +313,7 @@
                                                     <a href="javascript:void(0);" class="btn btn-secondary btn-print  action-print">Print</a>
                                                 </div>
                                                 <div class="col-xl-12 col-md-3 col-sm-6">
-                                                    <a href="javascript:void(0);" id="hide-card" class="btn btn-light btn-download">Hide Card</a>
+                                                    <a href="javascript:void(0);" id="hide-card" style="display: none;" class="btn btn-light btn-download">Hide Card</a>
                                                     <a href="javascript:void(0);" id="card" class="btn btn-success btn-download">Show Card</a>
                                                 </div>
                                                 <div class="col-xl-12 col-md-3 col-sm-6">
@@ -360,11 +359,15 @@
             $('#card').on('click', function(e){
                 $('.content-section').hide();
                 $('#card-panel').show();
+                $('#hide-card').show();
+                $('#card').hide();
             });
 
             $('#hide-card').on('click', function(e){
                 $('#details-user').show();
                 $('#card-panel').hide();
+                $('#card').show();
+                $('#hide-card').hide();
             });
         });
     </script>

@@ -21,45 +21,39 @@
             }
         });
     }
+
     $(document).ready(function(){
-        $(document).on('mouseenter', '.approved', function(e){
+        
+        $(document).on('click', '.approved', function(e){
             e.preventDefault();
             var leave_id = $(this).data('id');
             var selector = "#yes_appr-"+leave_id;
 
-            document.querySelector(selector).addEventListener('click', function() {
-                e.preventDefault();
-
-                $.ajax({
-                    url: "{{ route('update.leave') }}",
-                    method: 'post',
-                    data: {id: leave_id, status: 'approved'},
-                    success: function(res){
-                        if(res.status == 'success'){
-                            $('#cancel-row').load(location.href+' #cancel-row');
-                        }
+            $.ajax({
+                url: "{{ route('update.leave') }}",
+                method: 'post',
+                data: {id: leave_id, status: 'approved'},
+                success: function(res){
+                    if(res.status == 'success'){
+                        $('#cancel-row').load(location.href+' #cancel-row');
                     }
-                });
+                }
             });
         });
 
-        $(document).on('mouseenter', '.rejected' , function(e){
+        $(document).on('click', '.rejected' , function(e){
             var leave_id = $(this).data('id');
             var selector = "#yes_reject-"+leave_id;
 
-            document.querySelector(selector).addEventListener('click', function() {
-                e.preventDefault();
-
-                $.ajax({
-                    url: "{{ route('update.leave') }}",
-                    method: 'post',
-                    data: {id: leave_id, status: 'rejected'},
-                    success: function(res){
-                        if(res.status == 'success'){
-                            $('#cancel-row').load(location.href+' #cancel-row');
-                        }
+            $.ajax({
+                url: "{{ route('update.leave') }}",
+                method: 'post',
+                data: {id: leave_id, status: 'rejected'},
+                success: function(res){
+                    if(res.status == 'success'){
+                        $('#cancel-row').load(location.href+' #cancel-row');
                     }
-                });
+                }
             });
         });
 

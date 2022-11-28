@@ -12,7 +12,7 @@ class Inventory extends Model
     protected $fillable = [
         'tag_no',
         'office',
-        'item_type_id',
+        'category_id',
         'description',
         'serial',
         'manufacture',
@@ -32,4 +32,14 @@ class Inventory extends Model
         'current_value_lc',
         'current_value_usd',
     ];
+
+    /**
+     * Get the category that owns the Inventory
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

@@ -61,4 +61,14 @@ class Course extends Model
     {
         return $this->hasMany(Certificate::class, 'course_id');
     }
+
+    /**
+     * Get all of the surveys for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function surveys()
+    {
+        return $this->hasMany(Survey::class, 'course_id');
+    }
 }

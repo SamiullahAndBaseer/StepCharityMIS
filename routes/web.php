@@ -3,6 +3,7 @@
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractTypeController;
@@ -11,24 +12,35 @@ use App\Http\Controllers\CurriculumController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FeedbackTypeController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\MaktobController;
 use App\Http\Controllers\MaktobTypeController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\RemittanceController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportTypeController;
+use App\Http\Controllers\RequestForItemController;
+use App\Http\Controllers\SalaryReportController;
 // use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentCourseController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherCourseController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserGuaranteeController;
 use App\Models\Attendance;
+use App\Models\Inventory;
 use App\Models\TemporaryFiles;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -53,6 +65,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+
 // All users authentication to their dashboard.
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -60,13 +73,35 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     // notifications
     Route::get('/delete-notify', [NotificationController::class, 'destroy'])->name('delete.notification');
     Route::get('/markAsRead', [NotificationController::class, 'markAsRead']);
+    // Profile 
+    Route::post('update-profile', [ProfileController::class, 'updateProfile'])->name('update.profile');
+    Route::post('add-education', [ProfileController::class, 'addEducation'])->name('add.education');
+    Route::delete('education/{id}', [ProfileController::class, 'destroy']);
+    Route::post('change-password', [ProfileController::class, 'updatePassword'])->name('update.password');
+    // Remittance 
+    Route::resource('remittance', RemittanceController::class);
+    Route::put('remittance-receive', [RemittanceController::class, 'onReceived'])->name('remittance.received');
+    Route::post('remittance/{id}', [RemittanceController::class, 'destroy']);
+    Route::post('remittance', [RemittanceController::class, 'update'])->name('update.remittance');
+    // proposal for item 
+    Route::resource('request-item', RequestForItemController::class);
+    Route::post('request-image', [UploadController::class, 'requestItemImage'])->name('request.image');
+    Route::post('request-update', [RequestForItemController::class, 'update'])->name('update.request-item');
+    Route::post('request-item/{id}', [RequestForItemController::class, 'destroy']);
+    // for quotations
+    Route::resource('quotation', QuotationController::class);
+    Route::post('bill-image', [QuotationController::class, 'billImage'])->name('quotation.bill');
+    Route::post('quotation-update', [QuotationController::class, 'update'])->name('update.quotation');
+    Route::post('quotation/{id}', [QuotationController::class, 'destroy']);
 });
 
 // For admin
 Route::middleware(['auth', 'admin'])->group(function(){
     Route::post('/upload', [UploadController::class, 'store'])->name('image');
     Route::post('/update/image/{id}', [UploadController::class, 'updateImage'])->name('update.image');
+    Route::post('/survey/image/{id}', [UploadController::class, 'updateSurveyImage'])->name('update.survey.image');
     Route::delete('/update/image/{id}', [UploadController::class, 'deleteImage'])->name('update.image');
+    Route::post('guarantee/image/{id}', [UploadController::class, 'updateGuaranteeImage'])->name('update.guarantee.image');
     // For users
     Route::resource('/user', UserController::class);
     Route::get('/user/del/{id}', [UserController::class, 'destroy'])->name('delete.user');
@@ -148,6 +183,9 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('contract-type', ContractTypeController::class);
     // Feedback type
     Route::resource('feedback-type', FeedbackTypeController::class);
+    // Feedback
+    Route::resource('feedback', FeedbackController::class);
+    Route::post('feedback/{id}', [FeedbackController::class, 'update'])->name('update.feedback');
     // Contract
     Route::resource('contract', ContractController::class);
     Route::post('/contract/update/{id}', [ContractController::class, 'update'])->name('update.contract');
@@ -156,6 +194,29 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('report', ReportController::class);
     Route::post('/report-update/{id}', [ReportController::class, 'update'])->name('update.report');
     Route::post('/report/{id}', [ReportController::class, 'destroy']);
+    // Survey
+    Route::resource('survey', SurveyController::class);
+    Route::post('survey/{id}', [SurveyController::class, 'update'])->name('update.survey');
+    Route::post('/delete/survey/{id}', [SurveyController::class, 'destroy']);
+    Route::put('update-status', [SurveyController::class, 'updateStatus'])->name('status.survey');
+    // User Guarantee 
+    Route::resource('guarantee', UserGuaranteeController::class);
+    Route::get('guarantee/create/{id}', [UserGuaranteeController::class, 'create'])->name('create.guarantee');
+    Route::post('guarantee/update', [UserGuaranteeController::class, 'update'])->name('update.guarantee');
+    Route::post('guarantee/delete/{id}', [UserGuaranteeController::class, 'destroy']);
+    // Inventory
+    Route::resource('inventory', InventoryController::class);
+    Route::post('inventory-update', [InventoryController::class, 'update'])->name('update.inventory');
+    Route::post('inventory/{id}', [InventoryController::class, 'destroy']);
+    // Category
+    Route::resource('category', CategoryController::class);
+    Route::post('category-update', [CategoryController::class, 'update'])->name('update.category');
+    // Salary Reports
+    Route::resource('salary-report', SalaryReportController::class);
+    Route::post('salary-report/{id}', [SalaryReportController::class, 'destroy']);
+    Route::post('salary-report/paid/{id}', [SalaryReportController::class, 'paidSalary']);
+    // send whatsapp message
+    Route::post('send-whatsapp', [MessageController::class, 'sendWhatsappMsg'])->name('whatsapp.msg');
 });
 
 // For Student view
@@ -207,4 +268,5 @@ Route::get('tmp-delete', function(){
     }
     return 'done';
 });
+
 

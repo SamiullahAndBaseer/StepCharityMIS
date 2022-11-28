@@ -17,11 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->boolean('verify_by_branch_director');
-            $table->boolean('verify_by_branch_admin');
             $table->boolean('verify_by_main_branch_director');
             $table->boolean('verify_by_main_branch_admin');
-            $table->boolean('verify_by_general_office_finince');
+            $table->boolean('verify_by_general_office_finance');
             $table->boolean('verify_by_general_office_director');
             $table->string('upload_file');
             $table->foreignId('user_id');

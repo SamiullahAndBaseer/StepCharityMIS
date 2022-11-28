@@ -15,23 +15,6 @@ FilePond.registerPlugin(
     FilePondPluginImageTransform,
   //   FilePondPluginImageEdit
   );
-  
-  // Select the file input and use 
-  // create() to turn it into a pond
-  FilePond.create(
-    document.querySelector('.filepond'),
-    {
-      imagePreviewHeight: 170,
-      imageCropAspectRatio: '1:1',
-      imageResizeTargetWidth: 200,
-      imageResizeTargetHeight: 200,
-      stylePanelLayout: 'compact circle',
-      styleLoadIndicatorPosition: 'center bottom',
-      styleProgressIndicatorPosition: 'right bottom',
-      styleButtonRemoveItemPosition: 'left bottom',
-      styleButtonProcessItemPosition: 'right bottom',
-    }
-);
 
 // Purge Cache Notification
 document.querySelector('.btn-clear-purge').addEventListener('click', function() {

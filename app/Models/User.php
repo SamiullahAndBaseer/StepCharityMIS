@@ -20,8 +20,6 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    protected $dir = 'assets/img/staff/';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -78,31 +76,25 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function remittance_sender()
-    {
-        return $this->hasMany(Remittance::class, 'sender_id');
-    }
-
-    public function remittance_receiver()
-    {
-        return $this->hasMany(Remittance::class, 'receiver_id');
-    }
-
+    // for roles
     public function role()
     {
         return $this->belongsTo(Role::class);
     }
 
+    // for branch
     public function branch()
     {
         return $this->belongsTo(Branch::class);
     }
 
+    // for currency
     public function currency()
     {
         return $this->belongsTo(Currency::class);
     }
 
+    // for attendance
     public function attendances()
     {
         return $this->hasMany(Attendance::class);
@@ -186,5 +178,65 @@ class User extends Authenticatable
     public function feedbacks()
     {
         return $this->hasMany(Feedback::class, 'user_id');
+    }
+
+    /**
+     * Get all of the educationInfo for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function educationInfo()
+    {
+        return $this->hasMany(EducationInfo::class, 'user_id');
+    }
+
+    /**
+     * Get all of the salary_reports for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function salary_reports()
+    {
+        return $this->hasMany(SalaryReport::class, 'user_id');
+    }
+
+    /**
+     * Get all of the salary_payer for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function salary_payer()
+    {
+        return $this->hasMany(SalaryReport::class, 'payer_id');
+    }
+
+    /**
+     * Get all of the remittanceSender for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function remittanceSender()
+    {
+        return $this->hasMany(Remittance::class, 'sender_id');
+    }
+
+    /**
+     * Get all of the remittanceReceiver for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function remittanceReceiver()
+    {
+        return $this->hasMany(Remittance::class, 'receiver_id');
+    }
+
+    /**
+     * Get all of the requestItems for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function requestItems()
+    {
+        return $this->hasMany(ProposalForItem::class, 'user_id');
     }
 }

@@ -1,95 +1,80 @@
-<x-jet-form-section submit="updateProfileInformation">
-    <x-slot name="title">
-        {{ __('Profile Information') }}
-    </x-slot>
+<form class="section general-info" id="updateProfileForm" action="{{ route('update.profile') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="info">
+        <h6 class="">General Information</h6>
+        <div class="row">
+            <div class="col-lg-11 mx-auto">
+                <div class="row">
+                    <div class="col-xl-2 col-lg-12 col-md-4">
+                        <div class="profile-image  mt-4 pe-md-4">
 
-    <x-slot name="description">
-        {{ __('Update your account\'s profile information and email address.') }}
-    </x-slot>
+                            <div class="img-uploader-content">
+                                <input type="file" class="filepond"
+                                    name="profile_photo" accept="image/png, image/jpeg, image/gif"/>
+                            </div>
+        
+                        </div>
+                    </div>
+                    <div class="col-xl-10 col-lg-12 col-md-8 mt-md-0 mt-4" id="refreshHere">
+                        <div class="form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="first_name">First Name</label>
+                                        <input type="text" class="form-control mb-3" name="first_name" placeholder="First Name" value="{{ Auth::user()->first_name }}">
+                                        <span class="text-danger first_name_error"></span>
+                                    </div>
+                                </div>
 
-    <x-slot name="form">
-        <!-- Profile Photo -->
-        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-            <div x-data="{photoName: null, photoPreview: null}" class="col-span-6 sm:col-span-4">
-                <!-- Profile Photo File Input -->
-                <input type="file" class="hidden"
-                            wire:model="photo"
-                            x-ref="photo"
-                            x-on:change="
-                                    photoName = $refs.photo.files[0].name;
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => {
-                                        photoPreview = e.target.result;
-                                    };
-                                    reader.readAsDataURL($refs.photo.files[0]);
-                            " />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="last_name">Last Name</label>
+                                        <input type="text" class="form-control mb-3" name="last_name" placeholder="Last Name" value="{{ Auth::user()->last_name }}">
+                                        <span class="text-danger last_name_error"></span>
+                                    </div>
+                                </div>
 
-                <x-jet-label for="photo" value="{{ __('Photo') }}" />
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phone_number">Phone </label>
+                                        <input type="text" class="form-control mb-3" name="phone_number" placeholder="Write your phone number here" value="{{ Auth::user()->phone_number }}">
+                                        <span class="text-danger phone_number_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="text" class="form-control mb-3" name="email" id="email" placeholder="Write your email here" value="{{ Auth::user()->email }}">
+                                        <span class="text-danger email_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="province">Province</label>
+                                        <input type="text" class="form-control mb-3" id="province" placeholder="province" value="Kabul">
+                                        <span class="text-danger province_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        <input type="text" class="form-control mb-3" id="address" placeholder="Address" value="Khair khana" >
+                                        <span class="text-danger address_error"></span>
+                                    </div>
+                                </div>
 
-                <!-- Current Profile Photo -->
-                <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+                                <div class="col-md-12 mt-1">
+                                    <div class="form-group text-end">
+                                        <button type="submit" class="btn btn-secondary">Save</button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
-
-                <!-- New Profile Photo Preview -->
-                <div class="mt-2" x-show="photoPreview" style="display: none;">
-                    <span class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center"
-                          x-bind:style="'background-image: url(\'' + photoPreview + '\');'">
-                    </span>
-                </div>
-
-                <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.photo.click()">
-                    {{ __('Select A New Photo') }}
-                </x-jet-secondary-button>
-
-                @if ($this->user->profile_photo_path)
-                    <x-jet-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
-                        {{ __('Remove Photo') }}
-                    </x-jet-secondary-button>
-                @endif
-
-                <x-jet-input-error for="photo" class="mt-2" />
             </div>
-        @endif
-
-        <!-- Name -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="name" value="{{ __('Name') }}" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model.defer="state.name" autocomplete="name" />
-            <x-jet-input-error for="name" class="mt-2" />
         </div>
-
-        <!-- Email -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="email" value="{{ __('Email') }}" />
-            <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
-            <x-jet-input-error for="email" class="mt-2" />
-
-            @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
-                <p class="text-sm mt-2">
-                    {{ __('Your email address is unverified.') }}
-
-                    <button type="button" class="underline text-sm text-gray-600 hover:text-gray-900" wire:click.prevent="sendEmailVerification">
-                        {{ __('Click here to re-send the verification email.') }}
-                    </button>
-                </p>
-
-                @if ($this->verificationLinkSent)
-                    <p v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600">
-                        {{ __('A new verification link has been sent to your email address.') }}
-                    </p>
-                @endif
-            @endif
-        </div>
-    </x-slot>
-
-    <x-slot name="actions">
-        <x-jet-action-message class="mr-3" on="saved">
-            {{ __('Saved.') }}
-        </x-jet-action-message>
-
-        <x-jet-button wire:loading.attr="disabled" wire:target="photo">
-            {{ __('Save') }}
-        </x-jet-button>
-    </x-slot>
-</x-jet-form-section>
+    </div>
+</form>

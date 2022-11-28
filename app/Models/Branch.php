@@ -17,13 +17,12 @@ class Branch extends Model
     }
 
     /**
-     * Get all of the surveyies for the Branch
+     * Get all of the surveys for the Branch
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function surveyies()
+    public function surveys()
     {
-        return $this->hasMany(Survey::class);
+        return $this->hasMany(Survey::class, 'branch_id');
     }
-
 }

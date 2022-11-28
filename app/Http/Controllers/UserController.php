@@ -145,6 +145,7 @@ class UserController extends Controller
             if($status){
                 $photo = $temporaryFile->filename;
                 rmdir(public_path('tmp/'. $request->profile_photo));
+                unlink(public_path('images/').$user->profile_photo_path);
                 $temporaryFile->delete();
             }    
         }
