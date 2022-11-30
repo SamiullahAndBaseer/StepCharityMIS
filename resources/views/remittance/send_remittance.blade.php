@@ -1,6 +1,8 @@
 @extends('layouts.admin_layouts.base')
 @section('custom_css_content')
 <link href="{{ asset('assets/src/assets/css/light/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/src/assets/css/dark/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
+
 @endsection
 
 @section('content')
@@ -28,7 +30,7 @@
                         <div class="tab-pane fade show active" id="animated-underline-home" role="tabpanel" aria-labelledby="animated-underline-home-tab">
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
-                                    <form class="section general-info"  method="post" action="{{ route('remittance.store') }}">
+                                    <form class="section general-info"  method="post" action="/remittance/save">
                                         @csrf
                                         <div class="info">
                                             <h6 class="">Remittance Information</h6>

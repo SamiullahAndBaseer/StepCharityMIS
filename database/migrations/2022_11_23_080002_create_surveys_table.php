@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('primary_phone_number')->unique();
             $table->string('whatsapp_number')->unique();
             $table->string('id_card_number');
+            $table->decimal('salary')->default(0);
+            $table->text('bio')->default('This message is for default');
+            $table->foreignId('currency_id');
             $table->boolean('gender')->nullable();
             $table->enum('marital_status', ['single', 'married'])->nullable();
             $table->datetime('date_of_birth')->nullable();

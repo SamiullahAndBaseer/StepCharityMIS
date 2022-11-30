@@ -35,4 +35,14 @@ class Currency extends Model
    {
        return $this->hasMany(Quotation::class, 'currency_id');
    }
+
+   /**
+    * Get all of the survey for the Currency
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+   public function survey()
+   {
+       return $this->hasMany(Survey::class, 'currency_id');
+   }
 }

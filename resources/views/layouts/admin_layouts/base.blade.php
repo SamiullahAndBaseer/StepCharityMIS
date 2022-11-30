@@ -17,13 +17,6 @@
     <link href="{{ asset('assets/layouts/collapsible-menu/css/light/plugins.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/layouts/collapsible-menu/css/dark/plugins.css') }}" rel="stylesheet" type="text/css" />
     <!-- END GLOBAL MANDATORY STYLES -->
-
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-    {{-- <link href="{{ asset('assets/src/plugins/src/apex/apexcharts.css') }}" rel="stylesheet" type="text/css"> --}}
-    <link href="{{ asset('assets/src/assets/css/light/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/src/assets/css/dark/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
-    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-
     {{-- For alert messages --}}
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/light/elements/alert.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/elements/alert.css') }}">
@@ -71,12 +64,6 @@
     <script src="{{ asset('assets/src/plugins/src/mousetrap/mousetrap.min.js') }}"></script>
     <script src="{{ asset('assets/layouts/collapsible-menu/app.js') }}"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->
-
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-    {{-- <script src="{{ asset('assets/src/plugins/src/apex/apexcharts.min.js') }}"></script> --}}
-    <script src="{{ asset('assets/src/assets/js/dashboard/dash_1.js') }}"></script>
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-
     <script src="{{ asset('assets/src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
     <!--  BEGIN CUSTOM SCRIPTS FILE  -->
     @yield('custom_js_content')

@@ -101,6 +101,9 @@
                     <li>
                         <a href="{{ route('student.index') }}"> Students List </a>
                     </li>
+                    <li>
+                        <a href="{{ route('graduated.index') }}"> Graduated List </a>
+                    </li>
                 </ul>
             </li>
 
@@ -347,7 +350,7 @@
                         <a href="{{ route('contract.index') }}"> Contracts List </a>
                     </li>
                     <li>
-                        <a href="{{ route('contract-type.index') }}"> Maktoob Contract Type List </a>
+                        <a href="{{ route('contract-type.index') }}">Contract Type List </a>
                     </li>
                 </ul>
             </li>

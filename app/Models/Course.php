@@ -71,4 +71,14 @@ class Course extends Model
     {
         return $this->hasMany(Survey::class, 'course_id');
     }
+
+    /**
+     * Get all of the graduated for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function graduated()
+    {
+        return $this->hasMany(GraduatedStudent::class, 'course_id');
+    }
 }

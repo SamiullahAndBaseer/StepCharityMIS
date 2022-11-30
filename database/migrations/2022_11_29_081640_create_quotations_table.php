@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('bill_image');
             $table->string('discount');
             $table->enum('status_for_buying', ['Waiting', 'Purchased'])->default('Waiting');
-            $table->boolean('general_office_status')->default(0);
-            $table->boolean('financial_status_afg')->default(0);
+            $table->boolean('general_office_status')->default(2);
+            $table->boolean('financial_status_afg')->default(2);
             $table->foreignId('currency_id');
             $table->foreignId('proposal_id');
             $table->timestamps();

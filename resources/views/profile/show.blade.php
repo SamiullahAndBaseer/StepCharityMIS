@@ -63,9 +63,6 @@
                                         <a class="nav-link" id="animated-underline-preferences-tab" data-bs-toggle="tab" href="#animated-underline-preferences" role="tab" aria-controls="animated-underline-preferences" aria-selected="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Update Password</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="animated-underline-profile-tab" data-bs-toggle="tab" href="#animated-underline-profile" role="tab" aria-controls="animated-underline-profile" aria-selected="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg> Payment Details</a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a class="nav-link" id="animated-underline-contact-tab" data-bs-toggle="tab" href="#animated-underline-contact" role="tab" aria-controls="animated-underline-contact" aria-selected="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> Danger Zone</a>
                                     </li>
                                 </ul>
@@ -195,168 +192,11 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="animated-underline-profile" role="tabpanel" aria-labelledby="animated-underline-preferences-tab">
-                            <div class="row">
-                                <div class="col-xl-6 col-lg-12 col-md-12 layout-spacing">
-                                    <div class="section general-info">
-                                        <div class="info">
-                                            <h6 class="">Choose Theme</h6>
-                                            <div class="d-sm-flex justify-content-around">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                                                    <label class="form-check-label" for="flexRadioDefault1">
-                                                      <img class="ms-3" width="100" height="68" alt="settings-dark" src="{{ asset('assets/src/assets/img/settings-light.svg') }}">
-                                                    </label>
-                                                </div>
-                                                
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                                                    <label class="form-check-label" for="flexRadioDefault2">
-                                                        <img class="ms-3" width="100" height="68" alt="settings-light" src="{{ asset('assets/src/assets/img/settings-dark.svg') }}">
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-6 col-lg-12 col-md-12 layout-spacing">
-                                    <div class="section general-info">
-                                        <div class="info">
-                                            <h6 class="">Activity data</h6>
-                                            <p>Download your Summary, Task and Payment History Data</p>
-                                            <div class="form-group mt-4">
-                                                <button class="btn btn-primary">Download Data</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-xl-4 col-lg-12 col-md-12 layout-spacing">
-                                    <div class="section general-info">
-                                        <div class="info">
-                                            <h6 class="">Public Profile</h6>
-                                            <p>Your <span class="text-success">Profile</span> will be visible to anyone on the network.</p>
-                                            <div class="form-group mt-4">
-                                                <div class="switch form-switch-custom switch-inline form-switch-secondary mt-1">
-                                                    <input class="switch-input" type="checkbox" role="switch" id="publicProfile" checked>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-12 col-md-12 layout-spacing">
-                                    <div class="section general-info">
-                                        <div class="info">
-                                            <h6 class="">Show my email</h6>
-                                            <p>Your <span class="text-success">Email</span> will be visible to anyone on the network.</p>
-                                            <div class="form-group mt-4">
-                                                <div class="switch form-switch-custom switch-inline form-switch-secondary mt-1">
-                                                    <input class="switch-input" type="checkbox" role="switch" id="showMyEmail">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-xl-4 col-lg-12 col-md-12 layout-spacing">
-                                    <div class="section general-info">
-                                        <div class="info">
-                                            <h6 class="">Enable keyboard shortcuts</h6>
-                                            <p>When enabled, press <code class="text-success">ctrl</code> for help</p>
-                                            <div class="form-group mt-4">
-                                                <div class="switch form-switch-custom switch-inline form-switch-secondary mt-1">
-                                                    <input class="switch-input" type="checkbox" role="switch" id="EnableKeyboardShortcut">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-12 col-md-12 layout-spacing">
-                                    <div class="section general-info">
-                                        <div class="info">
-                                            <h6 class="">Hide left navigation</h6>
-                                            <p>Sidebar will be <span class="text-success">hidden</span> by default</p>
-                                            <div class="form-group mt-4">
-                                                <div class="switch form-switch-custom switch-inline form-switch-secondary mt-1">
-                                                    <input class="switch-input" type="checkbox" role="switch" id="hideLeftNavigation">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-12 col-md-12 layout-spacing">
-                                    <div class="section general-info">
-                                        <div class="info">
-                                            <h6 class="">Advertisements</h6>
-                                            <p>Display <span class="text-success">Ads</span> on your dashboard</p>
-                                            <div class="form-group mt-4">
-                                                <div class="switch form-switch-custom switch-inline form-switch-secondary mt-1">
-                                                    <input class="switch-input" type="checkbox" role="switch" id="advertisements">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-12 col-md-12 layout-spacing">
-                                    <div class="section general-info">
-                                        <div class="info">
-                                            <h6 class="">Social Profile</h6>
-                                            <p>Enable your <span class="text-success">social</span> profiles on this network</p>
-                                            <div class="form-group mt-4">
-                                                <div class="switch form-switch-custom switch-inline form-switch-secondary mt-1">
-                                                    <input class="switch-input" type="checkbox" role="switch" id="socialprofile" checked>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>                                    
-                            </div>
-                        </div>
                         <div class="tab-pane fade" id="animated-underline-contact" role="tabpanel" aria-labelledby="animated-underline-contact-tab">
-                            <div class="alert alert-arrow-right alert-icon-right alert-light-warning alert-dismissible fade show mb-4" role="alert">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12" y2="16"></line></svg>
-                                <strong>Warning!</strong> Please proceed with caution. For any assistance - <a href="javascript:void(0);">Contact Us</a>
-                            </div>
-                            
                             <div class="row">
                                 <div class="col-xl-6 col-lg-12 col-md-12 layout-spacing">
                                     @livewire('profile.logout-other-browser-sessions-form')
                                 </div>
-
-                                <div class="col-xl-6 col-lg-12 col-md-12 layout-spacing">
-                                    <div class="section general-info">
-                                        <div class="info">
-                                            <h6 class="">Deactivate Account</h6>
-                                            <p>You will not be able to receive messages, notifications for up to 24 hours.</p>
-                                            <div class="form-group mt-4">
-                                                <div class="switch form-switch-custom switch-inline form-switch-success mt-1">
-                                                    <input class="switch-input" type="checkbox" role="switch" id="socialformprofile-custom-switch-success">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="section general-info layout-spacing mt-3">
-                                        <div class="info">
-                                            <h6 class="">Delete Account</h6>
-                                            <p>Once you delete the account, there is no going back. Please be certain.</p>
-                                            <div class="form-group mt-4">
-                                                <button class="btn btn-danger btn-delete-account">Delete my account</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="col-xl-6 col-lg-6 col-md-6 ">
-                                    
-                                </div>
-    
-                                
                             </div>
                         </div>
                     </div>
@@ -367,7 +207,7 @@
 
         </div>
 
-        <div id="addCourseModal" class="modal animated zoomInUp custo-zoomInUp" role="dialog">
+        <div id="logoutOtherModal" class="modal animated zoomInUp custo-zoomInUp" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -377,18 +217,18 @@
                           <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
                     </div>
-                    <form class="mt-0" method="GET" action="" id="logoutOtherBrowserForm">
+                    <form class="mt-0" method="post" action="{{ route('logout.other') }}" id="logoutOtherBrowserForm">
                         @csrf
                     <div class="modal-body">
                         <p>Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.</p>
                         
-                        <div class="mt-4" x-data="{}" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
-                            <input class="form-control" type="password" name="password" placeholder="Password" x-ref="password" wire:keydown.enter="logoutOtherBrowserSessions">
+                        <div class="mt-4">
+                            <input class="form-control" type="password" name="password" placeholder="Password">
                             <span class="text-danger password_error"></span>
                         </div>
                     </div>
                     <div class="modal-footer md-button">
-                        <button type="button" data-bs-dismiss="modal" class="btn btn-outline-dark" wire:click="$toggle('confirmingLogout')" wire:loading.attr="disabled">
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-outline-dark">
                             <i class="flaticon-cancel-12"></i>Cancel
                         </button>
                                 

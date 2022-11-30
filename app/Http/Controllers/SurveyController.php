@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Course;
+use App\Models\Currency;
 use App\Models\Survey;
 use App\Models\TemporaryFiles;
+use App\Models\User;
+use App\Models\UserGuarantee;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use App\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class SurveyController extends Controller
 {
@@ -31,7 +36,8 @@ class SurveyController extends Controller
     {
         $branches = Branch::all();
         $courses = Course::all();
-        return view('admin.survey.add_survey', ['branches'=> $branches, 'courses'=> $courses]);
+        $currencies = Currency::all();
+        return view('admin.survey.add_survey', ['branches'=> $branches, 'courses'=> $courses, 'currencies'=> $currencies]);
     }
 
     public function updateStatus(Request $request)
@@ -39,6 +45,39 @@ class SurveyController extends Controller
         $survey = Survey::findOrFail($request->id);
         $survey->status = $request->status;
         $survey->save();
+
+        if($request->status == 'approved')
+        {
+            $role = Role::where('name', 'Student')->first();
+
+            $marital_status = 0;
+            if($survey->marital_status == 'married'){
+                $marital_status = 1;
+            }
+
+            User::create([
+                'first_name' => $survey->first_name,
+                'last_name' => $survey->last_name,
+                'father_name' => $survey->father_name,
+                'phone_number' => $survey->primary_phone_number,
+                'id_card_number' => $survey->id_card_number,
+                'salary' => $survey->salary,
+                'bio' => $survey->bio,
+                'gender' => $survey->gender,
+                'marital_status' => $marital_status,
+                'date_of_birth' => $survey->date_of_birth,
+                'status' => 1,
+                'join_date' => $survey->created_at,
+                'role_id' => $role->id,
+                'branch_id' => $survey->branch_id,
+                'currency_id' => $survey->currency_id,
+                'email' => $survey->email,
+                'profile_photo_path' => $survey->photo,
+                'password' => Hash::make('sms@1234'),
+            ]);
+            
+            File::copy(public_path('images/surveys/'.$survey->photo), public_path('images/'.$survey->photo));
+        }
 
         return response()->json([
             'status' => 'success',
@@ -61,6 +100,9 @@ class SurveyController extends Controller
             'whatsapp_number' => 'required|unique:surveys,whatsapp_number',
             'id_card_number' => 'required|unique:surveys,id_card_number',
             'gender' => 'required',
+            'salary' => 'required|numeric',
+            'bio' => 'required|max:100',
+            'currency_id' => 'required',
             'marital_status' => 'required',
             'date_of_birth' => 'required|date',
             'branch_id' => 'required',
@@ -74,6 +116,8 @@ class SurveyController extends Controller
             'question_three' => 'required|string|max:128',
             'question_four' => 'required|string|max:128',
             'course_id' => 'required',
+        ], [
+            'currency_id' => 'The currency field is required.'
         ]);
         
 
@@ -98,6 +142,9 @@ class SurveyController extends Controller
             'whatsapp_number' => $request->whatsapp_number,
             'id_card_number' => $request->id_card_number,
             'gender' => $request->gender,
+            'salary' => $request->salary,
+            'bio' => $request->bio,
+            'currency_id' => $request->currency_id,
             'marital_status' => $request->marital_status,
             'date_of_birth' => $request->date_of_birth,
             'branch_id' => $request->branch_id,
@@ -140,7 +187,10 @@ class SurveyController extends Controller
         $survey = Survey::findOrFail($id);
         $courses = Course::all();
         $branches = Branch::all();
-        return view('admin.survey.edit_survey', ['survey'=> $survey, 'courses'=> $courses, 'branches'=> $branches]);
+        $currencies = Currency::all();
+        return view('admin.survey.edit_survey', ['survey'=> $survey, 'courses'=> $courses,
+            'branches'=> $branches,
+            'currencies'=> $currencies]);
     }
 
     /**
@@ -161,6 +211,9 @@ class SurveyController extends Controller
             'whatsapp_number' => 'required',
             'id_card_number' => 'required',
             'gender' => 'required',
+            'salary' => 'required|numeric',
+            'bio' => 'required|max:100',
+            'currency_id' => 'required',
             'marital_status' => 'required',
             'date_of_birth' => 'required|date',
             'branch_id' => 'required',
@@ -198,6 +251,9 @@ class SurveyController extends Controller
             'whatsapp_number' => $request->whatsapp_number,
             'id_card_number' => $request->id_card_number,
             'gender' => $request->gender,
+            'salary' => $request->salary,
+            'bio' => $request->bio,
+            'currency_id' => $request->currency_id,
             'marital_status' => $request->marital_status,
             'date_of_birth' => $request->date_of_birth,
             'branch_id' => $request->branch_id,
@@ -228,6 +284,12 @@ class SurveyController extends Controller
     public function destroy($id)
     {
         $survey = Survey::findOrFail($id);
+        foreach(UserGuarantee::where('survey_id', $survey->id)->get() as $item)
+        {
+            $item->delete();
+            unlink(public_path('images/user_guarantees/').$item->photo);
+        }
+
         $survey->delete();
         unlink(public_path('images/surveys/').$survey->photo);
         session()->flash('survey_deleted', 'Survey deleted successfully.');

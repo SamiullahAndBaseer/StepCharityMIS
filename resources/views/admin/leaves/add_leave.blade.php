@@ -10,6 +10,9 @@
         box-shadow: 20px;
     }
 </style>
+
+<link href="{{ asset('assets/src/assets/css/dark/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
+
 @endsection
 @section('content')
 <div id="content" class="main-content">
@@ -41,8 +44,8 @@
                                 </div>
                             </div>
                             @endif
-                            <div id="ft" class="col-xl-8 col-lg-8 col-md-10 offset-lg-2 offset-md-1 layout-spacing pt-5">
-                                <form class="section general-info" method="post" action="{{ route('leave.store') }}">
+                            <div class="section general-info col-xl-8 col-lg-8 col-md-10 offset-lg-2 offset-md-1 layout-spacing pt-5">
+                                <form method="post" action="{{ route('leave.store') }}">
                                     @csrf
                                     <div class="col-lg-11 mx-auto">
                                         <div class="row">

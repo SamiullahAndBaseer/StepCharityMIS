@@ -239,4 +239,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProposalForItem::class, 'user_id');
     }
+
+    /**
+     * Get the graduated associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function graduated()
+    {
+        return $this->hasOne(GraduatedStudent::class, 'student_id');
+    }
 }

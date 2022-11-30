@@ -140,6 +140,27 @@
 
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
+                                                                            <label for="salary">Salary Per Day<span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control mb-3" id="salary" value="{{ $survey->salary }}" placeholder="amount of daily allowance" name="salary" >
+                                                                            <span class="text-danger">{{ $errors->first('salary') }}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="currency_id">Currency</label>
+                                                                            <select class="form-select mb-3" id="currency_id" name="currency_id">
+                                                                                <option value="{{ $survey->currency_id }}">{{ $survey->currency->name }}</option>
+                                                                                @foreach ($currencies as $currency)
+                                                                                <option value="{{ $currency->id }}">{{ $currency->name }}</option>
+                                                                                @endforeach 
+                                                                            </select>
+                                                                            <span class="text-danger">{{ $errors->first('currency_id') }}</span>  
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
                                                                             <label for="branch">Branch</label>
                                                                             <select class="form-select mb-3" id="branch_id" name="branch_id">
                                                                                 <option value="{{ $survey->branch_id }}">{{ $survey->branch->name }}</option>
@@ -233,6 +254,14 @@
                                                                             <label for="description">Description<span class="text-danger">*</span></label>
                                                                             <input type="text" class="form-control mb-3" id="description" value="{{ $survey->description }}" name="description" placeholder="description here"') }}">
                                                                             <span class="text-danger">{{ $errors->first('description') }}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="bio">Bio<span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control mb-3" id="bio" value="{{ $survey->bio }}" placeholder="biography here" name="bio" >
+                                                                            <span class="text-danger">{{ $errors->first('bio') }}</span>
                                                                         </div>
                                                                     </div>
 

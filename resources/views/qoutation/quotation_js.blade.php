@@ -8,18 +8,34 @@
 <script>
     $(document).ready(function(){
         // For approved
-        $(document).on('click', '.on_received', function(e){
+        $(document).on('click', '.approved', function(e){
             e.preventDefault();
-            var remittance_id = $(this).data('id');
-            var selector = "#yes_appr-"+remittance_id;
+            var quotation_id = $(this).data('id');
+            var status_type = $(this).data('type');
 
             $.ajax({
-                url: "{{ route('remittance.received') }}",
-                method: 'put',
-                data: {id: remittance_id},
+                url: "{{ route('quotation.status') }}",
+                method: 'post',
+                data: {id: quotation_id, status_type: status_type, status: 1},
                 success: function(res){
                     if(res.status == 'success'){
-                        document.location.reload();
+                       document.location.reload();
+                    }
+                }
+            });
+        });
+        // for reject
+        $(document).on('click', '.rejected' , function(e){
+            var quotation_id = $(this).data('id');
+            var status_type = $(this).data('type');
+
+            $.ajax({
+                url: "{{ route('quotation.status') }}",
+                method: 'post',
+                data: {id: quotation_id, status_type: status_type, status: 0},
+                success: function(res){
+                    if(res.status == 'success'){
+                       document.location.reload();
                     }
                 }
             });

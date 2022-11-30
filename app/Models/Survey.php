@@ -19,6 +19,9 @@ class Survey extends Model
         'whatsapp_number',
         'id_card_number',
         'gender',
+        'salary',
+        'bio',
+        'currency_id',
         'marital_status',
         'date_of_birth',
         'branch_id',
@@ -64,5 +67,15 @@ class Survey extends Model
     public function user_guarantee()
     {
         return $this->hasOne(UserGuarantee::class, 'survey_id');
+    }
+
+    /**
+     * Get the currency that owns the Survey
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
     }
 }

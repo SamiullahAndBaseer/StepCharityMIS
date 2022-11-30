@@ -123,17 +123,15 @@
                 },
                 success:function(data){
                     if(data.code == 0){
-                        $.each(data.error, function(prefix, val){
-                            $(form).find('span.'+prefix+'_error').text(val[0]);
-                        });
+                        $(form).find('span.'+'password_error').text(data.error);
                     }else{
-                        $(form)[0].reset();
-                        $('.education_section').load(location.href+" .education_section");
+                        $('#logoutOtherModal').modal('hide');
                         Swal.fire(
-                            'Added',
+                            'Done',
                             data.msg,
                             'success'
                         );
+                        $(form)[0].reset();
                     }
                 }
             });

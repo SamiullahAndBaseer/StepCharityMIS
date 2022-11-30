@@ -130,7 +130,7 @@
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label for="salary">Salary<span class="text-danger">*</span></label>
+                                                                            <label for="salary">Salary Per Day<span class="text-danger">*</span></label>
                                                                             <input type="text" class="form-control mb-3" id="salary" name="salary" placeholder="Write your Salary number here" >
                                                                             <span class="text-danger">{{ $errors->first('salary') }}</span>
                                                                         </div>

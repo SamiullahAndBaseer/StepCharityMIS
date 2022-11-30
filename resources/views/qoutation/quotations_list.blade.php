@@ -52,9 +52,63 @@
                                         <td>{{ $item->quality }}</td>
                                         <td>{{ $item->price }}</td>
                                         <td>{{ $item->discount }}</td>
-                                        <td>{{ $item->status_for_buying }}</td>
-                                        <td>{{ $item->general_office_status }}</td>
-                                        <td>{{ $item->financial_status_afg }}</td>
+                                        <td>
+                                            @if($item->status_for_buying == 'Purchased')
+                                            <span class="text-success">{{ $item->status_for_buying }}</span>
+                                            @else
+                                            <span class="text-primary">{{ $item->status_for_buying }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($item->general_office_status  == 1)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-info">Accept</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="general_office">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @elseif($item->general_office_status  == 0)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-danger">Reject</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="general_office">Accept</span>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-success">Pending</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="general_office">Accept</span><br/>
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="general_office">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($item->financial_status_afg  == 1)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-info">Accept</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="finance_office">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @elseif($item->financial_status_afg  == 0)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-danger">Reject</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="finance_office">Accept</span>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-success">Pending</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="finance_office">Accept</span><br/>
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="finance_office">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{{ asset('files/quotations') }}/{{ $item->bill_image }}" class="text-info">
                                                 <img src="{{ asset('files/quotations') }}/{{ $item->bill_image }}" width="35px" height="35px" alt="{{ $item->bill_image }}">
@@ -66,7 +120,6 @@
                                         </td>
                                     </tr>
                                     @endforeach
-                                    
                                 </tbody>
                             </div>
                             

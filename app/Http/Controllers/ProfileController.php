@@ -13,10 +13,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use Jenssegers\Agent\Agent;
 
 class ProfileController extends Controller
 {
@@ -119,6 +117,40 @@ class ProfileController extends Controller
                 return response()->json(['code'=> 1, 'msg'=> 'Password has been changed successfully.']);
             }
         }
+    }
+
+    // for logout from other browser
+    public function logoutOtherBrowser(StatefulGuard $guard, Request $request)
+    {
+        if (config('session.driver') !== 'database') {
+            return;
+        }
+
+        if (! Hash::check($request->password, Auth::user()->password)) {
+            return response()->json(['code'=>  0, 'error'=> 'This password does not match our records.']);
+        }
+
+        $guard->logoutOtherDevices($request->password);
+        
+        $this->deleteOtherSessionRecords();
+
+        request()->session()->put([
+            'password_hash_'.Auth::getDefaultDriver() => Auth::user()->getAuthPassword(),
+        ]);
+
+        return response()->json(['code'=> 1, 'msg'=> 'Logout from other browsers successfully.']);
+    }
+
+    protected function deleteOtherSessionRecords()
+    {
+        if (config('session.driver') !== 'database') {
+            return;
+        }
+
+        DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
+            ->where('user_id', Auth::user()->getAuthIdentifier())
+            ->where('id', '!=', request()->session()->getId())
+            ->delete();
     }
 
 }

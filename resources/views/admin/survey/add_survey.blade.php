@@ -86,7 +86,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="fullName">First Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="first_name" placeholder="First Name" value="{{ old('first_name') }}" name="first_name"  >
+                                                                            <input type="text" class="form-control mb-3" id="first_name" placeholder="first name here" value="{{ old('first_name') }}" name="first_name"  >
                                                                             <span class="text-danger">{{ $errors->first('first_name') }}</span>
                                                                            
                                                                         </div>
@@ -94,14 +94,14 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="fullName">Last Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="last_name" placeholder="Last Name" value="{{ old('last_name') }}" name="last_name" >
+                                                                            <input type="text" class="form-control mb-3" id="last_name" placeholder="last name here" value="{{ old('last_name') }}" name="last_name" >
                                                                             <span class="text-danger">{{ $errors->first('last_name') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="fullName">Father Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="father_name" placeholder="Father Name" value="{{ old('father_name') }}" name="father_name" >
+                                                                            <input type="text" class="form-control mb-3" id="father_name" placeholder="father name here" value="{{ old('father_name') }}" name="father_name" >
                                                                             <span class="text-danger">{{ $errors->first('father_name') }}</span>
                                                                         </div>
                                                                     </div>
@@ -109,7 +109,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="email">Email<span class="text-danger">*</span></label>
-                                                                            <input type="email" class="form-control mb-3" id="email" value="{{ old('email') }}" placeholder="Write your email here" name="email">
+                                                                            <input type="email" class="form-control mb-3" id="email" value="{{ old('email') }}" placeholder="example@email.com" name="email">
                                                                             <span class="text-danger">{{ $errors->first('email') }}</span>
                                                                         </div>
                                                                     </div> 
@@ -117,7 +117,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="primary_phone_number">Phone<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="primary_phone_number" value="{{ old('primary_phone_number') }}" placeholder="Write your phone number here" name="primary_phone_number" >
+                                                                            <input type="text" class="form-control mb-3" id="primary_phone_number" value="{{ old('primary_phone_number') }}" placeholder="+937xxxxxxxx" name="primary_phone_number" >
                                                                             <span class="text-danger">{{ $errors->first('primary_phone_number') }}</span>
                                                                         </div>
                                                                     </div>
@@ -125,7 +125,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="whatsapp_number">WhatsApp<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="whatsapp_number" value="{{ old('whatsapp_number') }}" placeholder="+937xx" name="whatsapp_number" >
+                                                                            <input type="text" class="form-control mb-3" id="whatsapp_number" value="{{ old('whatsapp_number') }}" placeholder="+937xxxxxxxx" name="whatsapp_number" >
                                                                             <span class="text-danger">{{ $errors->first('whatsapp_number') }}</span>
                                                                         </div>
                                                                     </div>
@@ -133,8 +133,29 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="id_card_number">Tazkira Number<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="id_card_number" value="{{ old('id_card_number') }}" placeholder="Write yourTazkira number here" name="id_card_number" >
+                                                                            <input type="text" class="form-control mb-3" id="id_card_number" value="{{ old('id_card_number') }}" placeholder="tazkira number here" name="id_card_number" >
                                                                             <span class="text-danger">{{ $errors->first('id_card_number') }}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="salary">Salary Per Day<span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control mb-3" id="salary" value="{{ old('salary') }}" placeholder="amount of daily allowance" name="salary" >
+                                                                            <span class="text-danger">{{ $errors->first('salary') }}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="currency_id">Currency</label>
+                                                                            <select class="form-select mb-3" id="currency_id" name="currency_id">
+                                                                                <option value="">Choose currency</option>
+                                                                                @foreach ($currencies as $currency)
+                                                                                <option value="{{ $currency->id }}">{{ $currency->name }}</option>
+                                                                                @endforeach 
+                                                                            </select>
+                                                                            <span class="text-danger">{{ $errors->first('currency_id') }}</span>  
                                                                         </div>
                                                                     </div>
 
@@ -176,7 +197,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="mosque_name">Mosque name</label>
-                                                                            <input type="text" class="form-control mb-3" name="mosque_name" placeholder="Mosque name" value="{{ old('mosque_name') }}" >
+                                                                            <input type="text" class="form-control mb-3" name="mosque_name" placeholder="mosque name here" value="{{ old('mosque_name') }}" >
                                                                             @error('mosque_name')
                                                                                 <div class="text-danger">{{ $message }}</div>
                                                                             @enderror
@@ -186,7 +207,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="original_location">Original Location<span class="text-danger">*</span></label>
-                                                                            <input type="original_location" class="form-control mb-3" id="original_location" name="original_location" placeholder="Original Location" >
+                                                                            <input type="original_location" class="form-control mb-3" id="original_location" name="original_location" placeholder="original location" >
                                                                             <span class="text-danger">{{ $errors->first('original_location') }}</span>
                                                                         </div>
                                                                     </div>
@@ -194,7 +215,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="current_location">Current Location<span class="text-danger">*</span></label>
-                                                                            <input type="current_location" class="form-control mb-3" id="current_location" name="current_location" placeholder="Current Location" >
+                                                                            <input type="current_location" class="form-control mb-3" id="current_location" name="current_location" placeholder="current location" >
                                                                             <span class="text-danger">{{ $errors->first('current_location') }}</span>
                                                                         </div>
                                                                     </div>
@@ -202,28 +223,28 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="question_one">Question one?<span class="text-danger">*</span></label>
-                                                                            <input type="question_one" class="form-control mb-3" id="question_one" name="question_one" placeholder="Question one" >
+                                                                            <input type="question_one" class="form-control mb-3" id="question_one" name="question_one" placeholder="answer here for first question." >
                                                                             <span class="text-danger">{{ $errors->first('question_one') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="question_two">Question Two?<span class="text-danger">*</span></label>
-                                                                            <input type="question_two" class="form-control mb-3" id="question_two" name="question_two" placeholder="Question Two" >
+                                                                            <input type="question_two" class="form-control mb-3" id="question_two" name="question_two" placeholder="answer here for second question." >
                                                                             <span class="text-danger">{{ $errors->first('question_two') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="question_three">Question Three?<span class="text-danger">*</span></label>
-                                                                            <input type="question_three" class="form-control mb-3" id="question_three" name="question_three" placeholder="Question Three" >
+                                                                            <input type="question_three" class="form-control mb-3" id="question_three" name="question_three" placeholder="answer here for third question." >
                                                                             <span class="text-danger">{{ $errors->first('question_three') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="question_four">Question Four?<span class="text-danger">*</span></label>
-                                                                            <input type="question_four" class="form-control mb-3" id="question_four" name="question_four" placeholder="Question Four" >
+                                                                            <input type="question_four" class="form-control mb-3" id="question_four" name="question_four" placeholder="answer here for fourth question." >
                                                                             <span class="text-danger">{{ $errors->first('question_four') }}</span>
                                                                         </div>
                                                                     </div>
@@ -233,6 +254,14 @@
                                                                             <label for="description">Description<span class="text-danger">*</span></label>
                                                                             <input type="text" class="form-control mb-3" id="description" name="description" placeholder="description here" value="{{ old('description') }}">
                                                                             <span class="text-danger">{{ $errors->first('description') }}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="bio">Bio<span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control mb-3" id="bio" value="{{ old('bio') }}" placeholder="biography here" name="bio" >
+                                                                            <span class="text-danger">{{ $errors->first('bio') }}</span>
                                                                         </div>
                                                                     </div>
 

@@ -39,7 +39,7 @@
                                 <thead>
                                     <tr>
                                         <th class="checkbox-column"> Record no. </th>
-                                        <th>#</th>
+                                        <th>Serial</th>
                                         <th>Description</th>
                                         <th>Username</th>
                                         <th>Course</th>
@@ -50,8 +50,11 @@
                                 <tbody>
                                     @foreach ($certificates as $certificate)
                                     <tr>
+                                        @php
+                                            $code = Str::upper(str_split($certificate->course->name, 3)[0]);
+                                        @endphp 
                                         <td class="checkbox-column"> 1 </td>
-                                        <td><a href="#"><span class="inv-number">#{{ $certificate->id }}</span></a></td>
+                                        <td><a href="#"><span class="inv-number">SCEO-{{ $code }}{{ $certificate->id }}</span></a></td>
                                         <td>
                                             {!! Str::substr($certificate->description , 0, 30) !!}...
                                         </td>

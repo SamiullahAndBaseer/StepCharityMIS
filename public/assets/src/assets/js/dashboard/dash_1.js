@@ -238,11 +238,11 @@ window.addEventListener("load", function(){
             show: false,
           }
       },
-      colors: ['#622bd7', '#ffbb44'],
+      colors: ['#622bd7', '#ffbb44', '#ff4533'],
       plotOptions: {
           bar: {
               horizontal: false,
-              columnWidth: '55%',
+              columnWidth: '60%',
               endingShape: 'rounded',
               borderRadius: 10,
       
@@ -280,6 +280,9 @@ window.addEventListener("load", function(){
       }, {
           name: 'Organic',
           data: [91, 76, 85, 101, 98, 87, 105, 91, 114, 94, 66, 70]
+      },{
+        name: 'sami',
+        data: [117, 76, 95, 111, 78, 87, 105, 71, 104, 94, 36, 78]
       }],
       xaxis: {
           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

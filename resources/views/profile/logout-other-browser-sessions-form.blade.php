@@ -16,7 +16,7 @@
         @if (count($this->sessions) > 0)
         <div class="row">
             @foreach ($this->sessions as $session)
-                <div class="col-md-12 ms-5">
+                <div class="col-md-12 ms-5 mt-3">
                     <div class="row">
                         @if ($session->agent->isDesktop())
                             <div class="col-md-1">
@@ -56,12 +56,9 @@
         @endif
         <div class="row">
             <div class="col-md-8 m-5">
-                <button type="submit" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addCourseModal" wire:click="confirmLogout" wire:loading.attr="disabled">
+                <button type="submit" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#logoutOtherModal" wire:click="confirmLogout" wire:loading.attr="disabled">
                     Log Out Other Browser Sessions
                 </button>
-                <div x-data="{ shown: false, timeout: null }" x-init="window.livewire.find('UVIKA8FoH9haJoZqa5vk').on('loggedOut', () => { clearTimeout(timeout); shown = true; timeout = setTimeout(() => { shown = false }, 2000);  })" x-show.transition.out.opacity.duration.1500ms="shown" x-transition:leave.opacity.duration.1500ms="" class="text-sm text-gray-600 ml-3" style="display: none;">
-                    Done.
-                </div>
             </div>
         </div>
         {{-- <x-jet-action-section>

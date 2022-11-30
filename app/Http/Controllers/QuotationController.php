@@ -22,6 +22,30 @@ class QuotationController extends Controller
         return view('qoutation.quotations_list', ['quotations'=> $quotations]);
     }
 
+    // change status 
+    public function statusFunction(Request $request)
+    {
+        $quotation = Quotation::findOrFail($request->id);
+        if($request->status_type == 'general_office'){
+            $quotation->general_office_status = $request->status;
+            $quotation->save();
+        }
+
+        if($request->status_type == 'finance_office'){
+            $quotation->financial_status_afg = $request->status;
+            $quotation->save();
+        }
+
+        if($quotation->general_office_status == 1 && $quotation->financial_status_afg == 1){
+            $quotation->status_for_buying = 'Purchased';
+            $quotation->save();
+        }
+
+        return response()->json([
+            'status'=> 'success',
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -101,8 +125,6 @@ class QuotationController extends Controller
             'bill_image'=> $imageName,
             'discount'=> $request->discount,
             'status_for_buying'=> 'Waiting',
-            'general_office_status'=> false,
-            'financial_status_afg'=> false,
             'currency_id'=> $request->currency_id,
             'proposal_id'=> $request->proposal_id
         ]);

@@ -14,6 +14,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FeedbackTypeController;
+use App\Http\Controllers\GraduatedController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
@@ -41,10 +42,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGuaranteeController;
 use App\Models\Attendance;
 use App\Models\Inventory;
+use App\Models\Remittance;
 use App\Models\TemporaryFiles;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,8 +81,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('add-education', [ProfileController::class, 'addEducation'])->name('add.education');
     Route::delete('education/{id}', [ProfileController::class, 'destroy']);
     Route::post('change-password', [ProfileController::class, 'updatePassword'])->name('update.password');
-    // Remittance 
+    Route::post('logout-other', [ProfileController::class, 'logoutOtherBrowser'])->name('logout.other');
+    // Remittance
     Route::resource('remittance', RemittanceController::class);
+    Route::post('remittance/save', [RemittanceController::class, 'store'])->name('store.remittance');
     Route::put('remittance-receive', [RemittanceController::class, 'onReceived'])->name('remittance.received');
     Route::post('remittance/{id}', [RemittanceController::class, 'destroy']);
     Route::post('remittance', [RemittanceController::class, 'update'])->name('update.remittance');
@@ -93,6 +98,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('bill-image', [QuotationController::class, 'billImage'])->name('quotation.bill');
     Route::post('quotation-update', [QuotationController::class, 'update'])->name('update.quotation');
     Route::post('quotation/{id}', [QuotationController::class, 'destroy']);
+    Route::post('status-quotation', [QuotationController::class, 'statusFunction'])->name('quotation.status');
 });
 
 // For admin
@@ -215,6 +221,9 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('salary-report', SalaryReportController::class);
     Route::post('salary-report/{id}', [SalaryReportController::class, 'destroy']);
     Route::post('salary-report/paid/{id}', [SalaryReportController::class, 'paidSalary']);
+    // graduated students
+    Route::resource('graduated', GraduatedController::class);
+    Route::post('graduated-update', [GraduatedController::class, 'update'])->name('update.graduate');
     // send whatsapp message
     Route::post('send-whatsapp', [MessageController::class, 'sendWhatsappMsg'])->name('whatsapp.msg');
 });
