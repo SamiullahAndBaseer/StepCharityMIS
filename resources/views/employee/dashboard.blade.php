@@ -1,4 +1,11 @@
 @extends('layouts.admin_layouts.base')
+@section('custom_css_content')
+    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <link href="{{ asset('assets/src/plugins/src/apex/apexcharts.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/src/assets/css/light/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/src/assets/css/dark/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+@endsection
 @section('content')
 <div id="content" class="main-content">
     <div class="layout-px-spacing">
@@ -261,4 +268,10 @@
     
     @include('layouts.admin_layouts.footer')
 </div>
+@endsection
+@section('custom_js_content')
+    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+    <script src="{{ asset('assets/src/plugins/src/apex/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/src/assets/js/dashboard/dash_1.js') }}"></script>
+    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 @endsection

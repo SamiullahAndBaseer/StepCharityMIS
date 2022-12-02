@@ -44,6 +44,8 @@ class User extends Authenticatable
         'status',
         'join_date',
         'gender',
+        'district_id',
+        'address'
     ];
 
     /**
@@ -75,6 +77,16 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get the district that owns the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'district_id');
+    }
 
     // for roles
     public function role()

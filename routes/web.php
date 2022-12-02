@@ -19,6 +19,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\MaktobController;
 use App\Http\Controllers\MaktobTypeController;
 use App\Http\Controllers\MessageController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportTypeController;
 use App\Http\Controllers\RequestForItemController;
 use App\Http\Controllers\SalaryReportController;
+use App\Http\Controllers\StudentAttendanceSettingController;
 // use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentCourseController;
@@ -43,6 +45,7 @@ use App\Http\Controllers\UserGuaranteeController;
 use App\Models\Attendance;
 use App\Models\Inventory;
 use App\Models\Remittance;
+use App\Models\StudentAttendanceSetting;
 use App\Models\TemporaryFiles;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -67,6 +70,8 @@ use Symfony\Component\HttpKernel\Profiler\Profile;
 Route::get('/', function () {
     return redirect()->route('login');
 });
+
+Route::post('send-email', [MailController::class, 'sendEmail'])->name('send.email');
 
 
 // All users authentication to their dashboard.
@@ -108,6 +113,8 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::post('/survey/image/{id}', [UploadController::class, 'updateSurveyImage'])->name('update.survey.image');
     Route::delete('/update/image/{id}', [UploadController::class, 'deleteImage'])->name('update.image');
     Route::post('guarantee/image/{id}', [UploadController::class, 'updateGuaranteeImage'])->name('update.guarantee.image');
+    // for get district from a province
+    Route::post('get-districts', [UserController::class, 'getDistricts'])->name('get.districts');
     // For users
     Route::resource('/user', UserController::class);
     Route::get('/user/del/{id}', [UserController::class, 'destroy'])->name('delete.user');
@@ -121,6 +128,9 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/student', StudentController::class);
     Route::post('/student-update/{id}', [StudentController::class, 'update'])->name('update.student');
     Route::get('/student-delete/{id}', [StudentController::class, 'destroy'])->name('delete.student');
+    // Attendance settings for students
+    Route::resource('st-attend-setting', StudentAttendanceSettingController::class);
+    Route::post('update-st-setting', [StudentAttendanceSettingController::class, 'update'])->name('update.st-course-att');
     // Attendance settings
     Route::get('/settings', [AttendanceController::class, 'setting'])->name('settings');
     Route::post('/settings', [AttendanceController::class, 'updateSetting'])->name('update.settings');  

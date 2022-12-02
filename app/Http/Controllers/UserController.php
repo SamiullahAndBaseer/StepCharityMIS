@@ -35,22 +35,21 @@ class UserController extends Controller
         $currencies = Currency::select('name', 'id')->get();
         $roles = Role::select('name', 'id')->get();
         $provinces = Province::select('id', 'name')->get();
+        $districts = District::select('id', 'name')->get();
 
-        return view('admin.users.add_employee', compact(['branches','roles','currencies', 'provinces']));
+        return view('admin.users.add_employee', compact(['branches','roles','currencies', 'provinces', 'districts']));
     }
 
-    public function getDistricts($id)
+    public function getDistricts(Request $request)
     {
-        $districts = District::where('province_id', $id)->select('id', 'name')->get();
-
-        return response()->json($districts);
-    }
-
-    public function getVillages($id)
-    {
-        $villages = Village::where('district_id', $id)->select('id', 'name')->get();
-
-        return response()->json($villages);
+        $value = $request->get('value');
+        $data = District::where('province_id', $value)->select('id', 'name')->get();
+        $output = '<option value="">Select District</option>';
+        foreach($data as $row)
+        {
+            $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
+        }
+        return response()->json($output);
     }
 
     // Store new user in database.
@@ -62,17 +61,23 @@ class UserController extends Controller
             'father_name' => 'required|string|min:3|max:50',
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|string|min:9|max:13|unique:users,phone_number',
-            'id_card_number' => 'required|string|max:13|unique:users,id_card_number',
-            'salary' => 'required|string|min:0', "max:200000",
+            'id_card_number' => 'required|string|max:14|unique:users,id_card_number',
+            'salary' => 'required|numeric|min:0|max:20000',
             'bio' => 'required|string|min:3|max:500',
             'password' => 'required|string|min:6',
             'gender' => 'required|numeric|min:0|max:1',
-            'join_date' => 'nullable|date',
+            'join_date' => 'required|date',
             'status' => 'required|min:0|max:1',
-            'date_of_birth' => 'nullable|date',
+            'date_of_birth' => 'required|date',
             'marital_status' => 'nullable|numeric|min:0|max:1',
-            'currency_id' => 'nullable|numeric',
-            'branch_id' => 'nullable|numeric',
+            'currency_id' => 'required|numeric',
+            'branch_id' => 'required|numeric',
+            'province' => 'required',
+            'district' => 'required',
+            'address' => 'required'
+        ],[
+            'currency_id' => 'The currency field is required.',
+            'branch_id' => 'The branch field is required.'
         ]);
 
         $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
@@ -86,7 +91,12 @@ class UserController extends Controller
                 rmdir(public_path('tmp/'. $request->profile_photo));
                 $temporaryFile->delete();
             }    
+        }else{
+            $this->validate($request,[
+                'profile_photo' => 'required'
+            ],['profile_photo'=> 'The profile photo is required.']);
         }
+
         $role = Role::where('name', 'Employee')->first();
         
         User::create([
@@ -108,6 +118,8 @@ class UserController extends Controller
             'email' => $request->email,
             'profile_photo_path' => $photo,
             'password' => Hash::make($request->password),
+            'district_id' => $request->district,
+            'address' => $request->address
         ]);
 
         return redirect('user')->with('message', 'User Created Successfully!');

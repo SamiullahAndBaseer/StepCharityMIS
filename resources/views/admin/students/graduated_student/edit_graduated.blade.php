@@ -32,8 +32,8 @@
                     </div>
                 </div>
                 <div class="modal-footer md-button">
-                    <button class="btn" data-bs-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
-                    <button type="submit" class="btn btn-primary update_ThCo">Update </button>
+                    <a class="btn btn-light" data-bs-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</a>
+                    <button type="submit" class="btn btn-primary">Update </button>
                 </div>
             </form>
         </div>

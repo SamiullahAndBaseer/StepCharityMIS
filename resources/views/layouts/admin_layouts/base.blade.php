@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>SCEO </title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/src/assets/img/favicon.ico') }}"/>
+    <title>SCEO - @yield('title')</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/src/assets/img/logo.png') }}"/>
     <link href="{{ asset('assets/layouts/collapsible-menu/css/light/loader.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/layouts/collapsible-menu/css/dark/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/layouts/collapsible-menu/loader.js') }}"></script>
@@ -27,7 +27,6 @@
     <link href="{{ asset('assets/src/plugins/src/animate/animate.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/custom/js/jquery-3.6.0.js') }}"></script>
     @yield('custom_css_content')
-
 </head>
 <body class="layout-boxed alt-menu">
     <!-- BEGIN LOADER -->
@@ -44,6 +43,7 @@
     <div class="main-container sidebar-closed sidebar-closed" id="container">
 
         <div class="overlay"></div>
+        <div class="cs-overlay"></div>
         <div class="search-overlay"></div>
 
         <!--  BEGIN SIDEBAR  -->

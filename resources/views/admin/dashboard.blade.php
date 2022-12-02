@@ -5,6 +5,7 @@
     <link href="{{ asset('assets/src/assets/css/light/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/src/assets/css/dark/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
     <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    @section('title', 'Admin Dashboard')
 @endsection
 @section('content')
 <div id="content" class="main-content">
@@ -130,7 +131,7 @@
                     <div class="widget widget-chart-three">
                         <div class="widget-heading">
                             <div class="">
-                                <h5 class="">Unique Visitors</h5>
+                                <h5 class="">Users</h5>
                             </div>
                         </div>
 

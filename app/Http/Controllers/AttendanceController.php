@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\AttendanceSettings;
+use App\Models\Course;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -115,7 +116,8 @@ class AttendanceController extends Controller
     public function setting()
     {
         $setting = AttendanceSettings::find(1);
-        return view('admin.attendance_settings', ['setting'=> $setting]);
+        $courses = Course::all();
+        return view('admin.attendance_settings', ['setting'=> $setting, 'courses'=> $courses]);
     }
 
     // update time for attendance.

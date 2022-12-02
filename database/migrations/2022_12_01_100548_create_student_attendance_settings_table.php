@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('villages', function (Blueprint $table) {
+        Schema::create('student_attendance_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('district_id');
+            $table->foreignId('course_id');
+            $table->time('start_attendance');
+            $table->time('end_attendance');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('villages');
+        Schema::dropIfExists('student_attendance_settings');
     }
 };

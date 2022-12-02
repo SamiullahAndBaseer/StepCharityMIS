@@ -1,4 +1,8 @@
 @extends('layouts.admin_layouts.base')
+@section('custom_css_content')
+<link href="{{ asset('assets/src/assets/css/dark/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/src/assets/css/light/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
+@endsection
 @section('content')
 <div id="content" class="main-content">
     <div class="layout-px-spacing">
@@ -24,10 +28,12 @@
                         <div class="tab-pane fade show active" id="animated-underline-home" role="tabpanel" aria-labelledby="animated-underline-home-tab">
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
+
                                     <form class="section general-info"  method="post" action="{{ route('update.settings') }}">
                                         @csrf
                                         <div class="info">
-                                            <div class="row">
+                                            <h5 class="">Employees and Teachers Attendance</h5>
+                                            <div class="row mt-5">
                                                 <div class="col-lg-11 mx-auto">
                                                     <div class="row">
                                                         <div class="col-xl-10 col-lg-10 col-md-10 mt-md-0 mt-4 offset-md-1">

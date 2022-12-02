@@ -14,6 +14,7 @@ class DashboardController extends Controller
 
         switch ($role) {
             case 'admin':
+                
                 return view('admin.dashboard');
                 break;
 

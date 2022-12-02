@@ -3,6 +3,15 @@
     <!--  BEGIN CUSTOM STYLE FILE  -->
     <link href="{{  asset('assets/src/assets/css/light/apps/invoice-preview.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{  asset('assets/src/assets/css/dark/apps/invoice-preview.css') }}" rel="stylesheet" type="text/css" />
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('assets/src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/light/editors/quill/quill.snow.css') }}">
+
+    <link href="{{ asset('assets/src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/dark/editors/quill/quill.snow.css') }}">
+
+    <link href="{{ asset('assets/src/assets/css/light/apps/mailbox.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/src/assets/css/dark/apps/mailbox.css') }}" rel="stylesheet" type="text/css" />
     <!--  END CUSTOM STYLE FILE  -->
     <style>
         .card{
@@ -181,7 +190,13 @@
                                                                         </tr>
                                                                         <tr>
                                                                             <td><b>Address</b></td>
-                                                                            <td>Khair khana, Kabul, Afghanistan</td>
+                                                                            @if($user->district != null)
+                                                                            <td>{{ $user->district->province->name }},&nbsp;{{ $user->district->name }},&nbsp;{{ $user->address }}</td>
+                                                                            @else
+                                                                            <td>
+                                                                                {{ $user->first_name }}&nbsp;address here
+                                                                            </td>
+                                                                            @endif
                                                                             <td><b>Marital Status</b></td>
                                                                             @if($user->marital_status == 1)
                                                                                 <td>Married</td>
@@ -307,7 +322,7 @@
 
                                             <div class="row">
                                                 <div class="col-xl-12 col-md-3 col-sm-6">
-                                                    <a href="javascript:void(0);" class="btn btn-primary btn-send">Send Email</a>
+                                                    <a href="javascript:void(0);" class="btn btn-primary btn-send" data-bs-toggle="modal" data-bs-target="#composeMailModal">Send Email</a>
                                                 </div>
                                                 <div class="col-xl-12 col-md-3 col-sm-6">
                                                     <a href="javascript:void(0);" class="btn btn-secondary btn-print  action-print">Print</a>
@@ -337,6 +352,8 @@
             </div>
 
         </div>
+
+        @include('admin.users.email_modal')
 
         <!--  BEGIN FOOTER  -->
         <div class="footer-wrapper">
@@ -368,6 +385,42 @@
                 $('#card-panel').hide();
                 $('#card').show();
                 $('#hide-card').hide();
+            });
+            
+            // for sending email
+            $('#emailTo').val('{{ $user->email }}');
+
+            $('#emailForm').on('submit', function(e){
+                e.preventDefault();
+                
+                var form = this;
+
+                $.ajax({
+                    url:$(form).attr('action'),
+                    method:$(form).attr('method'),
+                    data:new FormData(form),
+                    processData:false,
+                    dataType:'json',
+                    contentType:false,
+                    beforeSend:function(){
+                        $(form).find('span.validation-text').text('');
+                    },
+                    success:function(data){
+                        if(data.code == 0){
+                            $.each(data.error, function(prefix, val){
+                                $(form).find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else{
+                            $('#composeMailModal').modal('hide');
+                            Swal.fire(
+                                'Sent',
+                                data.msg,
+                                'success'
+                            );
+                            $(form)[0].reset();
+                        }
+                    }
+                });
             });
         });
     </script>
