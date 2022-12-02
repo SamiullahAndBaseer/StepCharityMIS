@@ -36,6 +36,7 @@ use App\Http\Controllers\StudentAttendanceSettingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\Teacher\EducationController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherCourseController;
 use App\Http\Controllers\UploadController;
@@ -43,6 +44,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGuaranteeController;
 use App\Models\Attendance;
+use App\Models\EducationInfo;
 use App\Models\Inventory;
 use App\Models\Remittance;
 use App\Models\StudentAttendanceSetting;
@@ -250,7 +252,12 @@ Route::middleware(['auth', 'employee'])->group(function(){
 
 // For Teacher view
 Route::middleware(['auth', 'teacher'])->group(function(){
-    
+    Route::resource('th-course', EducationController::class);
+    Route::get('st-course', [EducationController::class, 'all_st_course']);
+    Route::post('file-assignment', [AssignmentController::class, 'storeFile'])->name('assignment.file');
+     // for get lesson of a specific course
+    Route::post('get-lessons', [EducationController::class, 'getLessons'])->name('get.lessons');
+    Route::get('all_assignment', [EducationController::class, 'allAssignments'])->name('all.assignments');
 });
 
 // For Director view
@@ -260,9 +267,6 @@ Route::middleware(['auth', 'director'])->group(function(){
     });
 });
 
-
-Route::get('/get-districts/{id}', [UserController::class, 'getDistricts']);
-Route::get('/get-villages/{id}', [UserController::class, 'getVillages']);
 Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('searchUser');
 
 

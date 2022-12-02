@@ -16,7 +16,7 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
         DB::table('roles')->insert([
-            'name' => 'Admin',
+            'name' => 'admin',
             'description' => 'This person has all permission'
         ]);
 
