@@ -86,7 +86,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a class="badge badge-light-primary text-start me-2 action-edit" href="{{ route('assignment.edit', $assignment->id) }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
+                                            <a class="badge badge-light-primary text-start me-2 action-edit" href="{{ route('edit.assignment', $assignment->id) }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
                                             <a class="delete_assignment badge badge-light-danger text-start confirm-{{ $assignment->id }}" href="#" data-id="{{ $assignment->id }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
                                         </td>
                                     </tr>
@@ -117,7 +117,6 @@
 </div>
 @endsection
 @section('custom_js_content')
-    <script src="{{ asset('assets/custom/lessons/js/datatable.js') }}"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -143,35 +142,27 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // if confirmed course will be delete.
-                        $.post({
-                            url: "/assignment/"+id,
+                        $.ajax({
+                            url: "/delete/assignment/"+id,
+                            method: 'delete',
                             success: function(res){
-                                document.location.reload();
+                                if(res.status == 'done'){
+                                    document.location.reload();
+                                }
                             }
                         });
                     } // end confirmed
                 });
             });
         });
-
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
     </script>
     @if(Session::has('assignment'))
     <script>
-        Toast.fire({
-            icon: 'success',
-            title: '{{ Session::get('assignment') }}'
-        });
+        Swal.fire(
+            'Done',
+            '{{ Session::get('assignment') }}',
+            'success'
+        );
     </script>
     @endif
     <script>
@@ -183,7 +174,6 @@
             headerCallback:function(e, a, t, n, s) {
                 e.getElementsByTagName("th")[0].innerHTML=`
                 <div class="form-check form-check-primary d-block new-control">
-                    <input class="form-check-input chk-parent" type="checkbox" id="form-check-default">
                 </div>`
             },
             columnDefs:[{
@@ -194,7 +184,6 @@
                 render:function(e, a, t, n) {
                     return `
                     <div class="form-check form-check-primary d-block new-control">
-                        <input class="form-check-input child-chk" type="checkbox" id="form-check-default">
                     </div>`
                 },
             }],
@@ -203,7 +192,7 @@
                     text: 'Add New',
                     className: 'btn btn-primary',
                     action: function(e, dt, node, config ) {
-                        window.location = '/assignment/create';
+                        window.location = 'th-course/create';
                     }
                 }
             ],
@@ -219,21 +208,6 @@
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 10
         });
-
-        $("div.toolbar").html('<button class="dt-button dt-delete btn btn-danger" tabindex="0" aria-controls="invoice-list"><span>Delete</span></button>');
-
         multiCheck(assignmentList);
-
-
-        $('.dt-delete').on('click', function() {
-            // Read all checked checkboxes
-            $(".select-lesson:checked").each(function () {
-                if (this.classList.contains('chk-parent')) {
-                    return;
-                } else {
-                    $(this).parents('tr').remove();
-                }
-            });
-        });
     </script>
 @endsection

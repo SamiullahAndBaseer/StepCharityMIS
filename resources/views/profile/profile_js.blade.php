@@ -126,6 +126,7 @@
                         $(form).find('span.'+'password_error').text(data.error);
                     }else{
                         $('#logoutOtherModal').modal('hide');
+                        $('#browsers').load(location.href+ ' #browsers');
                         Swal.fire(
                             'Done',
                             data.msg,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\GraduatedStudent;
 use App\Models\Course;
+use App\Models\Student_course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,16 +49,28 @@ class GraduatedController extends Controller
         if(!$validator->passes()){
             return response()->json(['code'=> 0, 'error'=> $validator->errors()->toArray()]);
         }else{
-            GraduatedStudent::create([
-                'student_id' => $request->student_id,
-                'course_id' => $request->course_id,
-            ]);
+            $already_exist = GraduatedStudent::where('student_id', $request->student_id)
+                ->where('course_id', $request->course_id)->first();
+            if($already_exist == null)
+            {
+                GraduatedStudent::create([
+                    'student_id' => $request->student_id,
+                    'course_id' => $request->course_id,
+                ]);
+    
+                $student = User::findOrFail($request->student_id);
+                $student->status = 0;
+                $saved = $student->save();
 
-            $student = User::findOrFail($request->student_id);
-            $student->status = 0;
-            $student->save();
-
-            return response()->json(['code'=> 1, 'msg'=> 'Graduated student added successfully.']);
+                if($saved){
+                    Student_course::where('user_id', $request->student_id)
+                        ->where('course_id', $request->course_id)->delete();
+                }
+    
+                return response()->json(['code'=> 1, 'msg'=> 'Graduated student added successfully.']);
+            }else{
+                return response()->json(['code'=> 2, 'msg'=> 'Graduated student already added.']);
+            }
         }
     }
 

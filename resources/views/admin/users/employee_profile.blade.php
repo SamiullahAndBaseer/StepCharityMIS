@@ -13,6 +13,7 @@
     <link href="{{ asset('assets/src/assets/css/light/apps/mailbox.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/src/assets/css/dark/apps/mailbox.css') }}" rel="stylesheet" type="text/css" />
     <!--  END CUSTOM STYLE FILE  -->
+    @section('title', 'Single User')
     <style>
         .card{
             height: 3.575in;
@@ -265,6 +266,7 @@
     
                                                     </div>
 
+                                                    @if(Auth::user()->role->name === 'admin')
                                                     <div id="card-panel" class="content-section">
                                                         <div class="inv--head-section inv--detail-section">
                                                         
@@ -290,7 +292,7 @@
                                                                         <div class="pp">
                                                                             <h4 class="companyname">Step Organiztion</h4>
                                                                             <div class="squre-qr">
-                                                                                {!! QrCode::size(160)->generate($user->id.', '.$user->email.$user->phone_number) !!}
+                                                                                {!! QrCode::size(160)->generate($user->id.', '.$user->email.', '.$user->phone_number) !!}
                                                                             </div>
                                                                             <div class="details">
                                                                                 <h4 class="dt"><b>DoB: </b>{{ $user->date_of_birth }}</h4>
@@ -303,6 +305,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    @endif
                                                 </div> 
                                                 
                                             </div>
@@ -321,6 +324,7 @@
                                         <div class="invoice-action-btn">
 
                                             <div class="row">
+                                                @if(Auth::user()->role->name === 'admin')
                                                 <div class="col-xl-12 col-md-3 col-sm-6">
                                                     <a href="javascript:void(0);" class="btn btn-primary btn-send" data-bs-toggle="modal" data-bs-target="#composeMailModal">Send Email</a>
                                                 </div>
@@ -334,6 +338,11 @@
                                                 <div class="col-xl-12 col-md-3 col-sm-6">
                                                     <a href="{{ route('user.show', $user->id) }}" class="btn btn-dark btn-edit">Edit</a>
                                                 </div>
+                                                @else
+                                                <div class="col-xl-12 col-md-3 col-sm-6">
+                                                    <a href="javascript:void(0);" class="btn btn-secondary btn-print  action-print">Print</a>
+                                                </div>
+                                                @endif
                                             </div>
 
                                         </div>
@@ -356,20 +365,14 @@
         @include('admin.users.email_modal')
 
         <!--  BEGIN FOOTER  -->
-        <div class="footer-wrapper">
-            <div class="footer-section f-section-1">
-                <p class="">Copyright © <span class="dynamic-year">2022</span> <a target="_blank" href="https://designreset.com/cork-admin/">DesignReset</a>, All rights reserved.</p>
-            </div>
-            <div class="footer-section f-section-2">
-                <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></p>
-            </div>
-        </div>
+        @include('layouts.admin_layouts.footer')
         <!--  END FOOTER  -->
     </div>
     <!--  END CONTENT AREA  -->
 @endsection
 @section('custom_js_content')
     <script src="{{ asset('assets/src/assets/js/apps/invoice-preview.js') }}"></script>
+    @if(Auth::user()->role->name === 'admin')
     <script>
         $(document).ready(function(){
             $('#card-panel').hide();
@@ -424,4 +427,5 @@
             });
         });
     </script>
+    @endif
 @endsection

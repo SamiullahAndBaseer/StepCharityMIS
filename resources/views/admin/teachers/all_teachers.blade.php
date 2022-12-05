@@ -1,7 +1,7 @@
 @extends('layouts.admin_layouts.base')
 @section('custom_css_content')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/src/table/datatable/datatables.css') }}">
-    
+    @section('title', 'All Teachers')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/light/table/datatable/dt-global_style.css') }}">
     <link href="{{ asset('assets/src/assets/css/light/apps/invoice-list.css') }}" rel="stylesheet" type="text/css" />
     

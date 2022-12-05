@@ -91,4 +91,14 @@ class Course extends Model
     {
         return $this->hasOne(StudentAttendanceSetting::class, 'course_id');
     }
+
+    /**
+     * Get all of the attendance for the Course
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class, 'course_id');
+    }
 }

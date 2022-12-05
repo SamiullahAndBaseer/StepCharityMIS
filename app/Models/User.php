@@ -112,6 +112,12 @@ class User extends Authenticatable
         return $this->hasMany(Attendance::class);
     }
 
+    // for attendance
+    public function studentAttendance()
+    {
+        return $this->hasMany(StudentAttendance::class, 'user_id');
+    }
+
     /**
      * Get all of the leaves for the User
      *

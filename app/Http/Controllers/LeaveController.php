@@ -32,7 +32,6 @@ class LeaveController extends Controller
     public function teacherLeave()
     {
         $leaves = Leave::orderBy('created_at', 'DESC')->get();
-        
         return view('admin.leaves.teacher_leaves', ['leaves'=> $leaves]);
     }
 

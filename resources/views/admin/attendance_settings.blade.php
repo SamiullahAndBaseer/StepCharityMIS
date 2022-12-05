@@ -1,5 +1,6 @@
 @extends('layouts.admin_layouts.base')
 @section('custom_css_content')
+@section('title', 'Attendance Setting')
 <link href="{{ asset('assets/src/assets/css/dark/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/src/assets/css/light/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
 @endsection

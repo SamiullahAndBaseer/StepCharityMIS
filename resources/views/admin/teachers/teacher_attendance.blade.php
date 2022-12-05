@@ -1,4 +1,5 @@
 @extends('layouts.admin_layouts.base')
+@section('title', 'Teacher Attendance List')
 @section('content')
 <script src="{{ asset('assets/custom/js/jquery-3.6.0.js') }}"></script>
 <script src="{{ asset('assets/custom/js/html5-qrcode.min.js') }}"></script>

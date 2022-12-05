@@ -128,8 +128,5 @@ class LessonController extends Controller
         $lesson->delete();
         unlink(public_path('files/lessons/').$lesson->material);
         session()->flash('lesson_deleted', 'Lesson has been deleted successfully!');
-        // return response()->json([
-        //     'success' => true,
-        // ]);
     }
 }

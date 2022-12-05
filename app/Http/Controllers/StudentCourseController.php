@@ -45,15 +45,27 @@ class StudentCourseController extends Controller
             'student_id' => 'The student name is required',
         ]);
 
-        $st_course = new Student_course();
-        $st_course->course_id = $request->course_id;
-        $st_course->user_id = $request->student_id;
-        $st_course->save();
+        $added_student = Student_course::where('user_id', $request->student_id)
+            ->where('course_id', $request->course_id)->first();
+            
+        if($added_student == null)
+        {
+            $st_course = new Student_course();
+            $st_course->course_id = $request->course_id;
+            $st_course->user_id = $request->student_id;
+            $st_course->save();
 
-        session()->flash('saved', 'Student added for course successfully!');
-        return response()->json([
-            'status' => 'success',
-        ]);
+            session()->flash('saved', 'Student added for course successfully!');
+            return response()->json([
+                'status' => 'success',
+            ]);
+
+        }else{
+
+            return response()->json([
+                'status' => 'exist'
+            ]);
+        }
     }
 
     /**

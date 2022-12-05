@@ -14,7 +14,7 @@
     <script src="{{ asset('assets/src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/table/datatable/datatables.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
-    
+    @section('title', 'All Lessons')
 @endsection
 @section('content')
 <div id="content" class="main-content">
@@ -34,12 +34,7 @@
             <div class="row " id="cancel-row">
                 
                 <div class="col-xl-12 col-lg-12 col-sm-12 layout-top-spacing layout-spacing">
-                    @if(session()->has('saved'))
-                        <div class="alert alert-light-success alert-dismissible fade show border-0 mb-4" role="alert">
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x close" data-bs-dismiss="alert"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-                            <strong>Success</strong> {{session()->get('saved')}}</button>
-                        </div>
-                    @endif
+                    
                     <div class="widget-content widget-content-area br-8">
                         <table id="lessons-table" class="table dt-table-hover" style="width:100%">
                             <div class="table_record">
@@ -98,7 +93,7 @@
                                         </td>
                                         <td><span class="inv-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> {{ $lesson->created_at }} </span></td>
                                         <td>
-                                            <a class="badge badge-light-primary text-start me-2 action-edit" href="{{ route('lesson.edit', $lesson->id) }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
+                                            <a class="badge badge-light-primary text-start me-2 action-edit" href="{{ route('th-course.edit', $lesson->id) }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
                                             <a class="delete_lesson badge badge-light-danger text-start confirm-{{ $lesson->id }}" href="#" data-id="{{ $lesson->id }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
                                         </td>
                                     </tr>
@@ -117,19 +112,11 @@
     </div>
 
     <!--  BEGIN FOOTER  -->
-    <div class="footer-wrapper mt-0">
-        <div class="footer-section f-section-1">
-            <p class="">Copyright © <span class="dynamic-year">2022</span> <a target="_blank" href="https://designreset.com/cork-admin/">DesignReset</a>, All rights reserved.</p>
-        </div>
-        <div class="footer-section f-section-2">
-            <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></p>
-        </div>
-    </div>
+    @include('layouts.admin_layouts.footer')
     <!--  END FOOTER  -->
 </div>
 @endsection
 @section('custom_js_content')
-    <script src="{{ asset('assets/custom/lessons/js/datatable.js') }}"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -155,24 +142,15 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // if confirmed course will be delete.
-                        $.post({
-                            url: "/lesson/"+id,
+                        $.ajax({
+                            url: "/th-course/"+id,
+                            method: 'delete',
                             success: function(res){
-                                document.location.reload();
+                                if(res.status == 'done'){
+                                    document.location.reload();
+                                }
                             }
                         });
-                        // $.ajax({
-                        //     url: "/lesson/"+id,
-                        //     method: 'delete',
-                        //     DataType: 'json',
-                        //     success: function(response){
-                        //         console.log($("#invoice-list").DataTable().ajax.reload());
-                        //         // if(res.status == 'success'){
-                        //         //     // $(this).parents('tr').remove();
-                        //         //     console.log($("#invoice-list").DataTable().ajax.reload());
-                        //         // }
-                        //     }
-                        // });
                     } // end confirmed
                 });
             });
@@ -181,8 +159,63 @@
     @if(Session::has('lesson_deleted'))
     <script>
         Swal.fire(
-            'Deleted!',
+            'Deleted',
             'Lesson has been deleted.',
+            'success'
+        );
+    </script>
+    @endif
+    <script>
+        var invoiceList = $('#lessons-table').DataTable({
+            "dom": "<'inv-list-top-section'<'row'<'col-sm-12 col-md-6 d-flex justify-content-md-start justify-content-center'l<'dt-action-buttons align-self-center'B>><'col-sm-12 col-md-6 d-flex justify-content-md-end justify-content-center mt-md-0 mt-3'f<'toolbar align-self-center'>>>>" +
+                "<'table-responsive'tr>" +
+                "<'inv-list-bottom-section d-sm-flex justify-content-sm-between text-center'<'inv-list-pages-count  mb-sm-0 mb-3'i><'inv-list-pagination'p>>",
+
+            headerCallback:function(e, a, t, n, s) {
+                e.getElementsByTagName("th")[0].innerHTML=`
+                <div class="form-check form-check-primary d-block new-control">
+                </div>`
+            },
+            columnDefs:[{
+                targets:0,
+                width:"30px",
+                className:"",
+                orderable:!1,
+                render:function(e, a, t, n) {
+                    return `
+                    <div class="form-check form-check-primary d-block new-control">
+                    </div>`
+                },
+            }],
+            buttons: [
+                {
+                    text: 'Add New',
+                    className: 'btn btn-primary',
+                    action: function(e, dt, node, config ) {
+                        window.location = '/add/lesson';
+                    }
+                }
+            ],
+            "order": [[ 1, "asc" ]],
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+                "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+
+        multiCheck(invoiceList);
+    </script>
+    @if(session()->has('saved'))
+    <script>
+        Swal.fire(
+            'Done',
+            '{{ Session::get('saved') }}',
             'success'
         );
     </script>

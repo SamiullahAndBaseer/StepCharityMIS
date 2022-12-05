@@ -10,7 +10,6 @@
     <link href="{{ asset('assets/layouts/collapsible-menu/css/light/loader.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/layouts/collapsible-menu/css/dark/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('assets/layouts/collapsible-menu/loader.js') }}"></script>
-
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{ asset('assets/src/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -47,7 +46,17 @@
         <div class="search-overlay"></div>
 
         <!--  BEGIN SIDEBAR  -->
-        @include('layouts.admin_layouts.sidebar')
+        @auth
+            @if(Auth::user()->role->name === 'admin')
+                @include('layouts.admin_layouts.sidebar')
+
+            @elseif(Auth::user()->role->name === 'Teacher')
+                @include('layouts.teacher_layouts.sidebar')
+
+            @elseif(Auth::user()->role->name === 'Student')
+
+            @endif
+        @endauth
         <!--  END SIDEBAR  -->
 
         <!--  BEGIN CONTENT AREA  -->

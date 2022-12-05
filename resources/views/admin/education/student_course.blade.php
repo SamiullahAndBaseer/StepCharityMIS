@@ -79,6 +79,7 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th>ID</th>
                                             <th>Student</th>
                                             <th>Course</th>
                                             <th>Actions</th>
@@ -87,6 +88,7 @@
                                     <tbody>
                                         @foreach ($student_courses as $item)
                                         <tr>
+                                            <td>{{ $item->user->id }}</td>
                                             <td>{{ $item->user->first_name }}&nbsp;{{ $item->user->last_name }}</td>
                                             <td>{{ $item->course->name }}</td>
                                             <td>

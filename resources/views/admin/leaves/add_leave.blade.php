@@ -10,7 +10,7 @@
         box-shadow: 20px;
     }
 </style>
-
+@section('title', 'Add Leave')
 <link href="{{ asset('assets/src/assets/css/dark/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
 
 @endsection

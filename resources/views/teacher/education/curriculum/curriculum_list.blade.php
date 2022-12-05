@@ -14,7 +14,7 @@
     <script src="{{ asset('assets/src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/table/datatable/datatables.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
-    
+    @section('title', 'Curriculum List')
 @endsection
 @section('content')
 <div id="content" class="main-content">
@@ -45,7 +45,7 @@
                                         <th>Course</th>
                                         <th>Duration</th>
                                         <th>Description</th>
-                                        <th>Actions</th>
+                                        <th>View</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -62,8 +62,9 @@
                                         <td>{{ $curriculum->description }}</td>
                                         <td><span class="inv-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> {{ $curriculum->duration }} </span></td>
                                         <td>
-                                            <a class="badge badge-light-primary text-start me-2 action-edit" href="{{ route('curriculum.edit', $curriculum->id) }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
-                                            <a class="delete_lesson badge badge-light-danger text-start confirm-{{ $curriculum->id }}" href="#" data-id="{{ $curriculum->id }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
+                                            <a href="{{ route('show.th_curriculum', $curriculum->id) }}" class="action-btn btn-view bs-tooltip me-2" data-toggle="tooltip" data-placement="top" title="" data-bs-original-title="View">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                            </a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -93,63 +94,6 @@
 </div>
 @endsection
 @section('custom_js_content')
-    <script src="{{ asset('assets/custom/lessons/js/datatable.js') }}"></script>
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            }
-        });
-    </script>
-    <script>
-        $(document).on('mouseenter', '.delete_lesson', function(e){
-            e.preventDefault();
-            var id = $(this).data('id');
-            var selector = '.confirm-'+id;
-
-            document.querySelector(selector).addEventListener('click', function(){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'curriculum delete?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // if confirmed course will be delete.
-                        $.post({
-                            url: "/curriculum/"+id,
-                            success: function(res){
-                                document.location.reload();
-                            }
-                        });
-                    } // end confirmed
-                });
-            });
-        });
-
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        });
-    </script>
-    @if(Session::has('curriculum'))
-    <script>
-        Toast.fire({
-            icon: 'success',
-            title: '{{ Session::get('curriculum') }}'
-        });
-    </script>
-    @endif
     <script>
         var invoiceList = $('#curriculums-table').DataTable({
             "dom": "<'inv-list-top-section'<'row'<'col-sm-12 col-md-6 d-flex justify-content-md-start justify-content-center'l<'dt-action-buttons align-self-center'B>><'col-sm-12 col-md-6 d-flex justify-content-md-end justify-content-center mt-md-0 mt-3'f<'toolbar align-self-center'>>>>" +
@@ -159,7 +103,6 @@
             headerCallback:function(e, a, t, n, s) {
                 e.getElementsByTagName("th")[0].innerHTML=`
                 <div class="form-check form-check-primary d-block new-control">
-                    <input class="form-check-input chk-parent" type="checkbox" id="form-check-default">
                 </div>`
             },
             columnDefs:[{
@@ -170,18 +113,10 @@
                 render:function(e, a, t, n) {
                     return `
                     <div class="form-check form-check-primary d-block new-control">
-                        <input class="form-check-input child-chk" type="checkbox" id="form-check-default">
                     </div>`
                 },
             }],
             buttons: [
-                {
-                    text: 'Add New',
-                    className: 'btn btn-primary',
-                    action: function(e, dt, node, config ) {
-                        window.location = '/curriculum/create';
-                    }
-                }
             ],
             "order": [[ 1, "asc" ]],
             "oLanguage": {
@@ -195,21 +130,6 @@
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 10
         });
-
-        $("div.toolbar").html('<button class="dt-button dt-delete btn btn-danger" tabindex="0" aria-controls="invoice-list"><span>Delete</span></button>');
-
         multiCheck(invoiceList);
-
-
-        $('.dt-delete').on('click', function() {
-            // Read all checked checkboxes
-            $(".select-lesson:checked").each(function () {
-                if (this.classList.contains('chk-parent')) {
-                    return;
-                } else {
-                    $(this).parents('tr').remove();
-                }
-            });
-        });
     </script>
 @endsection

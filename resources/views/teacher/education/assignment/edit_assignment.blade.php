@@ -9,6 +9,7 @@
 <link href="{{ asset('assets/src/plugins/src/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('assets/src/plugins/css/light/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
 <link href="{{ asset('assets/src/plugins/css/dark/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
+    @section('title', 'Edit Assignment')
 @endsection
 @section('content')
      <!--  BEGIN CONTENT AREA  -->
@@ -39,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="widget-content widget-content-area">
-                                <form method="POST" action="{{ route('update.assignment', $assign->id) }}" enctype="multipart/form-data">
+                                <form method="POST" action="{{ route('th_assignment.update', $assign->id) }}" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-xl-6 col-sm-12 mt-3">
@@ -189,7 +190,7 @@
 
         FilePond.setOptions({
             server: {
-                url: '{{ route('save.file') }}',
+                url: '{{ route('assignment.file') }}',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }

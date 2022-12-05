@@ -11,6 +11,7 @@ use App\Models\Lesson;
 use App\Models\Course;
 use Illuminate\Support\Facades\File;
 use App\Models\Assignment;
+use App\Models\Curriculum;
 
 class EducationController extends Controller
 {
@@ -135,19 +136,131 @@ class EducationController extends Controller
     // all assignments
     public function allAssignments()
     {
-        $assignments = Assignment::all();
+        $assignments = Assignment::join('lessons', 'lessons.id', 'assignments.lesson_id')
+            ->where('lessons.user_id', Auth::user()->id)
+            ->select('assignments.id', 'assignments.title', 'description', 'closing_date', 'score', 'file', 'assignments.lesson_id')
+            ->get();
         return view('teacher.education.assignment.assignment_list', ['assignments'=> $assignments]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    // edit assignments
+    public function editAssignment($id)
     {
-        //
+        $assign = Assignment::findOrFail($id);
+        $lessons = Course::join('lessons', 'courses.id', 'lessons.course_id')
+            ->where('courses.id', $assign->lesson->course->id)->get();
+
+        $courses = Course::join('teacher_courses', 'courses.id', 'teacher_courses.course_id')
+            ->where('teacher_courses.user_id', Auth::user()->id)
+            ->select('courses.id', 'courses.name')->get();
+
+        return view('teacher.education.assignment.edit_assignment', [
+            'assign'=>$assign, 
+            'lessons'=> $lessons,
+            'courses'=> $courses]);
+    }
+
+    // delete assignment
+    public function deleteAssignment($id)
+    {
+        $assign = Assignment::findOrFail($id);
+        $assign->delete();
+        unlink(public_path('files/assignments/').$assign->file);
+        session()->flash('assignment', 'Assignment deleted successfully');
+        return response()->json([
+            'status'=> 'done'
+        ]);
+    }
+
+    // all curriculum
+    public function allCurriculum()
+    {
+        $curriculums = Curriculum::all();
+        return view('teacher.education.curriculum.curriculum_list', ['curriculums'=> $curriculums]);
+    }
+
+    // single course curriculum
+    public function showCurriculum($id)
+    {
+        $curriculum = Curriculum::findOrFail($id);
+        return view('teacher.education.curriculum.show_curriculum', ['curriculum'=> $curriculum]);
+    }
+
+    // update assignment
+    public function updateAssignment(Request $request, $id)
+    {
+        $this->validate($request, [
+            'title'=>'required|string',
+            'description'=> 'required|string',
+            'closing_date' => 'required',
+            'score'=> 'required',
+            'lesson'=> 'required',
+            'course'=> 'required',
+        ]);
+        $assign = Assignment::findOrFail($id);
+
+        $assign_file = $assign->file;
+        if($request->file != null){
+            $status = File::move(public_path('tmp/'.$request->file), public_path('files/assignments/'.$request->file));
+            if($status){
+                unlink(public_path('files/assignments/').$assign_file);
+                $assign_file = $request->file;
+            }
+        }
+
+        
+        $assign->title = $request->title;
+        $assign->description = $request->description;
+        $assign->score = $request->score;
+        $assign->file = $assign_file;
+        $assign->closing_date = $request->closing_date;
+        $assign->lesson_id = $request->lesson;
+        $assign->save();
+
+        session()->flash('assignment', 'Assignment updated successfully');
+        return redirect()->route('all.assignments');
+    }
+
+    // add lesson  
+    public function addLesson()
+    {
+        $courses = Course::join('teacher_courses', 'courses.id', 'teacher_courses.course_id')
+            ->where('teacher_courses.user_id', Auth::user()->id)
+            ->select('courses.id', 'courses.name')->get();
+
+        return view('teacher.education.lessons.add_lesson', ['courses'=> $courses]);
+    }
+
+    // store lesson
+    public function storeLesson(Request $request)
+    {
+        $this->validate($request, [
+            'title'=> 'required|string',
+            'course' => 'required'
+        ]);
+
+        $lesson_file = '';
+        $status = File::move(public_path('tmp/'.$request->material), public_path('files/lessons/'.$request->material));
+        if($status){
+            $lesson_file = $request->material;
+        }
+        
+        $lesson = new Lesson();
+        $lesson->title = $request->title;
+        $lesson->course_id = $request->course;
+        $lesson->material = $lesson_file;
+        $lesson->user_id = Auth::user()->id;
+        $lesson->save();
+        
+        session()->flash('saved', 'Lesson added successfully!');
+        return redirect()->route('all.lessons');
+    }
+
+    // all lesson for a teacher
+    public function allLessons()
+    {
+        $lessons = Lesson::where('user_id', Auth::user()->id)->get();
+        return view('teacher.education.lessons.lessons', ['lessons'=> $lessons]);
     }
 
     /**
@@ -158,7 +271,12 @@ class EducationController extends Controller
      */
     public function edit($id)
     {
-        //
+        $lesson = Lesson::findOrFail($id);
+        $courses = Course::join('teacher_courses', 'courses.id', 'teacher_courses.course_id')
+            ->where('teacher_courses.user_id', Auth::user()->id)
+            ->select('courses.id', 'courses.name')->get();
+
+        return view('teacher.education.lessons.edit_lesson', ['lesson'=> $lesson, 'courses'=> $courses]);
     }
 
     /**
@@ -170,7 +288,30 @@ class EducationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title'=> 'required|string',
+            'course' => 'required'
+        ]);
+
+        $lesson = Lesson::findOrFail($id);
+
+        $lesson_file = $lesson->material;
+        if($request->material != null){
+            $status = File::move(public_path('tmp/'.$request->material), public_path('files/lessons/'.$request->material));
+            if($status){
+                unlink(public_path('files/lessons/').$lesson_file);
+                $lesson_file = $request->material;
+            }
+        }
+
+        $lesson->title = $request->title;
+        $lesson->course_id = $request->course;
+        $lesson->material = $lesson_file;
+        $lesson->user_id = Auth::user()->id;
+        $lesson->save();
+        
+        session()->flash('saved', 'Lesson has been updated successfully!');
+        return redirect()->route('all.lessons');
     }
 
     /**
@@ -181,6 +322,12 @@ class EducationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lesson = Lesson::findOrFail($id);
+        $lesson->delete();
+        unlink(public_path('files/lessons/').$lesson->material);
+        session()->flash('lesson_deleted', 'Lesson has been deleted successfully!');
+        return response()->json([
+            'status' => 'done',
+        ]);
     }
 }

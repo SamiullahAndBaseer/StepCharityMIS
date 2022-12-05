@@ -24,6 +24,19 @@
                     if(res.status == 'success'){
                         $('#addFormThCo')[0].reset();
                         $('#th-co').load(location.href+' #th-co');
+                        Swal.fire(
+                            'Done',
+                            '{{ Session::get('saved') }}',
+                            'success'
+                        );
+                    }else if(res.status == 'exist'){
+                        $('#addFormThCo')[0].reset();
+                        $('#th-co').load(location.href+' #th-co');
+                        Swal.fire(
+                            'Error',
+                            'Student already added in this course',
+                            'warning'
+                        );
                     }
                 },
                 error: function(response){

@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {

@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\StudentAttendanceSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class StudentAttendanceSettingController extends Controller
 {
@@ -30,11 +31,9 @@ class StudentAttendanceSettingController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'course_id' => 'required',
+            'course_id' => 'required|unique:student_attendance_settings,course_id',
             'start_attendance' => 'required', 
             'end_attendance' => 'required',
-        ],[
-            'course_id' => 'The course name is required'
         ]);
 
         if(!$validator->passes()){
@@ -73,11 +72,9 @@ class StudentAttendanceSettingController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-            'course_id' => 'required',
+            'course_id' => ['required', Rule::unique('student_attendance_settings')->ignore($request->id)],
             'start_attendance' => 'required',
             'end_attendance' => 'required'
-        ],[
-            'course_id' => 'The course name is required'
         ]);
 
         StudentAttendanceSetting::findOrFail($request->id)->update([

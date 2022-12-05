@@ -27,6 +27,14 @@
                         $.each(data.error, function(prefix, val){
                             $(form).find('span.'+prefix+'_error').text(val[0]);
                         });
+                    }else if(data.code == 2){
+                        $('#addCategoryModal').modal('hide');
+                        $(form)[0].reset();
+                        Swal.fire(
+                            'Error',
+                            data.msg,
+                            'warning'
+                        );
                     }else{
                         $('#addCategoryModal').modal('hide');
                         $(form)[0].reset();

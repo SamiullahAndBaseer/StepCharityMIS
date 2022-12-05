@@ -2,6 +2,7 @@
 @section('custom_css_content')
 <link href="{{  asset('assets/src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{  asset('assets/src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    @section('title', 'Your Courses')
 @endsection
 @section('content')
      <!--  BEGIN CONTENT AREA  -->
@@ -34,18 +35,23 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th>ID</th>
                                             <th>Teacher</th>
                                             <th>Course</th>
+                                            <th>Attedance</th>
                                             <th>Created at</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($teacher_courses as $item)
                                         <tr>
+                                            <td>{{ $item->id }}</td>
                                             <td>{{ $item->user->first_name }}&nbsp;{{ $item->user->last_name }}</td>
                                             <td>{{ $item->course->name }}</td>
+                                            <td>
+                                                <a href="{{ route('class.edit', $item->course->id) }}" class="badge badge-light-success">Start Attendance</a>
+                                            </td>
                                             <td>{{ Carbon\Carbon::parse($item->created_at)->diffForHumans() }}</td>
-                                            
                                         </tr>
                                         @endforeach
                                     </tbody>

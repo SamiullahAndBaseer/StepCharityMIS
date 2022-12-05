@@ -7,10 +7,10 @@ use App\Models\Role;
 use App\Models\Branch;
 use App\Models\User;
 use App\Models\Province;
-use App\Models\Village;
 use App\Models\District;
 use App\Models\Currency;
 use App\Models\Leave;
+use App\Models\StudentAttendance;
 use App\Models\TemporaryFiles;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -210,17 +210,29 @@ class UserController extends Controller
     public function singleUser($id)
     {
         $user = User::findOrFail($id);
-        $present_per_month = Attendance::where('user_id', $user->id)
-                ->where('present', true)
-                ->whereMonth('created_at', Carbon::now()->month)->count();
-        
-        $absent_per_month = Attendance::where('user_id', $user->id)
-                ->where('present', false)
-                ->whereMonth('created_at', Carbon::now()->month)->count();
+
+        if($user->role->name === 'Student'){
+            $present_per_month = StudentAttendance::where('user_id', $user->id)
+                    ->where('present', true)
+                    ->whereMonth('created_at', Carbon::now()->month)->count();
+            
+            $absent_per_month = StudentAttendance::where('user_id', $user->id)
+                    ->where('present', false)
+                    ->whereMonth('created_at', Carbon::now()->month)->count();
+                    
+        }else{
+            $present_per_month = Attendance::where('user_id', $user->id)
+                    ->where('present', true)
+                    ->whereMonth('created_at', Carbon::now()->month)->count();
+            
+            $absent_per_month = Attendance::where('user_id', $user->id)
+                    ->where('present', false)
+                    ->whereMonth('created_at', Carbon::now()->month)->count();
+        }
 
         $leave_per_month = Leave::where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->whereMonth('created_at', Carbon::now()->month)->count();
+                    ->where('status', 'approved')
+                    ->whereMonth('created_at', Carbon::now()->month)->count();
 
         return view('admin.users.employee_profile', [
             'user'=> $user, 

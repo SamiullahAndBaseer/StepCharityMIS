@@ -32,11 +32,15 @@ use App\Http\Controllers\ReportTypeController;
 use App\Http\Controllers\RequestForItemController;
 use App\Http\Controllers\SalaryReportController;
 use App\Http\Controllers\StudentAttendanceSettingController;
-// use App\Http\Controllers\Student\DashboardController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentCourseController;
 use App\Http\Controllers\SurveyController;
+use App\Http\Controllers\Teacher\ClassAttendanceController;
 use App\Http\Controllers\Teacher\EducationController;
+use App\Http\Controllers\Teacher\TeacherContractController;
+use App\Http\Controllers\Teacher\TeacherFeedbackController;
+use App\Http\Controllers\Teacher\TeacherLeaveController;
+use App\Http\Controllers\Teacher\TeacherReportController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherCourseController;
 use App\Http\Controllers\UploadController;
@@ -52,7 +56,6 @@ use App\Models\TemporaryFiles;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -79,7 +82,6 @@ Route::post('send-email', [MailController::class, 'sendEmail'])->name('send.emai
 // All users authentication to their dashboard.
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('leave', LeaveController::class);
     // notifications
     Route::get('/delete-notify', [NotificationController::class, 'destroy'])->name('delete.notification');
     Route::get('/markAsRead', [NotificationController::class, 'markAsRead']);
@@ -106,6 +108,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('quotation-update', [QuotationController::class, 'update'])->name('update.quotation');
     Route::post('quotation/{id}', [QuotationController::class, 'destroy']);
     Route::post('status-quotation', [QuotationController::class, 'statusFunction'])->name('quotation.status');
+    // lesson file
+    Route::post('lesson-file', [LessonController::class, 'storeFile'])->name('store.file');
+    // single user
+    Route::get('/single-user/{id}', [UserController::class, 'singleUser'])->name('single.user');
 });
 
 // For admin
@@ -121,7 +127,6 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('/user', UserController::class);
     Route::get('/user/del/{id}', [UserController::class, 'destroy'])->name('delete.user');
     Route::post('/update/user/{id}', [UserController::class, 'update'])->name('update.user');
-    Route::get('/single-user/{id}', [UserController::class, 'singleUser'])->name('single.user');
     // For Teachers
     Route::resource('/teacher', TeacherController::class);
     Route::get('/teacher-delete/{id}', [TeacherController::class, 'destroy'])->name('delete.teacher');
@@ -171,7 +176,6 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('lesson', LessonController::class);
     Route::post('lesson-update/{id}', [LessonController::class, 'update'])->name('update.lesson');
     Route::post('lesson/{id}', [LessonController::class, 'destroy']);
-    Route::post('lesson-file', [LessonController::class, 'storeFile'])->name('store.file');
     // Curriculum
     Route::resource('curriculum', CurriculumController::class);
     Route::post('curriculum/{id}', [CurriculumController::class, 'destroy']);
@@ -195,6 +199,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::resource('report-types', ReportTypeController::class);
     // LeaveTypes
     Route::resource('/leaveType', LeaveTypeController::class);
+    Route::resource('leave', LeaveController::class);
     // Maktob Types
     Route::resource('maktob-type', MaktobTypeController::class);
     // Contract Type
@@ -258,6 +263,30 @@ Route::middleware(['auth', 'teacher'])->group(function(){
      // for get lesson of a specific course
     Route::post('get-lessons', [EducationController::class, 'getLessons'])->name('get.lessons');
     Route::get('all_assignment', [EducationController::class, 'allAssignments'])->name('all.assignments');
+    Route::get('edit/assignment/{id}', [EducationController::class, 'editAssignment'])->name('edit.assignment');
+    Route::post('edit/assignment/{id}', [EducationController::class, 'updateAssignment'])->name('th_assignment.update');
+    Route::delete('delete/assignment/{id}', [EducationController::class, 'deleteAssignment']);
+    // lesson
+    Route::get('add/lesson', [EducationController::class, 'addLesson'])->name('add.lesson');
+    Route::post('save/lesson', [EducationController::class, 'storeLesson'])->name('store.lesson');
+    Route::get('all/lessons', [EducationController::class, 'allLessons'])->name('all.lessons');
+    Route::post('update/lesson/{id}', [EducationController::class, 'update'])->name('th_lesson.update');
+    // Curriculum
+    Route::get('th_curriculums', [EducationController::class, 'allCurriculum'])->name('all.th_curriculum');
+    Route::get('th_curriculum/{id}', [EducationController::class, 'showCurriculum'])->name('show.th_curriculum');
+    // feedback
+    Route::resource('th_feedback', TeacherFeedbackController::class);
+    Route::post('th_feedback/update/{id}', [TeacherFeedbackController::class, 'update'])->name('th_feedback.update');
+    // Leave
+    Route::resource('th_leave', TeacherLeaveController::class);
+    // contract
+    Route::resource('th_contract', TeacherContractController::class);
+    // report
+    Route::resource('th_report', TeacherReportController::class);
+    Route::get('th_report/show/{id}', [TeacherReportController::class, 'show'])->name('th_report.show');
+    // attendance of a specific course
+    Route::resource('class', ClassAttendanceController::class);
+    Route::get('class_absent/{course_id}', [ClassAttendanceController::class, 'absentStudents'])->name('class.absents');
 });
 
 // For Director view
@@ -269,8 +298,12 @@ Route::middleware(['auth', 'director'])->group(function(){
 
 Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('searchUser');
 
+use App\Models\Student_course;
 
 Route::get('/get-time', function(){
+    $user_name = Student_course::where('course_id', 14)
+            ->where('user_id', 25)->first();
+            dd($user_name->user->first_name);
     foreach(Attendance::all() as $item){
         return Carbon::now()->year;
     }
