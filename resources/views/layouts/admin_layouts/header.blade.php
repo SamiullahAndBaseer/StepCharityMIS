@@ -18,20 +18,6 @@
         </div>
 
         <ul class="navbar-item flex-row ms-lg-auto ms-0">
-
-            <li class="nav-item dropdown language-dropdown">
-                <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="language-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="{{ asset('assets/src/assets/img/1x1/us.svg') }}" class="flag-width" alt="flag">
-                </a>
-                <div class="dropdown-menu position-absolute" aria-labelledby="language-dropdown">
-                    <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="{{ asset('assets/src/assets/img/1x1/us.svg') }}" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;USA</span></a>
-                    <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="{{ asset('assets/src/assets/img/1x1/tr.svg') }}" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;Turkey</span></a>
-                    <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="{{ asset('assets/src/assets/img/1x1/br.svg') }}" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;Brazil</span></a>
-                    <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="{{ asset('assets/src/assets/img/1x1/in.svg') }}" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;India</span></a>
-                    <a class="dropdown-item d-flex" href="javascript:void(0);"><img src="{{ asset('assets/src/assets/img/1x1/de.svg') }}" class="flag-width" alt="flag"> <span class="align-self-center">&nbsp;Germany</span></a>
-                </div>
-            </li>
-
             <li class="nav-item theme-toggle-item">
                 <a href="javascript:void(0);" class="nav-link theme-toggle">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon dark-mode"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
@@ -87,18 +73,13 @@
                         </div>
                     </div>
                     <div class="dropdown-item">
-                        <a href="{{ route('profile.show') }}">
+                        <a href="{{ route('profile') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> <span>Profile</span>
                         </a>
                     </div>
                     <div class="dropdown-item">
                         <a href="/chatify">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-inbox"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path></svg> <span>Messenger</span>
-                        </a>
-                    </div>
-                    <div class="dropdown-item">
-                        <a href="auth-boxed-lockscreen.html">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> <span>Lock Screen</span>
                         </a>
                     </div>
                     <form id="logout-form" method="POST" action="{{route('logout')}}">

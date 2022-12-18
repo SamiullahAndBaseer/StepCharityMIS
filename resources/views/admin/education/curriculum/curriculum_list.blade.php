@@ -14,7 +14,7 @@
     <script src="{{ asset('assets/src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/table/datatable/datatables.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
-    
+    @section('title', 'Curriculum List')
 @endsection
 @section('content')
 <div id="content" class="main-content">

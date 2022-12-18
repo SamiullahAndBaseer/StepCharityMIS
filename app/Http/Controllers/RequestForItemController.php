@@ -32,6 +32,35 @@ class RequestForItemController extends Controller
         return view('proposal_for_item.send_request_for_item');
     }
 
+    // change status 
+    public function statusFunction(Request $request)
+    {
+        $item = ProposalForItem::findOrFail($request->id);
+        if($request->status_type == 'main_branch_director'){
+            $item->verify_by_main_branch_director = $request->status;
+            $item->save();
+        }
+
+        if($request->status_type == 'main_branch_admin'){
+            $item->verify_by_main_branch_admin = $request->status;
+            $item->save();
+        }
+
+        if($request->status_type == 'general_office_finance'){
+            $item->verify_by_general_office_finance = $request->status;
+            $item->save();
+        }
+
+        if($request->status_type == 'general_office_director'){
+            $item->verify_by_general_office_director = $request->status;
+            $item->save();
+        }
+
+        return response()->json([
+            'status'=> 'success',
+        ]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -152,10 +181,11 @@ class RequestForItemController extends Controller
     public function destroy($id)
     {
         $item = ProposalForItem::findOrFail($id);
-        unlink(public_path('files/request_items/').$item->upload_file);
-        $item->delete();
+
+        $status = unlink(public_path('files/request_items/').$item->upload_file);
         
-        if($item){
+        if($status){
+            $item->delete();
             session()->flash('request_item', 'Request for item deleted successfully');
         }else{
             session()->flash('request_item', 'Request for item not deleted.');

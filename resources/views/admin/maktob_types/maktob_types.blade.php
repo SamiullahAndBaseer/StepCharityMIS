@@ -3,6 +3,7 @@
 <link href="{{  asset('assets/src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{  asset('assets/src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
 @endsection
+@section('title', 'Maktoob Types')
 @section('content')
 <div id="content" class="main-content">
     <div class="container">

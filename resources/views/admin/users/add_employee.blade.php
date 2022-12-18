@@ -105,7 +105,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="email">Email<span class="text-danger">*</span></label>
-                                                                            <input type="email" class="form-control mb-3" id="email" placeholder="Write your email here" value="{{ old('email') }}" name="email">
+                                                                            <input type="email" class="form-control mb-3" id="email" placeholder="hello@example.com" value="{{ old('email') }}" name="email">
                                                                             <span class="text-danger">{{ $errors->first('email') }}</span>
                                                                         </div>
                                                                     </div> 
@@ -113,21 +113,21 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="phone">Phone<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="phone" placeholder="Write your phone number here" value="{{ old('phone_number') }}" name="phone_number" >
+                                                                            <input type="text" class="form-control mb-3" id="phone" placeholder="00937xxxxxxxxx" value="{{ old('phone_number') }}" name="phone_number" >
                                                                             <span class="text-danger">{{ $errors->first('phone_number') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="id_card_number">Tazkira Number<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="id_card_number" placeholder="Write yourTazkira number here" value="{{ old('id_card_number') }}" name="id_card_number" >
+                                                                            <input type="text" class="form-control mb-3" id="id_card_number" placeholder="tazkira number here" value="{{ old('id_card_number') }}" name="id_card_number" >
                                                                             <span class="text-danger">{{ $errors->first('id_card_number') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="salary">Salary Per Day<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="salary" name="salary" value="{{ old('salary') }}" placeholder="Write your Salary number here" >
+                                                                            <input type="text" class="form-control mb-3" id="salary" name="salary" value="{{ old('salary') }}" placeholder="write salary per day" >
                                                                             <span class="text-danger">{{ $errors->first('salary') }}</span>
                                                                         </div>
                                                                     </div>

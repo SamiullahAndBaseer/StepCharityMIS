@@ -2,6 +2,7 @@
 @section('custom_css_content')
 <link href="{{  asset('assets/src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{  asset('assets/src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
+@section('title', 'Teacher Courses')
 @endsection
 @section('content')
      <!--  BEGIN CONTENT AREA  -->

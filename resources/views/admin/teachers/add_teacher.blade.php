@@ -26,6 +26,10 @@
 <link href="{{ asset('assets/src/assets/css/dark/components/list-group.css') }}" rel="stylesheet" type="text/css">
 
 <link href="{{ asset('assets/src/assets/css/dark/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
+<link href="{{ asset('assets/src/plugins/src/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/src/plugins/css/light/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/src/plugins/css/dark/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
+
 @endsection
 
 @section('content')
@@ -102,41 +106,8 @@
                                                                     
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label for="status">Status<span class="text-danger">*</span></label>
-                                                                            <select class="form-select mb-3" id="status" name="status">
-                                                                                <option selected>Select Status</option>
-                                                                                <option value="1">Active</option>
-                                                                                <option value="0">Not Active</option>
-                                                                            </select>
-                                                                            <span class="text-danger">{{ $errors->first('status') }}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="gender">Gender<span class="text-danger">*</span></label>
-                                                                            <select class="form-select mb-3" id="gender" name="gender">
-                                                                                <option selected>Select Gender</option>
-                                                                                <option value="1">Male</option>
-                                                                                <option value="0">Female</option>
-                                                                            </select>
-                                                                            <span class="text-danger">{{ $errors->first('gender') }}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="status">Mertial Status<span class="text-danger">*</span></label>
-                                                                            <select class="form-select mb-3" id="marital_status" name="marital_status">
-                                                                                <option selected>Select Marital Status</option>
-                                                                                <option value="1">Marriade</option>
-                                                                                <option value="0">Single</option>
-                                                                            </select>
-                                                                            <span class="text-danger">{{ $errors->first('marital_status') }}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
                                                                             <label for="email">Email<span class="text-danger">*</span></label>
-                                                                            <input type="email" class="form-control mb-3" id="email" value="{{ old('email') }}" placeholder="Write your email here" name="email">
+                                                                            <input type="email" class="form-control mb-3" id="email" placeholder="hello@example.com" value="{{ old('email') }}" name="email">
                                                                             <span class="text-danger">{{ $errors->first('email') }}</span>
                                                                         </div>
                                                                     </div> 
@@ -144,21 +115,21 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="phone">Phone<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="phone" value="{{ old('phone_number') }}" placeholder="Write your phone number here" name="phone_number" >
+                                                                            <input type="text" class="form-control mb-3" id="phone" placeholder="00937xxxxxxxxx" value="{{ old('phone_number') }}" name="phone_number" >
                                                                             <span class="text-danger">{{ $errors->first('phone_number') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="id_card_number">Tazkira Number<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="id_card_number" value="{{ old('id_card_number') }}" placeholder="Write yourTazkira number here" name="id_card_number" >
+                                                                            <input type="text" class="form-control mb-3" id="id_card_number" placeholder="tazkira number here" value="{{ old('id_card_number') }}" name="id_card_number" >
                                                                             <span class="text-danger">{{ $errors->first('id_card_number') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="salary">Salary Per Day<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" id="salary" name="salary" value="{{ old('salary') }}" placeholder="Write your Salary number here" >
+                                                                            <input type="text" class="form-control mb-3" id="salary" name="salary" value="{{ old('salary') }}" placeholder="write salary per day" >
                                                                             <span class="text-danger">{{ $errors->first('salary') }}</span>
                                                                         </div>
                                                                     </div>
@@ -166,21 +137,28 @@
                                                                         <div class="form-group">
                                                                             <label for="currency">Currency</label>
                                                                             <select class="form-select mb-3" id="currency_id" name="currency_id">
+                                                                                <option value="">Select Currency</option>
                                                                                 @foreach ($currencies as $currency)
                                                                                 <option value="{{ $currency->id }}">{{ $currency->name }}</option>
                                                                                 @endforeach 
                                                                             </select>
-                                                         
+                                                                            @error('currency_id')
+                                                                                <div class="text-danger">{{ $message }}</div>
+                                                                            @enderror
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="branch">Branch</label>
                                                                             <select class="form-select mb-3" id="branch_id" name="branch_id">
+                                                                                <option value="">Select Branch</option>
                                                                                 @foreach ($branches as $branch)
                                                                                 <option value="{{ $branch->id }}">{{ $branch->name }}</option>
                                                                                 @endforeach 
-                                                                            </select>  
+                                                                            </select>
+                                                                            @error('branch_id')
+                                                                                <div class="text-danger">{{ $message }}</div>
+                                                                            @enderror  
                                                                         </div>
                                                                     </div>
                                                                    
@@ -188,49 +166,52 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="date_of_birth">Date Of Birth</label>
-                                                                            <input type="date" class="form-control mb-3" id="basicFlatpickr" value="{{ old('date_of_birth') }}" placeholder="" name="date_of_birth"  >
+                                                                            <input type="date" class="form-control flatpickr flatpickr-input active mb-3" id="basicFlatpickr" placeholder="yyyy-mm-dd" value="{{ old('date_of_birth') }}" name="date_of_birth"/>
+                                                                            <span class="text-danger">{{ $errors->first('date_of_birth') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="join_date">Join Date</label>
-                                                                            <input type="date" class="form-control mb-3" id="basicFlatpickr" placeholder="" value="{{ old('join_date') }}" name="join_date" >
+                                                                            <input type="date" class="form-control flatpickr-input active mb-3" id="joinDate" placeholder="yyyy-mm-dd" value="{{ old('join_date') }}" name="join_date"/>
+                                                                            <span class="text-danger">{{ $errors->first('join_date') }}</span>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="address">Address</label>
-                                                                            <input type="text" class="form-control mb-3" id="address" placeholder="Address" value="{{ old('address') }}" >
-                                                                        </div>
-                                                                    </div>
+                                                                    
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="province">Province</label>
-                                                                            <select class="form-select mb-3" id="province" name="province">
+                                                                            <select class="form-select mb-3 dynamic" id="province" name="province">
+                                                                                <option value="">Select Province</option>
                                                                                 @foreach ($provinces as $province)
-                                                                                <option id="{{ $province->id }}">{{ $province->name }}</option>
+                                                                                <option value="{{ $province->id }}">{{ $province->name }}</option>
                                                                                 @endforeach
                                                                             </select>
+                                                                            <span class="text-danger">{{ $errors->first('province') }}</span>
                                                                         </div>
                                                                     </div>
+
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label for="province">District</label>
+                                                                            <label for="district">District</label>
                                                                             <select class="form-select mb-3" id="district" name="district">
-                                                                                <option>Kabul</option>
-                                                                                <option>Mazar-e-Sharif</option>
+                                                                                <option value="">Select District</option>
+                                                                                @foreach ($districts as $district)
+                                                                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                                                                @endforeach
                                                                             </select>
+                                                                            <span class="text-danger">{{ $errors->first('district') }}</span>
                                                                         </div>
                                                                     </div>
+
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
-                                                                            <label for="vallage">Vallage</label>
-                                                                            <select class="form-select mb-3" id="vallage" name="vallage">
-                                                                                <option>Kabul</option>
-                                                                                <option>Mazar-e-Sharif</option>
-                                                                            </select>
+                                                                            <label for="address">Address<span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control mb-3" id="address" name="address" placeholder="address here" value="{{ old('address') }}">
+                                                                            <span class="text-danger">{{ $errors->first('address') }}</span>
                                                                         </div>
                                                                     </div>
+
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="password">Password<span class="text-danger">*</span></label>
@@ -243,6 +224,70 @@
                                                                             <label for="bio">Bio<span class="text-danger">*</span></label>
                                                                             <input type="text" class="form-control mb-3" id="bio" name="bio" placeholder="bio here" value="{{ old('bio') }}">
                                                                             <span class="text-danger">{{ $errors->first('bio') }}</span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="row">
+                                                                            <div class="col-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="status">Status<span class="text-danger">*</span></label><br/>
+                                                                                    <div class="form-check form-check-primary form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="status" value="1" id="form-check-radio-primary">
+                                                                                        <label class="form-check-label" for="form-check-radio-primary">
+                                                                                            Active
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    
+                                                                                    <div class="form-check form-check-info form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="status" value="0" id="form-check-radio-info">
+                                                                                        <label class="form-check-label" for="form-check-radio-info">
+                                                                                            Not active
+                                                                                        </label>
+                                                                                    </div><br/>
+                                                                                    <span class="text-danger">{{ $errors->first('status') }}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="gender">Gender<span class="text-danger">*</span></label><br/>
+                                                                                    <div class="form-check form-check-primary form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="gender" value="1" id="form-check-radio-primary">
+                                                                                        <label class="form-check-label" for="form-check-radio-primary">
+                                                                                            Male
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    
+                                                                                    <div class="form-check form-check-info form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="gender" value="0" id="form-check-radio-info">
+                                                                                        <label class="form-check-label" for="form-check-radio-info">
+                                                                                            Female
+                                                                                        </label>
+                                                                                    </div><br/>
+                                                                                    <span class="text-danger">{{ $errors->first('gender') }}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="marital_status">Marital Status<span class="text-danger">*</span></label><br/>
+                                                                            <div class="form-check form-check-primary form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="marital_status" value="1" id="form-check-radio-primary">
+                                                                                <label class="form-check-label" for="form-check-radio-primary">
+                                                                                    Marriade
+                                                                                </label>
+                                                                            </div>
+                                                                            
+                                                                            <div class="form-check form-check-info form-check-inline">
+                                                                                <input class="form-check-input" type="radio" name="marital_status" value="0" id="form-check-radio-info">
+                                                                                <label class="form-check-label" for="form-check-radio-info">
+                                                                                    Single
+                                                                                </label>
+                                                                            </div><br/>
+                                                                            <span class="text-danger">{{ $errors->first('marital_status') }}</span>
                                                                         </div>
                                                                     </div>
     
@@ -712,7 +757,11 @@
 
 @endsection
 @section('custom_js_content')
-    
+    <script src="{{ asset('assets/src/plugins/src/flatpickr/flatpickr.js') }}"></script>
+    <script>
+        var f1 = flatpickr(document.getElementById('basicFlatpickr'));
+        var f2 = flatpickr(document.getElementById('joinDate'));
+    </script>
     <script src="{{ asset('assets/src/plugins/src/filepond/filepond.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
@@ -758,6 +807,32 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             }
+        });
+    </script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('.dynamic').change(function(){
+                if($(this).val() != ''){
+                    var value = $(this).val();
+
+                    // console.log(select);
+                    $.ajax({
+                        url:'{{ route('get.districts') }}',
+                        method: "POST",
+                        data: {value: value},
+                        success:function(result){
+                            $('#district').html(result);
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endsection

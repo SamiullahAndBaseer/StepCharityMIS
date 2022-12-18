@@ -2,6 +2,7 @@
 @section('custom_css_content')
 <link href="{{  asset('assets/src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{  asset('assets/src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
+@section('title', 'Teachers Leave')
 @endsection
 @section('content')
 <div id="content" class="main-content">
@@ -33,9 +34,6 @@
                             <div class="row">
                                 <div class="col-xl-6 col-md-6 col-sm-6 col-12">
                                     <h4>Teachers want leave.</h4>
-                                </div>
-                                <div class="col-xl-6 col-md-6 col-sm-6 col-12">
-                                    <input type="text" id="search" onkeyup="searchFunction()" class="form-control mt-3" placeholder="Search...">
                                 </div>
                             </div>
                         </div>

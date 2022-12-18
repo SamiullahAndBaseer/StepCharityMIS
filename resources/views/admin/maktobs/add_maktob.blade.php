@@ -13,6 +13,7 @@
 <link href="{{ asset('assets/src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/dark/editors/quill/quill.snow.css') }}">
 <!--  END CUSTOM STYLE FILE  -->
+@section('title', 'Add Maktoob')
 @endsection
 
 @section('content')

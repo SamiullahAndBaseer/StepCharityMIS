@@ -45,12 +45,19 @@ class TeacherCourseController extends Controller
             'teacher_id' => 'The teacher name is required',
         ]);
 
-        $th_course = new Teacher_course();
-        $th_course->course_id = $request->course_id;
-        $th_course->user_id = $request->teacher_id;
-        $th_course->save();
+        $status = Teacher_course::where('course_id', $request->course_id)->where('user_id', $request->teacher_id)->first();
+        
+        if($status == null){
+            $th_course = new Teacher_course();
+            $th_course->course_id = $request->course_id;
+            $th_course->user_id = $request->teacher_id;
+            $th_course->save();
+            session()->flash('saved', 'Teacher add for course successfully!');
+        }else{
+            session()->flash('saved', 'Teacher already added!');
+        }
 
-        session()->flash('saved', 'Teacher add for course successfully!');
+        
         return response()->json([
             'status' => 'success',
         ]);

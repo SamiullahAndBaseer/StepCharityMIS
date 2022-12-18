@@ -1,0 +1,9 @@
+Cariculam Tabel
+
+id
+title
+course_id
+duration
+description
+
+item

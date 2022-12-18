@@ -6,6 +6,7 @@
 <link href="{{ asset('assets/src/plugins/css/light/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="{{ asset('assets/src/plugins/src/filepond/filepond.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImagePreview.min.css') }}">
+@section('title', 'Add Lesson')
 @endsection
 @section('content')
      <!--  BEGIN CONTENT AREA  -->

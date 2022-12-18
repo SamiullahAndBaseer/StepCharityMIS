@@ -6,21 +6,6 @@
     });
 </script>
 <script>
-    // search
-    function searchFunction(){
-        var wordSearch = $('#search').val();
-        
-        $.ajax({
-            url: '{{ route('leave.search') }}',
-            method: 'get',
-            data: {wordSearch: wordSearch},
-            success: function(res){
-                if(res.status == 'success'){
-                    $('.table').load(location.href+' .table');
-                }
-            }
-        });
-    }
 
     $(document).ready(function(){
         

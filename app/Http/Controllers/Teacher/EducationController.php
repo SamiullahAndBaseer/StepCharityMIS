@@ -105,7 +105,7 @@ class EducationController extends Controller
 
         session()->flash('assignment', 'Assignment added successfully');
         EducationController::sessionDestroy();
-        return redirect()->route('th-course.index');
+        return redirect()->route('all.assignments');
     }
 
 
@@ -136,10 +136,10 @@ class EducationController extends Controller
     // all assignments
     public function allAssignments()
     {
-        $assignments = Assignment::join('lessons', 'lessons.id', 'assignments.lesson_id')
-            ->where('lessons.user_id', Auth::user()->id)
-            ->select('assignments.id', 'assignments.title', 'description', 'closing_date', 'score', 'file', 'assignments.lesson_id')
-            ->get();
+        $assignments = Assignment::join('lessons', 'assignments.lesson_id', 'lessons.id')
+                    ->select('assignments.id', 'assignments.title', 'assignments.description', 'assignments.closing_date', 'assignments.score', 'assignments.file', 'assignments.lesson_id')
+                    ->where('lessons.user_id', Auth::user()->id)
+                    ->get();
         return view('teacher.education.assignment.assignment_list', ['assignments'=> $assignments]);
     }
 

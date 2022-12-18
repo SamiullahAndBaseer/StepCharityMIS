@@ -146,6 +146,9 @@ class UserController extends Controller
             'marital_status' => 'nullable|numeric|min:0|max:1',
             'currency_id' => 'nullable|numeric',
             'branch_id' => 'nullable|numeric',
+            'province' => 'required',
+            'district' => 'required',
+            'address' => 'required'
         ]);
 
         $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
@@ -179,22 +182,24 @@ class UserController extends Controller
         $user->currency_id = $request->currency_id;
         $user->branch_id = $request->branch_id;
         $user->profile_photo_path = $photo;
+        $user->district_id = $request->district;
+        $user->address = $request->address;
         $user->save();
 
         return redirect('user')->with('message', $user->first_name.' updated Successfully!');
     }
 
     // Show user for edit.
-    public function show($id)
+    public function edit($id)
     {
         $user = User::findOrFail($id);
         $branches = Branch::select('name', 'id')->get();
-        // $province = Province::pluck('name', 'id')->all();
-        // $districts = District::pluck('name', 'id')->all();
+        $provinces = Province::select('id', 'name')->get();
+        $districts = District::select('id', 'name')->get();
         $currencies = Currency::select('name', 'id')->get();
         $provinces = Province::select('id', 'name')->get();
 
-        return view('admin.users.edit_employee' ,compact(['user','currencies','branches', 'provinces']));
+        return view('admin.users.edit_employee' ,compact(['user','currencies','branches', 'provinces', 'districts']));
     }
 
     // For delete the single user.

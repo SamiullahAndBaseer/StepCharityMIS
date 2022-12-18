@@ -7,24 +7,6 @@
 </script>
 <script>
     $(document).ready(function(){
-        // For approved
-        $(document).on('click', '.on_received', function(e){
-            e.preventDefault();
-            var remittance_id = $(this).data('id');
-            var selector = "#yes_appr-"+remittance_id;
-
-            $.ajax({
-                url: "{{ route('remittance.received') }}",
-                method: 'put',
-                data: {id: remittance_id},
-                success: function(res){
-                    if(res.status == 'success'){
-                        document.location.reload();
-                    }
-                }
-            });
-        });
-
         // For delete the survey
         $(document).on('mouseenter', '.delete', function(e){
             e.preventDefault();

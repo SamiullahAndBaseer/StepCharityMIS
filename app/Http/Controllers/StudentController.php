@@ -8,6 +8,7 @@ use App\Models\Branch;
 use App\Models\Currency;
 use App\Models\Province;
 use App\Models\Role;
+use App\Models\District;
 use App\Models\TemporaryFiles;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -38,8 +39,9 @@ class StudentController extends Controller
         $currencies = Currency::select('name', 'id')->get();
         $role = Role::select('id','name')->where('id', 3)->first();
         $provinces = Province::select('id', 'name')->get();
+        $districts = District::select('id', 'name')->get();
 
-        return view('admin.students.add_student', ['branches'=> $branches, 'currencies'=> $currencies, 'provinces'=> $provinces, 'role'=> $role]);
+        return view('admin.students.add_student', ['districts'=> $districts,'branches'=> $branches, 'currencies'=> $currencies, 'provinces'=> $provinces, 'role'=> $role]);
     }
 
     /**
@@ -67,6 +69,12 @@ class StudentController extends Controller
             'marital_status' => 'nullable|numeric|min:0|max:1',
             'currency_id' => 'nullable|numeric',
             'branch_id' => 'nullable|numeric',
+            'province' => 'required',
+            'district' => 'required',
+            'address' => 'required'
+        ],[
+            'currency_id' => 'The currency field is required.',
+            'branch_id' => 'The branch field is required.'
         ]);
 
         $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
@@ -102,6 +110,8 @@ class StudentController extends Controller
             'email' => $request->email,
             'profile_photo_path' => $photo,
             'password' => Hash::make($request->password),
+            'district' => $request->district,
+            'address' => $request->address,
         ]);
 
         return redirect('student')->with('message', 'Student Created Successfully!');
@@ -117,12 +127,12 @@ class StudentController extends Controller
     {
         $student = User::findOrFail($id);
         $branches = Branch::select('name', 'id')->get();
-        // $province = Province::pluck('name', 'id')->all();
-        // $districts = District::pluck('name', 'id')->all();
+        $provinces = Province::select('id', 'name')->get();
+        $districts = District::select('id', 'name')->get();
         $currencies = Currency::select('name', 'id')->get();
         $provinces = Province::select('id', 'name')->get();
 
-        return view('admin.students.edit_student' ,compact(['student','currencies','branches', 'provinces']));
+        return view('admin.students.edit_student' ,compact(['student','currencies','branches', 'provinces', 'districts']));
     }
 
     /**
@@ -152,6 +162,12 @@ class StudentController extends Controller
             'marital_status' => 'nullable|numeric|min:0|max:1',
             'currency_id' => 'nullable|numeric',
             'branch_id' => 'nullable|numeric',
+            'province' => 'required',
+            'district' => 'required',
+            'address' => 'required'
+        ],[
+            'currency_id' => 'The currency field is required.',
+            'branch_id' => 'The branch field is required.'
         ]);
 
         $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
@@ -185,6 +201,8 @@ class StudentController extends Controller
         $student->currency_id = $request->currency_id;
         $student->branch_id = $request->branch_id;
         $student->profile_photo_path = $photo;
+        $student->district_id = $request->district;
+        $student->address = $request->address;
         $student->save();
 
         return redirect('student')->with('message', $student->first_name.' updated Successfully!');

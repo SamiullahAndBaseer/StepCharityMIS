@@ -54,7 +54,8 @@
                 @include('layouts.teacher_layouts.sidebar')
 
             @elseif(Auth::user()->role->name === 'Student')
-
+                @include('layouts.student_layouts.sidebar')
+                
             @endif
         @endauth
         <!--  END SIDEBAR  -->

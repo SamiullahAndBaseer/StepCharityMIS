@@ -31,6 +31,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ReportTypeController;
 use App\Http\Controllers\RequestForItemController;
 use App\Http\Controllers\SalaryReportController;
+use App\Http\Controllers\Student\LessonController as StudentLessonController;
+use App\Http\Controllers\Student\StudentFeedbackController;
 use App\Http\Controllers\StudentAttendanceSettingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentCourseController;
@@ -86,6 +88,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/delete-notify', [NotificationController::class, 'destroy'])->name('delete.notification');
     Route::get('/markAsRead', [NotificationController::class, 'markAsRead']);
     // Profile 
+    Route::get('profile', [ProfileController::class, 'show'])->name('profile');
     Route::post('update-profile', [ProfileController::class, 'updateProfile'])->name('update.profile');
     Route::post('add-education', [ProfileController::class, 'addEducation'])->name('add.education');
     Route::delete('education/{id}', [ProfileController::class, 'destroy']);
@@ -112,6 +115,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::post('lesson-file', [LessonController::class, 'storeFile'])->name('store.file');
     // single user
     Route::get('/single-user/{id}', [UserController::class, 'singleUser'])->name('single.user');
+    // Proposal for item stats 
+    Route::post('status-item', [RequestForItemController::class, 'statusFunction'])->name('item.status');
 });
 
 // For admin
@@ -125,6 +130,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::post('get-districts', [UserController::class, 'getDistricts'])->name('get.districts');
     // For users
     Route::resource('/user', UserController::class);
+    Route::get('user-create', [UserController::class, 'create'])->name('user.create');
     Route::get('/user/del/{id}', [UserController::class, 'destroy'])->name('delete.user');
     Route::post('/update/user/{id}', [UserController::class, 'update'])->name('update.user');
     // For Teachers
@@ -247,7 +253,10 @@ Route::middleware(['auth', 'admin'])->group(function(){
 
 // For Student view
 Route::middleware(['auth', 'student'])->group(function(){
-    Route::get('pdf', [PdfController::class, 'index']);
+    Route::resource('student_education', StudentLessonController::class);
+    Route::get('student-assignments', [StudentLessonController::class, 'assignments'])->name('st.assignments');
+    Route::resource('st_feedback', StudentFeedbackController::class);
+    Route::post('st_feedback-update/{id}', [StudentFeedbackController::class, 'update'])->name('st_feedback.update');
 });
 
 // For Employee view
@@ -298,12 +307,7 @@ Route::middleware(['auth', 'director'])->group(function(){
 
 Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('searchUser');
 
-use App\Models\Student_course;
-
 Route::get('/get-time', function(){
-    $user_name = Student_course::where('course_id', 14)
-            ->where('user_id', 25)->first();
-            dd($user_name->user->first_name);
     foreach(Attendance::all() as $item){
         return Carbon::now()->year;
     }

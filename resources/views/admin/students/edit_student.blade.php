@@ -15,9 +15,7 @@
 <link href="{{ asset('assets/src/assets/css/light/components/list-group.css') }}" rel="stylesheet" type="text/css">
 
 <link href="{{ asset('assets/src/assets/css/light/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
-
-
-
+@section('title', 'Edit Student')
 <link href="{{ asset('assets/src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('assets/src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/elements/alert.css') }}">
@@ -26,6 +24,10 @@
 <link href="{{ asset('assets/src/plugins/css/dark/notification/snackbar/custom-snackbar.css') }}" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/forms/switches.css') }}">
 <link href="{{ asset('assets/src/assets/css/dark/components/list-group.css') }}" rel="stylesheet" type="text/css">
+
+<link href="{{ asset('assets/src/plugins/src/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/src/plugins/css/light/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/src/plugins/css/dark/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
 
 <link href="{{ asset('assets/src/assets/css/dark/users/account-setting.css') }}" rel="stylesheet" type="text/css" />
 @endsection
@@ -55,7 +57,7 @@
                         <div class="tab-pane fade show active" id="animated-underline-home" role="tabpanel" aria-labelledby="animated-underline-home-tab">
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 layout-spacing">
-                                    <form class="section general-info"  method="post" action="{{ route('update.student', $student->id) }}"  enctype="multipart/form-data">
+                                    <form class="section general-info" method="post" action="{{ route('update.student', $student->id) }}"  enctype="multipart/form-data">
                                         @csrf
                                         <div class="info">
                                             <h6 class="">General Information</h6>
@@ -82,7 +84,7 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="fullName">First Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $student->first_name }}" id="first_name" placeholder="First Name" name="first_name"  >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->first_name }}" id="first_name" placeholder="First name" name="first_name"  >
                                                                             <span class="text-danger">{{ $errors->first('first_name') }}</span>
                                                                            
                                                                         </div>
@@ -90,22 +92,22 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="fullName">Last Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $student->last_name }}" id="last_name" placeholder="Last Name" name="last_name" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->last_name }}" id="last_name" placeholder="Last name" name="last_name" >
                                                                             <span class="text-danger">{{ $errors->first('last_name') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="fullName">Father Name<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $student->father_name }}" id="father_name" placeholder="Father Name" name="father_name" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->father_name }}" id="father_name" placeholder="Father name" name="father_name" >
                                                                             <span class="text-danger">{{ $errors->first('father_name') }}</span>
                                                                         </div>
                                                                     </div>
-
+                                                                    
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="email">Email<span class="text-danger">*</span></label>
-                                                                            <input type="email" class="form-control mb-3" value="{{ $student->email }}" id="email" placeholder="Write your email here" name="email">
+                                                                            <input type="email" class="form-control mb-3" value="{{ $student->email }}" id="email" placeholder="hello@example.com" name="email">
                                                                             <span class="text-danger">{{ $errors->first('email') }}</span>
                                                                         </div>
                                                                     </div> 
@@ -113,21 +115,21 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="phone">Phone<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $student->phone_number }}" id="phone" placeholder="Write your phone number here" name="phone_number" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->phone_number }}" id="phone" placeholder="00937xxxxxxxxx" name="phone_number" >
                                                                             <span class="text-danger">{{ $errors->first('phone_number') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="id_card_number">Tazkira Number<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $student->id_card_number }}" id="id_card_number" placeholder="Write yourTazkira number here" name="id_card_number" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->id_card_number }}" id="id_card_number" placeholder="tazkira number here" name="id_card_number" >
                                                                             <span class="text-danger">{{ $errors->first('id_card_number') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="salary">Salary<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $student->salary }}" id="salary" name="salary" placeholder="Write your Salary number here" >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->salary }}" id="salary" name="salary" placeholder="salary per day" >
                                                                             <span class="text-danger">{{ $errors->first('salary') }}</span>
                                                                         </div>
                                                                     </div>
@@ -157,49 +159,54 @@
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="date_of_birth">Date Of Birth</label>
-                                                                            <input type="date" class="form-control mb-3" value="{{ $student->date_of_birth }}" id="basicFlatpickr" placeholder="" name="date_of_birth"  >
+                                                                            <input type="text" class="form-control flatpickr flatpickr-input active mb-3" id="basicFlatpickr" placeholder="yyyy-mm-dd" value="{{ $student->date_of_birth }}" name="date_of_birth"/>
+                                                                            <span class="text-danger">{{ $errors->first('date_of_birth') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="join_date">Join Date</label>
-                                                                            <input type="date" class="form-control mb-3" value="{{ $student->join_date }}" id="basicFlatpickr" placeholder="" name="join_date" >
+                                                                            <input type="text" class="form-control flatpickr-input active mb-3" id="joinDate" placeholder="yyyy-mm-dd" value="{{ $student->join_date }}" name="join_date"/>
+                                                                            <span class="text-danger">{{ $errors->first('join_date') }}</span>
                                                                         </div>
                                                                     </div>
+
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="address">Address</label>
-                                                                            <input type="text" class="form-control mb-3" value="{{ $student->address }}" id="address" placeholder="Address"  >
+                                                                            <input type="text" class="form-control mb-3" value="{{ $student->address }}" name="address" placeholder="Address"  >
+                                                                            <span class="text-danger">{{ $errors->first('address') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="province">Province</label>
-                                                                            <select class="form-select mb-3" id="province" name="province">
+                                                                            <select class="form-select mb-3 dynamic" id="province" name="province">
+                                                                                @if($student->district != null)
+                                                                                    <option value="{{ $student->district->province->id }}">{{ $student->district->province->name }}</option>
+                                                                                @endif
                                                                                 @foreach ($provinces as $province)
-                                                                                <option id="{{ $province->id }}">{{ $province->name }}</option>
+                                                                                <option value="{{ $province->id }}">{{ $province->name }}</option>
                                                                                 @endforeach
                                                                             </select>
+                                                                            <span class="text-danger">{{ $errors->first('province') }}</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="province">District</label>
                                                                             <select class="form-select mb-3" id="district" name="district">
-                                                                                <option>Kabul</option>
-                                                                                <option>Mazar-e-Sharif</option>
+                                                                                @if($student->district_id != null)
+                                                                                    <option value="{{ $student->district_id }}">{{ $student->district->name }}</option>
+                                                                                @endif
+                                                                                @foreach ($districts as $district)
+                                                                                    <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                                                                @endforeach
                                                                             </select>
+                                                                            <span class="text-danger">{{ $errors->first('district') }}</span>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="vallage">Vallage</label>
-                                                                            <select class="form-select mb-3" id="vallage" name="vallage">
-                                                                                <option>Kabul</option>
-                                                                                <option>Mazar-e-Sharif</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
+
                                                                     <div class="col-md-6">
                                                                         <div class="form-group">
                                                                             <label for="password">Password<span class="text-danger">*</span></label>
@@ -216,43 +223,47 @@
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="status">Status<span class="text-danger">*</span></label><br/>
-                                                                            <div class="form-check form-check-primary form-check-inline">
-                                                                                <input class="form-check-input" type="radio" name="status" value="1" id="form-check-radio-primary" @if($student->status == 1) checked @endif>
-                                                                                <label class="form-check-label" for="form-check-radio-primary">
-                                                                                    Active
-                                                                                </label>
+                                                                        <div class="row">
+                                                                            <div class="col-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="status">Status<span class="text-danger">*</span></label><br/>
+                                                                                    <div class="form-check form-check-primary form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="status" value="1" id="form-check-radio-primary" @if($student->status == 1) checked @endif>
+                                                                                        <label class="form-check-label" for="form-check-radio-primary">
+                                                                                            Active
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    
+                                                                                    <div class="form-check form-check-info form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="status" value="0" id="form-check-radio-info" @if($student->status == 0) checked @endif>
+                                                                                        <label class="form-check-label" for="form-check-radio-info">
+                                                                                            Not active
+                                                                                        </label>
+                                                                                    </div><br/>
+                                                                                    <span class="text-danger">{{ $errors->first('status') }}</span>
+                                                                                </div>
                                                                             </div>
-                                                                            
-                                                                            <div class="form-check form-check-info form-check-inline">
-                                                                                <input class="form-check-input" type="radio" name="status" value="0" id="form-check-radio-info" @if($student->status == 0) checked @endif>
-                                                                                <label class="form-check-label" for="form-check-radio-info">
-                                                                                    Not active
-                                                                                </label>
-                                                                            </div><br/>
-                                                                            <span class="text-danger">{{ $errors->first('status') }}</span>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="col-md-6">
-                                                                        <div class="form-group">
-                                                                            <label for="gender">Gender<span class="text-danger">*</span></label><br/>
-                                                                            <div class="form-check form-check-primary form-check-inline">
-                                                                                <input class="form-check-input" type="radio" name="gender" value="1" id="form-check-radio-primary" @if($student->gender == 1) checked @endif>
-                                                                                <label class="form-check-label" for="form-check-radio-primary">
-                                                                                    Male
-                                                                                </label>
+                                                                            <div class="col-6">
+                                                                                <div class="form-group">
+                                                                                    <label for="gender">Gender<span class="text-danger">*</span></label><br/>
+                                                                                    <div class="form-check form-check-primary form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="gender" value="1" id="form-check-radio-primary" @if($student->gender == 1) checked @endif>
+                                                                                        <label class="form-check-label" for="form-check-radio-primary">
+                                                                                            Male
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    
+                                                                                    <div class="form-check form-check-info form-check-inline">
+                                                                                        <input class="form-check-input" type="radio" name="gender" value="0" id="form-check-radio-info" @if($student->gender == 0) checked @endif>
+                                                                                        <label class="form-check-label" for="form-check-radio-info">
+                                                                                            Female
+                                                                                        </label>
+                                                                                    </div><br/>
+                                                                                    <span class="text-danger">{{ $errors->first('gender') }}</span>
+                                                                                </div>
                                                                             </div>
-                                                                            
-                                                                            <div class="form-check form-check-info form-check-inline">
-                                                                                <input class="form-check-input" type="radio" name="gender" value="0" id="form-check-radio-info" @if($student->gender == 0) checked @endif>
-                                                                                <label class="form-check-label" for="form-check-radio-info">
-                                                                                    Female
-                                                                                </label>
-                                                                            </div><br/>
-                                                                            <span class="text-danger">{{ $errors->first('gender') }}</span>
                                                                         </div>
+                                                                        
                                                                     </div>
 
                                                                     <div class="col-md-6">
@@ -317,7 +328,11 @@
 
 @endsection
 @section('custom_js_content')
-    
+<script src="{{ asset('assets/src/plugins/src/flatpickr/flatpickr.js') }}"></script>
+<script>
+    var f1 = flatpickr(document.getElementById('basicFlatpickr'));
+    var f2 = flatpickr(document.getElementById('joinDate'));
+</script>
     <script src="{{ asset('assets/src/plugins/src/filepond/filepond.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
@@ -375,6 +390,32 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
             }
+        });
+    </script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            $('.dynamic').change(function(){
+                if($(this).val() != ''){
+                    var value = $(this).val();
+
+                    // console.log(select);
+                    $.ajax({
+                        url:'{{ route('get.districts') }}',
+                        method: "POST",
+                        data: {value: value},
+                        success:function(result){
+                            $('#district').html(result);
+                        }
+                    });
+                }
+            });
         });
     </script>
 @endsection

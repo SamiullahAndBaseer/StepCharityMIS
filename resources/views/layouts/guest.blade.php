@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>SignIn Boxed | CORK - Multipurpose Bootstrap Dashboard Template </title>
-        <link rel="icon" type="image/x-icon" href="{{ asset('assets/src/assets/img/favicon.ico') }}"/>
+        <title>SCEO - Login</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('assets/src/assets/img/logo.png') }}"/>
         <link href="{{ asset('assets/layouts/collapsible-menu/css/light/loader.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/layouts/collapsible-menu/css/dark/loader.css') }}" rel="stylesheet" type="text/css" />
         <script src="{{ asset('assets/layouts/collapsible-menu/loader.js') }}"></script>
@@ -18,9 +18,6 @@
         
         <link href="{{ asset('assets/layouts/collapsible-menu/css/dark/plugins.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/src/assets/css/dark/authentication/auth-boxed.css') }}" rel="stylesheet" type="text/css" />
-
-        <!-- <title>{{ config('app.name', 'Laravel') }}</title> -->
-
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 

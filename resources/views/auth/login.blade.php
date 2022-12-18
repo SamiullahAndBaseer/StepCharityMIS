@@ -52,13 +52,13 @@
                             </div>
                         </div>
 
-                        @if(Route::has('password.request'))
+                        {{-- @if(Route::has('password.request'))
                             <div class="col-12">
                                 <div class="text-center">
                                     <p class="mb-0"><a href="{{route('password.request') }}" class="text-warning">Forgot your password?</a></p>
                                 </div>
                             </div>
-                        @endif
+                        @endif --}}
 
                         </form>
                     </div>

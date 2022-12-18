@@ -60,10 +60,107 @@
                                     <tr>
                                         <td class="checkbox-column"> 1 </td>
                                         <td><p class="align-self-center mb-0 user-name"> {{ $item->title }} </p></td>
-                                        <td>{{ $item->verify_by_main_branch_director }}</td>
-                                        <td>{{ $item->verify_by_main_branch_admin }}</td>
-                                        <td>{{ $item->verify_by_general_office_finance }}</td>
-                                        <td>{{ $item->verify_by_general_office_director }}</td>
+                                        <td>
+                                            @if($item->verify_by_main_branch_director  == 1)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-info">Accept</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="main_branch_director">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @elseif($item->verify_by_main_branch_admin  == 0)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-danger">Reject</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="main_branch_director">Accept</span>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-success">Pending</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="main_branch_director">Accept</span><br/>
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="main_branch_director">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            @if($item->verify_by_main_branch_admin  == 1)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-info">Accept</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="main_branch_admin">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @elseif($item->verify_by_main_branch_admin  == 0)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-danger">Reject</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="main_branch_admin">Accept</span>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-success">Pending</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="main_branch_admin">Accept</span><br/>
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="main_branch_admin">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($item->verify_by_general_office_finance  == 1)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-info">Accept</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="general_office_finance">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @elseif($item->verify_by_main_branch_admin  == 0)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-danger">Reject</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="general_office_finance">Accept</span>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-success">Pending</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="general_office_finance">Accept</span><br/>
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="general_office_finance">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($item->verify_by_general_office_director  == 1)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-info">Accept</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="general_office_director">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @elseif($item->verify_by_main_branch_admin  == 0)
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-danger">Reject</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="general_office_director">Accept</span>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="btn-group dropstart" role="group">
+                                                    <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-success">Pending</span></span>
+                                                    <div class="dropdown-menu" aria-labelledby="btnDropLeft">
+                                                        <span id="yes_appr-{{ $item->id }}" class="dropdown-item approved badge badge-light-info m-1" data-id="{{ $item->id }}" data-type="general_office_director">Accept</span><br/>
+                                                        <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="general_office_director">Reject</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{{ asset('files/request_items') }}/{{ $item->upload_file }}" class="text-info">
                                                 <img src="{{ asset('files/request_items') }}/{{ $item->upload_file }}" width="35px" height="35px" alt="{{ $item->upload_file }}">
@@ -91,14 +188,7 @@
     </div>
 
     <!--  BEGIN FOOTER  -->
-    <div class="footer-wrapper mt-0">
-        <div class="footer-section f-section-1">
-            <p class="">Copyright © <span class="dynamic-year">2022</span> <a target="_blank" href="https://designreset.com/cork-admin/">DesignReset</a>, All rights reserved.</p>
-        </div>
-        <div class="footer-section f-section-2">
-            <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></p>
-        </div>
-    </div>
+    @include('layouts.admin_layouts.footer')
     <!--  END FOOTER  -->
 </div>
 @endsection
@@ -117,4 +207,49 @@
         );
     </script>
     @endif
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            // For approved
+            $(document).on('click', '.approved', function(e){
+                e.preventDefault();
+                var proposal_item_id = $(this).data('id');
+                var status_type = $(this).data('type');
+    
+                $.ajax({
+                    url: "{{ route('item.status') }}",
+                    method: 'post',
+                    data: {id: proposal_item_id, status_type: status_type, status: 1},
+                    success: function(res){
+                        if(res.status == 'success'){
+                           document.location.reload();
+                        }
+                    }
+                });
+            });
+            // for reject
+            $(document).on('click', '.rejected' , function(e){
+                var proposal_item_id = $(this).data('id');
+                var status_type = $(this).data('type');
+    
+                $.ajax({
+                    url: "{{ route('item.status') }}",
+                    method: 'post',
+                    data: {id: proposal_item_id, status_type: status_type, status: 0},
+                    success: function(res){
+                        if(res.status == 'success'){
+                           document.location.reload();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

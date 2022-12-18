@@ -7,6 +7,7 @@ use App\Models\Currency;
 use App\Models\Branch;
 use App\Models\Role;
 use App\Models\Province;
+use App\Models\District;
 use App\Models\TemporaryFiles;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
@@ -39,8 +40,9 @@ class TeacherController extends Controller
         $branches = Branch::select('name', 'id')->get();
         $currencies = Currency::select('name', 'id')->get();
         $provinces = Province::select('id', 'name')->get();
+        $districts = District::select('id', 'name')->get();
 
-        return view('admin.teachers.add_teacher', compact(['branches','currencies', 'provinces']));
+        return view('admin.teachers.add_teacher', compact(['branches','currencies', 'provinces', 'districts']));
     }
 
     /**
@@ -58,7 +60,7 @@ class TeacherController extends Controller
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|string|min:9|max:13|unique:users,phone_number',
             'id_card_number' => 'required|string|max:13|unique:users,id_card_number',
-            'salary' => 'required|string|min:0', "max:200000",
+            'salary' => 'required|string|min:0', "max:2000",
             'bio' => 'required|string|min:3|max:500',
             'password' => 'required|string|min:6',
             'gender' => 'required|numeric|min:0|max:1',
@@ -66,8 +68,14 @@ class TeacherController extends Controller
             'status' => 'required|min:0|max:1',
             'date_of_birth' => 'nullable|date',
             'marital_status' => 'nullable|numeric|min:0|max:1',
-            'currency_id' => 'nullable|numeric',
+            'currency_id' => 'required|numeric',
             'branch_id' => 'nullable|numeric',
+            'province' => 'required',
+            'district' => 'required',
+            'address' => 'required'
+        ],[
+            'currency_id' => 'The currency field is required.',
+            'branch_id' => 'The branch field is required.'
         ]);
 
         $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
@@ -103,6 +111,8 @@ class TeacherController extends Controller
             'email' => $request->email,
             'profile_photo_path' => $photo,
             'password' => Hash::make($request->password),
+            'district' => $request->district,
+            'address' => $request->address,
         ]);
 
         return redirect('teacher')->with('message', 'Teacher Created Successfully!');
@@ -118,12 +128,12 @@ class TeacherController extends Controller
     {
         $teacher = User::findOrFail($id);
         $branches = Branch::select('name', 'id')->get();
-        // $province = Province::pluck('name', 'id')->all();
-        // $districts = District::pluck('name', 'id')->all();
+        $provinces = Province::select('id', 'name')->get();
+        $districts = District::select('id', 'name')->get();
         $currencies = Currency::select('name', 'id')->get();
         $provinces = Province::select('id', 'name')->get();
 
-        return view('admin.teachers.edit_teacher' ,compact(['teacher','currencies','branches', 'provinces']));
+        return view('admin.teachers.edit_teacher' ,compact(['teacher','currencies','branches', 'provinces', 'districts']));
     }
 
     /**
@@ -153,6 +163,12 @@ class TeacherController extends Controller
             'marital_status' => 'nullable|numeric|min:0|max:1',
             'currency_id' => 'nullable|numeric',
             'branch_id' => 'nullable|numeric',
+            'province' => 'required',
+            'district' => 'required',
+            'address' => 'required'
+        ],[
+            'currency_id' => 'The currency field is required.',
+            'branch_id' => 'The branch field is required.'
         ]);
 
         $temporaryFile = TemporaryFiles::where('folder', $request->profile_photo)->first();
@@ -186,6 +202,8 @@ class TeacherController extends Controller
         $teacher->currency_id = $request->currency_id;
         $teacher->branch_id = $request->branch_id;
         $teacher->profile_photo_path = $photo;
+        $teacher->district_id = $request->district;
+        $teacher->address = $request->address;
         $teacher->save();
 
         return redirect('teacher')->with('message', $teacher->first_name.' updated Successfully!');

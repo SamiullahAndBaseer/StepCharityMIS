@@ -73,10 +73,6 @@
                 @include('admin.students.graduated_student.edit_graduated')
             </div>
         </div>
-
-        <!--  BEGIN FOOTER  -->
-        @include('layouts.admin_layouts.footer')
-        <!--  END FOOTER  -->
         
     </div>
 @endsection
