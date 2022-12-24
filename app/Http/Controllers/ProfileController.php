@@ -17,15 +17,6 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
-
-    public function show(Request $request)
-    {
-        return view('profile.show', [
-            'request' => $request,
-            'user' => Auth::user(),
-        ]);
-    }
-
     public function updateProfile(Request $request)
     {
         $validator = Validator::make($request->all(), [

@@ -16,7 +16,7 @@
     <link href="{{ asset('assets/src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/light/editors/quill/quill.snow.css') }}">
     <link href="{{ asset('assets/src/assets/css/light/apps/mailbox.css') }}" rel="stylesheet" type="text/css" />
-
+    @section('title', 'Requested Items List')
     <link href="{{ asset('assets/src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/plugins/css/dark/editors/quill/quill.snow.css') }}">
     <link href="{{ asset('assets/src/assets/css/dark/apps/mailbox.css') }}" rel="stylesheet" type="text/css" />
@@ -52,7 +52,9 @@
                                         <th>General Office</th>
                                         <th>Uploaded File</th>
                                         <th>Purchase</th>
+                                        @if(Auth::user()->role->name === 'admin')
                                         <th>Actions</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -68,7 +70,7 @@
                                                         <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="main_branch_director">Reject</span>
                                                     </div>
                                                 </div>
-                                            @elseif($item->verify_by_main_branch_admin  == 0)
+                                            @elseif($item->verify_by_main_branch_director  == 0)
                                                 <div class="btn-group dropstart" role="group">
                                                     <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-danger">Reject</span></span>
                                                     <div class="dropdown-menu" aria-labelledby="btnDropLeft">
@@ -119,7 +121,7 @@
                                                         <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="general_office_finance">Reject</span>
                                                     </div>
                                                 </div>
-                                            @elseif($item->verify_by_main_branch_admin  == 0)
+                                            @elseif($item->verify_by_general_office_finance  == 0)
                                                 <div class="btn-group dropstart" role="group">
                                                     <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-danger">Reject</span></span>
                                                     <div class="dropdown-menu" aria-labelledby="btnDropLeft">
@@ -144,7 +146,7 @@
                                                         <span id="yes_reject-{{ $item->id }}" class="dropdown-item rejected badge badge-light-danger m-1" data-id="{{ $item->id }}" data-type="general_office_director">Reject</span>
                                                     </div>
                                                 </div>
-                                            @elseif($item->verify_by_main_branch_admin  == 0)
+                                            @elseif($item->verify_by_general_office_director  == 0)
                                                 <div class="btn-group dropstart" role="group">
                                                     <span id="btnDropLeft" class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="badge badge-light-danger">Reject</span></span>
                                                     <div class="dropdown-menu" aria-labelledby="btnDropLeft">
@@ -167,10 +169,12 @@
                                             </a>
                                         </td>
                                         <td>{{ $item->user->first_name }}&nbsp;{{ $item->user->last_name }}</td>
+                                        @if(Auth::user()->role->name === 'admin')
                                         <td>
                                             <a class="badge badge-light-primary text-start me-2 action-edit" href="{{ route('request-item.edit', $item->id) }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
                                             <button class="delete badge badge-light-danger text-start confirm-{{ $item->id }}" data-id="{{ $item->id }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
                                         </td>
+                                        @endif
                                     </tr>
                                     @endforeach
                                     

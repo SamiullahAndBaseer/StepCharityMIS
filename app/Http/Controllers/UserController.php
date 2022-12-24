@@ -23,7 +23,7 @@ class UserController extends Controller
     public function index(Request $request)
     {   
         $users = User::whereHas('role', function($q){
-            $q->where('name', 'Employee');
+            $q->where('name', 'Employee')->OrWhere('name', 'Director');
         })->get();
         return view('admin.users.employee_list', compact(['users']));
     }

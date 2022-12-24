@@ -46,18 +46,71 @@
         <div class="search-overlay"></div>
 
         <!--  BEGIN SIDEBAR  -->
-        @auth
-            @if(Auth::user()->role->name === 'admin')
-                @include('layouts.admin_layouts.sidebar')
+        <div class="sidebar-wrapper sidebar-theme">
 
-            @elseif(Auth::user()->role->name === 'Teacher')
-                @include('layouts.teacher_layouts.sidebar')
+            <nav id="sidebar">
+        
+                <div class="navbar-nav theme-brand flex-row  text-center">
+                    <div class="nav-logo">
+                        <div class="nav-item theme-logo">
+                            <a href="/dashboard">
+                                <img src="{{ asset('assets/src/assets/img/logo.png') }}" class="navbar-logo" alt="logo">
+                            </a>
+                        </div>
+                        <div class="nav-item theme-text">
+                            <a href="/dashboard" class="nav-link"> SCEO </a>
+                        </div>
+                    </div>
+                    <div class="nav-item sidebar-toggle">
+                        <div class="btn-toggle sidebarCollapse">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-left"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="shadow-bottom"></div>
+                <ul class="list-unstyled menu-categories" id="accordionExample">
+                    <li class="menu {{ Request::is('user/profile') || Request::is('dashboard') || Request::is('chatify') ? 'active' : '' }}"">
+                        <a href="#dashboard" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                                <span>Dashboard</span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </div>
+                        </a>
+                        <ul class="collapse submenu list-unstyled {{ Request::is('dashboard') ? 'recent-submenu' : '' }}" id="dashboard" data-bs-parent="#accordionExample">
+                            <li class="{{ Request::is('user/profile') ? 'active' : '' }}">
+                                <a href="{{ route('profile.show') }}"> Profile </a>
+                            </li>
+                            <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
+                                <a href="/dashboard"> Analytics </a>
+                            </li>
+                            <li class="{{ Request::is('chatify') ? 'active' : '' }}">
+                                <a href="/chatify"> Messenger </a>
+                            </li>
+                        </ul>
+                    </li>
 
-            @elseif(Auth::user()->role->name === 'Student')
-                @include('layouts.student_layouts.sidebar')
+                    @if(Auth::user()->role->name === 'admin')
+                        @include('layouts.admin_layouts.sidebar')
+
+                    @elseif(Auth::user()->role->name === 'Teacher')
+                        @include('layouts.teacher_layouts.sidebar')
+
+                    @elseif(Auth::user()->role->name === 'Student')
+                        @include('layouts.student_layouts.sidebar')
+                    
+                    @elseif(Auth::user()->role->name === 'Director')
+                        @include('layouts.director_layouts.sidebar')
+                        
+                    @endif
+                    
+                </ul>
                 
-            @endif
-        @endauth
+            </nav>
+        
+        </div>
         <!--  END SIDEBAR  -->
 
         <!--  BEGIN CONTENT AREA  -->

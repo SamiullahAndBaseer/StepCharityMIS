@@ -36,22 +36,16 @@ class RequestForItemController extends Controller
     public function statusFunction(Request $request)
     {
         $item = ProposalForItem::findOrFail($request->id);
-        if($request->status_type == 'main_branch_director'){
+        if($request->status_type == 'main_branch_director' && auth()->user()->role->name === 'Director'){
             $item->verify_by_main_branch_director = $request->status;
             $item->save();
-        }
-
-        if($request->status_type == 'main_branch_admin'){
+        }elseif($request->status_type == 'main_branch_admin' && auth()->user()->role->name === 'admin'){
             $item->verify_by_main_branch_admin = $request->status;
             $item->save();
-        }
-
-        if($request->status_type == 'general_office_finance'){
+        }elseif($request->status_type == 'general_office_finance' && auth()->user()->role->name === 'General Finance'){
             $item->verify_by_general_office_finance = $request->status;
             $item->save();
-        }
-
-        if($request->status_type == 'general_office_director'){
+        }elseif($request->status_type == 'general_office_director' && auth()->user()->role->name === 'General Director'){
             $item->verify_by_general_office_director = $request->status;
             $item->save();
         }
@@ -59,6 +53,7 @@ class RequestForItemController extends Controller
         return response()->json([
             'status'=> 'success',
         ]);
+        
     }
 
     /**

@@ -1,42 +1,4 @@
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        }
-    });
-</script>
-<script>
-    $(document).ready(function(){
-        // For delete the survey
-        $(document).on('mouseenter', '.delete', function(e){
-            e.preventDefault();
-            var id = $(this).data('id');
-            var selector = '.confirm-'+id;
 
-            document.querySelector(selector).addEventListener('click', function(){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'request for item delete?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.post({
-                            url: "request-item/"+id,
-                            success: function(res){
-                                document.location.reload();
-                            }
-                        });
-                    } // end confirmed
-                });
-            });
-        });
-        // end delete
-    });
-</script>
 <script>
     var surveyList = $('#survey-table').DataTable({
         "dom": "<'inv-list-top-section'<'row'<'col-sm-12 col-md-6 d-flex justify-content-md-start justify-content-center'l<'dt-action-buttons align-self-center'B>><'col-sm-12 col-md-6 d-flex justify-content-md-end justify-content-center mt-md-0 mt-3'f<'toolbar align-self-center'>>>>" +
@@ -60,13 +22,6 @@
             },
         }],
         buttons: [
-            {
-                text: 'Add New',
-                className: 'btn btn-primary',
-                action: function(e, dt, node, config ) {
-                    window.location = '{{ route('request-item.create') }}';
-                }
-            }
         ],
         "order": [[ 1, "asc" ]],
         "oLanguage": {

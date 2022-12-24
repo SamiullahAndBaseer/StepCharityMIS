@@ -9,9 +9,14 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CurriculumController;
-use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Director\DirectorAttendanceController;
+use App\Http\Controllers\Director\DirectorEducationController;
+use App\Http\Controllers\Director\DirectorStudentController;
+use App\Http\Controllers\Director\DirectorUserController;
+use App\Http\Controllers\Director\DirectorTeacherController;
+use App\Http\Controllers\Director\ResourceController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FeedbackTypeController;
 use App\Http\Controllers\GraduatedController;
@@ -88,7 +93,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/delete-notify', [NotificationController::class, 'destroy'])->name('delete.notification');
     Route::get('/markAsRead', [NotificationController::class, 'markAsRead']);
     // Profile 
-    Route::get('profile', [ProfileController::class, 'show'])->name('profile');
     Route::post('update-profile', [ProfileController::class, 'updateProfile'])->name('update.profile');
     Route::post('add-education', [ProfileController::class, 'addEducation'])->name('add.education');
     Route::delete('education/{id}', [ProfileController::class, 'destroy']);
@@ -300,17 +304,31 @@ Route::middleware(['auth', 'teacher'])->group(function(){
 
 // For Director view
 Route::middleware(['auth', 'director'])->group(function(){
-    Route::get('test', function(){
-        return "Director works";
-    });
+    Route::resource('director-user', DirectorUserController::class);
+    Route::get('user-leaves', [DirectorUserController::class, 'userLeaves']);
+    Route::resource('director-teacher', DirectorTeacherController::class);
+    Route::get('th-leaves', [DirectorTeacherController::class, 'teacherLeaves']);
+    Route::resource('director-student', DirectorStudentController::class);
+    Route::get('st-leaves', [DirectorStudentController::class, 'studentLeaves']);
+    Route::get('graduate-students', [DirectorStudentController::class, 'graduated']);
+    Route::get('/d-user-attendance', [DirectorAttendanceController::class, 'userAttendance']);
+    Route::get('/d-teacher-attendance', [DirectorAttendanceController::class, 'teacherAttendance']);
+    Route::get('/d-student-attendance', [DirectorAttendanceController::class, 'studentAttendance']);
+    Route::get('d-courses', [DirectorEducationController::class, 'index']);
+    Route::get('d-teacher-course', [DirectorEducationController::class, 'teacherCourse']);
+    Route::get('d-student-course', [DirectorEducationController::class, 'studentCourse']);
+    Route::get('d-maktobs', [ResourceController::class, 'maktobs']);
+    Route::get('d-certificate', [ResourceController::class, 'certificates']);
+    Route::get('d-contracts', [ResourceController::class, 'contracts']);
+    Route::get('d-survey', [ResourceController::class, 'surveys']);
+    Route::get('request-items', [ResourceController::class, 'requestItems']);
+    Route::get('d-remittances', [ResourceController::class, 'remittances']);
+    
 });
 
 Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('searchUser');
 
 Route::get('/get-time', function(){
-    foreach(Attendance::all() as $item){
-        return Carbon::now()->year;
-    }
     // echo (Carbon::parse("6:45:02")->format("h:i:s A"));
     // dd(redirect()->route('student.index'));
 });
