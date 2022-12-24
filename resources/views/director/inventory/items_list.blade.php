@@ -9,7 +9,7 @@
     <link href="{{ asset('assets/src/assets/css/dark/apps/invoice-list.css') }}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/light/elements/alert.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/src/assets/css/dark/elements/alert.css') }}">
-    
+    @section('title', 'Inventories')
     <script src="{{ asset('assets/src/plugins/src/global/vendors.min.js') }}"></script>
     <script src="{{ asset('assets/src/assets/js/custom.js') }}"></script>
     <script src="{{ asset('assets/src/plugins/src/table/datatable/datatables.js') }}"></script>
@@ -47,7 +47,6 @@
                                         <th>Stock</th>
                                         <th>Date of Purchase</th>
                                         <th>Total Cost USD</th>
-                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,10 +64,6 @@
                                         <td>{{ $inventory->checkout_instock }}</td>
                                         <td>{{ $inventory->date_purchase }}</td>
                                         <td>${{ $inventory->total_cost_usd }}</td>
-                                        <td>
-                                            <a class="badge badge-light-primary text-start me-2 action-edit" href="{{ route('inventory.edit', $inventory->id) }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
-                                            <a class="delete_item badge badge-light-danger text-start confirm-{{ $inventory->id }}" href="#" data-id="{{ $inventory->id }}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
-                                        </td>
                                     </tr>
                                     @endforeach
                                     
@@ -85,64 +80,11 @@
     </div>
 
     <!--  BEGIN FOOTER  -->
-    <div class="footer-wrapper mt-0">
-        <div class="footer-section f-section-1">
-            <p class="">Copyright © <span class="dynamic-year">2022</span> <a target="_blank" href="https://designreset.com/cork-admin/">DesignReset</a>, All rights reserved.</p>
-        </div>
-        <div class="footer-section f-section-2">
-            <p class="">Coded with <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></p>
-        </div>
-    </div>
+    @include('layouts.admin_layouts.footer')
     <!--  END FOOTER  -->
 </div>
 @endsection
 @section('custom_js_content')
-    <script src="{{ asset('assets/custom/lessons/js/datatable.js') }}"></script>
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            }
-        });
-    </script>
-    <script>
-        $(document).on('mouseenter', '.delete_item', function(e){
-            e.preventDefault();
-            var id = $(this).data('id');
-            var selector = '.confirm-'+id;
-
-            document.querySelector(selector).addEventListener('click', function(){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: 'inventory delete?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // if confirmed course will be delete.
-                        $.post({
-                            url: "/inventory/"+id,
-                            success: function(res){
-                                document.location.reload();
-                            }
-                        });
-                    } // end confirmed
-                });
-            });
-        });
-    </script>
-    @if(Session::has('item_deleted'))
-    <script>
-        Swal.fire(
-            'Deleted',
-            '{{ Session::get('item_deleted') }}',
-            'success',
-        );
-    </script>
-    @endif
     <script>
         var invoiceList = $('#inventories-table').DataTable({
             "dom": "<'inv-list-top-section'<'row'<'col-sm-12 col-md-6 d-flex justify-content-md-start justify-content-center'l<'dt-action-buttons align-self-center'B>><'col-sm-12 col-md-6 d-flex justify-content-md-end justify-content-center mt-md-0 mt-3'f<'toolbar align-self-center'>>>>" +
@@ -152,8 +94,7 @@
             headerCallback:function(e, a, t, n, s) {
                 e.getElementsByTagName("th")[0].innerHTML=`
                 <div class="form-check form-check-primary d-block new-control">
-                    <input class="form-check-input chk-parent" type="checkbox" id="form-check-default">
-                </div>`
+                    </div>`
             },
             columnDefs:[{
                 targets:0,
@@ -163,18 +104,10 @@
                 render:function(e, a, t, n) {
                     return `
                     <div class="form-check form-check-primary d-block new-control">
-                        <input class="form-check-input child-chk" type="checkbox" id="form-check-default">
-                    </div>`
+                        </div>`
                 },
             }],
             buttons: [
-                {
-                    text: 'Add New',
-                    className: 'btn btn-primary',
-                    action: function(e, dt, node, config ) {
-                        window.location = '/inventory/create';
-                    }
-                }
             ],
             "order": [[ 1, "asc" ]],
             "oLanguage": {
@@ -188,27 +121,6 @@
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 10
         });
-
-        $("div.toolbar").html('<button class="dt-button dt-delete btn btn-danger" tabindex="0" aria-controls="invoice-list"><span>Delete</span></button>');
-
         multiCheck(invoiceList);
     </script>
-    @if(Session::has('item_added'))
-    <script>
-        Swal.fire(
-            'Added',
-            '{{ Session::get('item_added') }}',
-            'success'
-        );
-    </script>
-    @endif
-    @if(Session::has('item_updated'))
-    <script>
-        Swal.fire(
-            'Updated',
-            '{{ Session::get('item_updated') }}',
-            'success'
-        );
-    </script>
-    @endif
 @endsection

@@ -11,6 +11,7 @@ use App\Models\Survey;
 use App\Models\ProposalForItem;
 use App\Models\Remittance;
 use App\Models\Category;
+use App\Models\Inventory;
 
 class ResourceController extends Controller
 {
@@ -54,5 +55,11 @@ class ResourceController extends Controller
     {
         $categories = Category::all();
         return view('director.inventory.category.all_categories', ['categories'=> $categories]);
+    }
+
+    public function inventories()
+    {
+        $inventories = Inventory::all();
+        return view('director.inventory.items_list', ['inventories'=> $inventories]);
     }
 }

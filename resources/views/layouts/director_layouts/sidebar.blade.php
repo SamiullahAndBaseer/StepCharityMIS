@@ -297,7 +297,7 @@
 <li class="menu menu-heading">
     <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>Inventory Section</span></div>
 </li>
-<li class="menu {{ Request::is('category') || Request::is('inventory') || Request::is('inventory/create') || Request::is('inventory/*/edit') ? 'active' : '' }}">
+<li class="menu {{ Request::is('categories') || Request::is('inventories') ? 'active' : '' }}">
     <a href="#inventory" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
         <div class="">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-hash"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>
@@ -308,11 +308,11 @@
         </div>
     </a>
     <ul class="collapse submenu list-unstyled" id="inventory" data-bs-parent="#accordionExample">
-        <li class="{{ Request::is('category') ? 'active' : '' }}">
-            <a href="{{ route('category.index') }}"> Category List  </a>
+        <li class="{{ Request::is('categories') ? 'active' : '' }}">
+            <a href="/categories"> Category List  </a>
         </li>
-        <li class="{{ Request::is('inventory') ? 'active' : '' }}">
-            <a href="{{ route('inventory.index') }}"> Items List </a>
+        <li class="{{ Request::is('inventories') ? 'active' : '' }}">
+            <a href="/inventories"> Items List </a>
         </li>
     </ul>
 </li>

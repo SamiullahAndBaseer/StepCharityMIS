@@ -72,7 +72,7 @@
                                         @else
                                             <td>Not received</td>
                                         @endif
-
+                                        
                                         <td>
                                             @if($remittance->status == 'Received')
                                                 <span class="text-success">{{ $remittance->status }}</span>

@@ -323,7 +323,8 @@ Route::middleware(['auth', 'director'])->group(function(){
     Route::get('d-survey', [ResourceController::class, 'surveys']);
     Route::get('request-items', [ResourceController::class, 'requestItems']);
     Route::get('d-remittances', [ResourceController::class, 'remittances']);
-    
+    Route::get('categories', [ResourceController::class, 'categories']);
+    Route::get('inventories', [ResourceController::class, 'inventories']);
 });
 
 Route::get('/searchUsers', [UserController::class, 'searchUsers'])->name('searchUser');

@@ -64,8 +64,7 @@
         headerCallback:function(e, a, t, n, s) {
             e.getElementsByTagName("th")[0].innerHTML=`
             <div class="form-check form-check-primary d-block new-control">
-                <input class="form-check-input chk-parent" type="checkbox" id="form-check-default">
-            </div>`
+                </div>`
         },
         columnDefs:[{
             targets:0,
@@ -75,8 +74,7 @@
             render:function(e, a, t, n) {
                 return `
                 <div class="form-check form-check-primary d-block new-control">
-                    <input class="form-check-input child-chk" type="checkbox" id="form-check-default">
-                </div>`
+                    </div>`
             },
         }],
         buttons: [
@@ -100,8 +98,5 @@
         "lengthMenu": [7, 10, 20, 50],
         "pageLength": 10
     });
-
-    $("div.toolbar").html('<button class="dt-button dt-delete btn btn-danger" tabindex="0" aria-controls="invoice-list"><span>Delete</span></button>');
-
     multiCheck(surveyList);
 </script>
